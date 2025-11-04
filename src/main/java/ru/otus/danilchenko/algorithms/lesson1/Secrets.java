@@ -91,4 +91,12 @@ public class Secrets {
         return (x - y) % 2 == 0;
     }
 
+    public static boolean secret22(int x, int y, int xMaxSize, int yMaxSize) {
+        throw new RuntimeException("");
+    }
+
+    public static boolean screen23(int x, int y, int xMaxSize, int yMaxSize){
+        return (xMaxSize -1 - x -y) % 3  == 0;
+    }
+
 }
