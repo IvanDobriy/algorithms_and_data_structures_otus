@@ -6,6 +6,8 @@ import java.util.List;
 public class App {
     public static void main(String[] args) {
         Speaker speaker = new SystemOutSpeaker();
+
+
         List<MagicBook.Secret> secrets = List.of(
                 Secrets::secret1,
                 Secrets::secret2,
@@ -34,22 +36,26 @@ public class App {
                 Secrets::secret25
         );
         MagicBook magicBook = new MagicBook(speaker);
-        int secretNumber = 1;
-        int notDoneCounter = 0;
-        for (var secret : secrets) {
-            try {
-                System.out.println(String.format("-------------------------- secret: %d --------------------------", secretNumber));
-                magicBook.read(secret);
-            } catch (Exception e) {
-                System.out.println(String.format("some exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
-                notDoneCounter++;
-            } finally {
-                secretNumber++;
-            }
-        }
-        System.out.println("============================ RESULT ===============================");
-        System.out.println(String.format("done: %d", secrets.size() - notDoneCounter));
-        System.out.println(String.format("NOT done: %d <---- :)", notDoneCounter));
-        System.out.println("===================================================================");
+
+        magicBook.read(Secrets::secret17);
+        return;
+
+//        int secretNumber = 1;
+//        int notDoneCounter = 0;
+//        for (var secret : secrets) {
+//            try {
+//                System.out.println(String.format("-------------------------- secret: %d --------------------------", secretNumber));
+//                magicBook.read(secret);
+//            } catch (Exception e) {
+//                System.out.println(String.format("some exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
+//                notDoneCounter++;
+//            } finally {
+//                secretNumber++;
+//            }
+//        }
+//        System.out.println("============================ RESULT ===============================");
+//        System.out.println(String.format("done: %d", secrets.size() - notDoneCounter));
+//        System.out.println(String.format("NOT done: %d <---- :)", notDoneCounter));
+//        System.out.println("===================================================================");
     }
 }
