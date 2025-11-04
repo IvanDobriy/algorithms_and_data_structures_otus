@@ -46,7 +46,8 @@ public class Secrets {
     }
 
     public static boolean secret11(int x, int y, int xMaxSize, int yMaxSize) {
-        return x <= x / 2 + y && y <= y / 2 + x;//todo not working
+        throw new RuntimeException("");
+//        return x <= x / 2 + y && y <= y / 2 + x;//todo not working
     }
 
     public static boolean secret12(int x, int y, int xMaxSize, int yMaxSize) {
@@ -54,11 +55,20 @@ public class Secrets {
     }
 
     public static boolean secret13(int x, int y, int xMaxSize, int yMaxSize) {
-        return x * x + y * y <= 20 * 20; //todo not working
+        throw new RuntimeException("");
+//        return x * x + y * y <= 20 * 20; //todo not working
     }
 
     public static boolean secret14(int x, int y, int xMaxSize, int yMaxSize) {
         return x > (yMaxSize - 1) - y - 5 && x < ((yMaxSize - 1) - y + 5);
+    }
+
+    public static boolean secret15(int x, int y, int xMaxSize, int yMaxSize) {
+        throw new RuntimeException("");
+    }
+
+    public static boolean secret16(int x, int y, int xMaxSize, int yMaxSize) {
+        return  (x > (y - 21) && x < (y + 21)) && (x <= (y - 10) || x >= (y + 10));
     }
 
 }
