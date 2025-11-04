@@ -22,6 +22,10 @@ public class Secrets {
     }
 
     public static boolean secret5(int x, int y, int xMaxSize, int yMaxSize) {
-        return (xMaxSize - x)  > y - 5;
+        return (xMaxSize - x) > y - 5;
+    }
+
+    public static boolean secret6(int x, int y, int xMaxSize, int yMaxSize) {
+        return x / 2 - y == 0;
     }
 }
