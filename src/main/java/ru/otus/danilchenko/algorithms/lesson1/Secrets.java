@@ -36,4 +36,8 @@ public class Secrets {
     public static boolean secret8(int x, int y, int xMaxSize, int yMaxSize) {
         return xMaxSize - x <= 9 && yMaxSize - y <= 9;
     }
+
+    public static boolean secret9(int x, int y, int xMaxSize, int yMaxSize) {
+        return x == 0 || y == 0;
+    }
 }
