@@ -42,6 +42,14 @@ public class Secrets {
     }
 
     public static boolean secret10(int x, int y, int xMaxSize, int yMaxSize) {
-        return x <= (y -11) || x >= (y + 11);
+        return x <= (y - 11) || x >= (y + 11);
+    }
+
+    public static boolean secret11(int x, int y, int xMaxSize, int yMaxSize) {
+        return x <= x / 2 + y && y <= y / 2 + x;//todo not working
+    }
+
+    public static boolean secret12(int x, int y, int xMaxSize, int yMaxSize) {
+        return x == 1 || y == 1 || y == yMaxSize - 2 || x == xMaxSize -2;
     }
 }
