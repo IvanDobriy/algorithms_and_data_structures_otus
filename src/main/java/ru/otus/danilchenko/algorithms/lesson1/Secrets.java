@@ -12,4 +12,8 @@ public class Secrets {
     public static boolean secret2(int x, int y, int xMaxSize, int yMaxSize) {
         return y % 6 == 0 || x % 6 == 0;
     }
+
+    public static boolean secret3(int x, int y, int xMaxSize, int yMaxSize) {
+        return x == y;
+    }
 }
