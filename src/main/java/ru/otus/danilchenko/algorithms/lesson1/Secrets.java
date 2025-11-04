@@ -68,7 +68,19 @@ public class Secrets {
     }
 
     public static boolean secret16(int x, int y, int xMaxSize, int yMaxSize) {
-        return  (x > (y - 21) && x < (y + 21)) && (x <= (y - 10) || x >= (y + 10));
+        return (x > (y - 21) && x < (y + 21)) && (x <= (y - 10) || x >= (y + 10));
+    }
+
+    public static boolean secret17(int x, int y, int xMaxSize, int yMaxSize) {
+        throw new RuntimeException("");
+    }
+
+    public static boolean secret18(int x, int y, int xMaxSize, int yMaxSize) {
+        throw new RuntimeException("");
+    }
+
+    public static boolean secret19(int x, int y, int xMaxSize, int yMaxSize) {
+        return !(x == 0 && y == 0) && ((x == 0 || y == 0) || (x == 1 || y == 1));
     }
 
 }
