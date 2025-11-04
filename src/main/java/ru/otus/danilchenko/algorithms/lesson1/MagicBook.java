@@ -17,15 +17,13 @@ public class MagicBook {
     }
 
     public interface Secret {
-        boolean use(int x, int y);
+        boolean use(int x, int y, int xMaxSize, int yMaxSize);
     }
-
-
 
     public void read(Secret secret) {
         for (int y = 0; y < ySize; y++) {
             for (int x = 0; x < ySize; x++) {
-                if (secret.use(x, y)) {
+                if (secret.use(x, y, xSize, ySize)) {
                     speaker.pronounce('#');
                     continue;
                 }
