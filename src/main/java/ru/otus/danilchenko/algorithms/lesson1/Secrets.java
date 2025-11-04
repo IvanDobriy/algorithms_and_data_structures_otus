@@ -16,4 +16,8 @@ public class Secrets {
     public static boolean secret3(int x, int y, int xMaxSize, int yMaxSize) {
         return x == y;
     }
+
+    public static boolean secret4(int x, int y, int xMaxSize, int yMaxSize) {
+        return xMaxSize - 1 - x == y;
+    }
 }
