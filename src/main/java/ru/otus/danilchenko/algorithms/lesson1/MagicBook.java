@@ -1,29 +1,22 @@
 package ru.otus.danilchenko.algorithms.lesson1;
 
 public class MagicBook {
-    private final int xSize;
-    private final int ySize;
+    private final int maxSize;
     private final Speaker speaker;
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
-
-    public MagicBook(int xSize, int ySize, Speaker speaker) {
-        this.xSize = xSize;
-        this.ySize = ySize;
+    public MagicBook(Speaker speaker) {
+        maxSize = 25;
         this.speaker = speaker;
     }
 
     public interface Secret {
-        boolean use(int x, int y, int xMaxSize, int yMaxSize);
+        boolean use(int x, int y, int maxSize);
     }
 
     public void read(Secret secret) {
-        for (int y = 0; y < ySize; y++) {
-            for (int x = 0; x < ySize; x++) {
-                if (secret.use(x, y, xSize, ySize)) {
+        for (int y = 0; y < maxSize; y++) {
+            for (int x = 0; x < maxSize; x++) {
+                if (secret.use(x, y, maxSize)) {
                     speaker.pronounce('#');
                     continue;
                 }
