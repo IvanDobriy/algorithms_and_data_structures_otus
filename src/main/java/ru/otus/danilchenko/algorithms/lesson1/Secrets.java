@@ -30,6 +30,10 @@ public class Secrets {
     }
 
     public static boolean secret7(int x, int y, int xMaxSize, int yMaxSize) {
-        return xMaxSize - x  > 15 || yMaxSize - y > 15;
+        return xMaxSize - x > 15 || yMaxSize - y > 15;
+    }
+
+    public static boolean secret8(int x, int y, int xMaxSize, int yMaxSize) {
+        return xMaxSize - x <= 9 && yMaxSize - y <= 9;
     }
 }
