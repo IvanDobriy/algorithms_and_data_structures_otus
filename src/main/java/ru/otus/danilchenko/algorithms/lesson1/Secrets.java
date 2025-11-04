@@ -46,7 +46,7 @@ public class Secrets {
     }
 
     public static boolean secret11(int x, int y, int maxSize) {
-        throw new RuntimeException("");
+        throw new RuntimeException("NOT done");
 //        return x <= x / 2 + y && y <= y / 2 + x;//todo not working
     }
 
@@ -55,7 +55,7 @@ public class Secrets {
     }
 
     public static boolean secret13(int x, int y, int maxSize) {
-        throw new RuntimeException("");
+        throw new RuntimeException("NOT done");
 //        return x * x + y * y <= 20 * 20; //todo not working
     }
 
@@ -64,7 +64,7 @@ public class Secrets {
     }
 
     public static boolean secret15(int x, int y, int maxSize) {
-        throw new RuntimeException("");
+        throw new RuntimeException("NOT done");
     }
 
     public static boolean secret16(int x, int y, int maxSize) {
@@ -72,11 +72,11 @@ public class Secrets {
     }
 
     public static boolean secret17(int x, int y, int maxSize) {
-        throw new RuntimeException("");
+        throw new RuntimeException("NOT done");
     }
 
     public static boolean secret18(int x, int y, int maxSize) {
-        throw new RuntimeException("");
+        throw new RuntimeException("NOT done");
     }
 
     public static boolean secret19(int x, int y, int maxSize) {
@@ -92,7 +92,7 @@ public class Secrets {
     }
 
     public static boolean secret22(int x, int y, int maxSize) {
-        throw new RuntimeException("");
+        throw new RuntimeException("NOT done");
     }
 
     public static boolean secret23(int x, int y, int maxSize) {

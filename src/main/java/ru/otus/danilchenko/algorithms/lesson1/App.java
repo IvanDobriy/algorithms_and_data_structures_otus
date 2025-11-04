@@ -43,7 +43,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println(String.format("some exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
                 notDoneCounter++;
-            }finally {
+            } finally {
                 secretNumber++;
             }
         }
