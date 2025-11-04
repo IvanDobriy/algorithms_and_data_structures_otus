@@ -84,7 +84,11 @@ public class Secrets {
     }
 
     public static boolean secret20(int x, int y, int xMaxSize, int yMaxSize) {
-        return x == 0 || y == 0 || x == xMaxSize -1 || y == yMaxSize -1;
+        return x == 0 || y == 0 || x == xMaxSize - 1 || y == yMaxSize - 1;
+    }
+
+    public static boolean secret21(int x, int y, int xMaxSize, int yMaxSize) {
+        return (x - y) % 2 == 0;
     }
 
 }
