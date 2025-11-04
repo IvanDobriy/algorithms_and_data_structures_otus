@@ -37,25 +37,22 @@ public class App {
         );
         MagicBook magicBook = new MagicBook(speaker);
 
-        magicBook.read(Secrets::secret17);
-        return;
-
-//        int secretNumber = 1;
-//        int notDoneCounter = 0;
-//        for (var secret : secrets) {
-//            try {
-//                System.out.println(String.format("-------------------------- secret: %d --------------------------", secretNumber));
-//                magicBook.read(secret);
-//            } catch (Exception e) {
-//                System.out.println(String.format("some exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
-//                notDoneCounter++;
-//            } finally {
-//                secretNumber++;
-//            }
-//        }
-//        System.out.println("============================ RESULT ===============================");
-//        System.out.println(String.format("done: %d", secrets.size() - notDoneCounter));
-//        System.out.println(String.format("NOT done: %d <---- :)", notDoneCounter));
-//        System.out.println("===================================================================");
+        int secretNumber = 1;
+        int notDoneCounter = 0;
+        for (var secret : secrets) {
+            try {
+                System.out.println(String.format("-------------------------- secret: %d --------------------------", secretNumber));
+                magicBook.read(secret);
+            } catch (Exception e) {
+                System.out.println(String.format("some exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
+                notDoneCounter++;
+            } finally {
+                secretNumber++;
+            }
+        }
+        System.out.println("============================ RESULT ===============================");
+        System.out.println(String.format("done: %d", secrets.size() - notDoneCounter));
+        System.out.println(String.format("NOT done: %d <---- :)", notDoneCounter));
+        System.out.println("===================================================================");
     }
 }

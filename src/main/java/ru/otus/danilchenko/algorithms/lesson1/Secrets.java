@@ -71,7 +71,6 @@ public class Secrets {
         return (x > (y - 21) && x < (y + 21)) && (x <= (y - 10) || x >= (y + 10));
     }
 
-    //16 and 10
     public static boolean secret17(int x, int y, int maxSize) {
         return !(maxSize - 1 - x <= (y - 10) || maxSize - 1 - x >= (y + 10) || x <= (y - 10) || x >= (y + 10));
     }
