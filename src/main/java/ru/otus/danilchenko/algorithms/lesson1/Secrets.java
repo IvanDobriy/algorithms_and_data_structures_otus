@@ -83,4 +83,8 @@ public class Secrets {
         return !(x == 0 && y == 0) && ((x == 0 || y == 0) || (x == 1 || y == 1));
     }
 
+    public static boolean secret20(int x, int y, int xMaxSize, int yMaxSize) {
+        return x == 0 || y == 0 || x == xMaxSize -1 || y == yMaxSize -1;
+    }
+
 }
