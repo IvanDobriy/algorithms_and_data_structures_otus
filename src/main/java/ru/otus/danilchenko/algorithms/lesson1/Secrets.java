@@ -40,4 +40,8 @@ public class Secrets {
     public static boolean secret9(int x, int y, int xMaxSize, int yMaxSize) {
         return x == 0 || y == 0;
     }
+
+    public static boolean secret10(int x, int y, int xMaxSize, int yMaxSize) {
+        return x <= (y -11) || x >= (y + 11);
+    }
 }
