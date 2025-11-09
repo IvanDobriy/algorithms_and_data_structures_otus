@@ -2,33 +2,37 @@ package ru.otus.danilchenko.algorithms.lesson2;
 
 public class TicketsCounter {
 
-    private static int getNextSumArraySize(int n) {
+    private static final int rowSize = 10;
+
+    private static int getNextColumnSize(int n) {
         return n * 9 + 1;
     }
 
     public static long count(int nValue) {
         int[] previousSum = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
         long result = 10;
+        int columnSize;
         for (int i = 2; i <= nValue; i++) {
             result = 0;
-            int[] nextSum = new int[getNextSumArraySize(i)];
-            int[][] table = new int[10][getNextSumArraySize(i)];
-            for (int j = 0; j < table.length; j++) {
-                for (int k = 0; k < table[0].length; k++) {
-                    if (k < previousSum.length) {
-                        table[j][k + j] = previousSum[k % previousSum.length];
+            columnSize = getNextColumnSize(i);
+            int[] currentSum = new int[columnSize];
+            int[][] table = new int[rowSize][columnSize];
+            for (int r = 0; r < rowSize; r++) {
+                for (int c = 0; c < columnSize; c++) {
+                    if (c < previousSum.length) {
+                        table[r][c + r] = previousSum[c % previousSum.length];
                     }
                 }
             }
-            for (int k = 0; k < table[0].length; k++) {
-                for (int j = 0; j < table.length; j++) {
-                    nextSum[k] += table[j][k];
+            for (int c = 0; c < columnSize; c++) {
+                for (int r = 0; r < rowSize; r++) {
+                    currentSum[c] += table[r][c];
                 }
             }
-            for (int j = 0; j < nextSum.length; j++) {
-                result += (long) nextSum[j] * nextSum[j];
+            for (int j = 0; j < currentSum.length; j++) {
+                result += (long) currentSum[j] * currentSum[j];
             }
-            previousSum = nextSum;
+            previousSum = currentSum;
         }
         return result;
     }
