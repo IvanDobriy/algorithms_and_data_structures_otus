@@ -71,10 +71,9 @@ public class Test {
                 }
                 out.println(String.format("======================= test case: %s ====================", caseNumber));
                 testRunner.run(getTestCaseData(inputTestCasePath), getTestCaseData(outputTestCasePath), out);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 out.println(String.format("Unexpected exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
             }
         }
-        out.println("##############################*****##############################");
     }
 }
