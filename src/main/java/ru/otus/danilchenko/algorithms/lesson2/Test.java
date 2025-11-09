@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Test {
+    private final String testName;
     private final TestRunner testRunner;
     private final Path testCasesPath;
     private final int initialCaseNumber;
@@ -45,9 +46,11 @@ public class Test {
         return Files.exists(testCasesPath) && Files.isRegularFile(testCasesPath);
     }
 
-    public Test(Path testCasesPath, int initialCaseNumber, int numberOfCases, TestRunner testRunner) {
+    public Test(String testName, Path testCasesPath, int initialCaseNumber, int numberOfCases, TestRunner testRunner) {
+        Objects.requireNonNull(testName);
         Objects.requireNonNull(testRunner);
         Objects.requireNonNull(testCasesPath);
+        this.testName = testName;
         this.testRunner = testRunner;
         this.testCasesPath = testCasesPath;
         this.initialCaseNumber = initialCaseNumber;
@@ -58,6 +61,7 @@ public class Test {
     public void run() {
         Path inputTestCasePath;
         Path outputTestCasePath;
+        out.println(String.format("############################## Test: %s ##############################", testName));
         for (int caseNumber = initialCaseNumber; caseNumber < numberOfCases; caseNumber++) {
             try {
                 inputTestCasePath = getInputTestCasePath(caseNumber);
@@ -71,5 +75,6 @@ public class Test {
                 out.println(String.format("Unexpected exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
             }
         }
+        out.println("##############################*****##############################");
     }
 }
