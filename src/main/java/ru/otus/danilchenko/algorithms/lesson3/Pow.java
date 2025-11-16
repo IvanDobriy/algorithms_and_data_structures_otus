@@ -11,4 +11,16 @@ public class Pow {
         }
         return result;
     }
+
+    static double twoPow(double digit, long degreeIndicator) {
+        if (degreeIndicator == 0) {
+            return 1.0;
+        }
+        if ((degreeIndicator % 2) > 0) {
+            double result = twoPow(digit, degreeIndicator / 2);
+            return digit * result * result;
+        }
+        double result = twoPow(digit, degreeIndicator / 2);
+        return result * result;
+    }
 }
