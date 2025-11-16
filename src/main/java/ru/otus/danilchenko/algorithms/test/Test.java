@@ -63,6 +63,7 @@ public class Test {
         Path outputTestCasePath;
         out.println(String.format("############################## Test: %s ##############################", testName));
         for (int caseNumber = initialCaseNumber; caseNumber < numberOfCases; caseNumber++) {
+            long beforeExecutingTestTimeStamp = System.currentTimeMillis();
             try {
                 inputTestCasePath = getInputTestCasePath(caseNumber);
                 outputTestCasePath = getOutputTestCasePath(caseNumber);
@@ -73,6 +74,9 @@ public class Test {
                 testRunner.run(getTestCaseData(inputTestCasePath), getTestCaseData(outputTestCasePath), out);
             } catch (Throwable e) {
                 out.println(String.format("Unexpected exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
+            } finally {
+                long afterExecutingTestTimeStamp = System.currentTimeMillis();
+                out.println(String.format("Execution time: %d ns", afterExecutingTestTimeStamp - beforeExecutingTestTimeStamp));
             }
         }
     }
