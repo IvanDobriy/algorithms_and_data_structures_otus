@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson2;
+package ru.otus.danilchenko.algorithms.test;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -17,7 +17,7 @@ public class Test {
     private final int numberOfCases;
     private final PrintStream out = System.out;
 
-    interface TestRunner {
+    public interface TestRunner {
         void run(String[] inputData, String[] expectedData, PrintStream out);
     }
 
