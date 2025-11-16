@@ -32,6 +32,18 @@ public class App {
         }
     }
 
+    private static void binPowTest(String[] inputData, String[] expectedData, PrintStream out) {
+        double digit = Double.parseDouble(inputData[0]);
+        long degree = Long.parseLong(inputData[1]);
+        double expected = Double.parseDouble(expectedData[0]);
+        double result = Pow.binPow(digit, degree);
+        if (!DoubleComparator.equals(expected, result)) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println(String.format("Test ok, expected: %s, result: %s", expected, result));
+        }
+    }
+
     public static void main(String[] args) {
         final var tests = List.of(new Test(
                         "Simple iteration pow test",
@@ -43,6 +55,12 @@ public class App {
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, Integer.MAX_VALUE,
                         App::twoPowTest
+                ),
+                new Test(
+                        "Bin pow test",
+                        Paths.get("./test_cases/lesson3/3.Power"),
+                        0, Integer.MAX_VALUE,
+                        App::binPowTest
                 )
         );
         for (var test : tests) {
