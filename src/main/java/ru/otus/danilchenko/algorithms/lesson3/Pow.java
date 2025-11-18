@@ -1,7 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson3;
 
 public class Pow {
-    static double simpleIterationPow(double digit, long degreeIndicator) {
+    static double simpleIteration(double digit, long degreeIndicator) {
         double result = 1.0;
         if (degreeIndicator == 0) {
             return result;
@@ -12,7 +12,7 @@ public class Pow {
         return result;
     }
 
-    static double iterationPow(double digit, long degreeIndicator) {
+    static double iteration(double digit, long degreeIndicator) {
         double result = 1.0;
         if (degreeIndicator == 0) {
             return result;
@@ -27,20 +27,20 @@ public class Pow {
         return result;
     }
 
-    static double twoPow(double digit, long degreeIndicator) {
+    static double two(double digit, long degreeIndicator) {
         double result = 1.0;
         if (degreeIndicator == 0) {
             return result;
         }
         if ((degreeIndicator % 2) > 0) {
-            result = twoPow(digit, degreeIndicator >> 1);
+            result = two(digit, degreeIndicator >> 1);
             return digit * result * result;
         }
-        result = twoPow(digit, degreeIndicator >> 1);
+        result = two(digit, degreeIndicator >> 1);
         return result * result;
     }
 
-    static double binPow(double digit, long degreeIndicator) {
+    static double bin(double digit, long degreeIndicator) {
         double result = 1.0;
         if (degreeIndicator == 0) {
             return result;

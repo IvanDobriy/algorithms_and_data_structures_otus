@@ -12,7 +12,7 @@ public class App {
         double digit = Double.parseDouble(inputData[0]);
         long degree = Long.parseLong(inputData[1]);
         double expected = Double.parseDouble(expectedData[0]);
-        double result = Pow.simpleIterationPow(digit, degree);
+        double result = Pow.simpleIteration(digit, degree);
         if (!DoubleComparator.equals(expected, result)) {
             out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
@@ -24,7 +24,7 @@ public class App {
         double digit = Double.parseDouble(inputData[0]);
         long degree = Long.parseLong(inputData[1]);
         double expected = Double.parseDouble(expectedData[0]);
-        double result = Pow.iterationPow(digit, degree);
+        double result = Pow.iteration(digit, degree);
         if (!DoubleComparator.equals(expected, result)) {
             out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
@@ -36,7 +36,7 @@ public class App {
         double digit = Double.parseDouble(inputData[0]);
         long degree = Long.parseLong(inputData[1]);
         double expected = Double.parseDouble(expectedData[0]);
-        double result = Pow.twoPow(digit, degree);
+        double result = Pow.two(digit, degree);
         if (!DoubleComparator.equals(expected, result)) {
             out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
@@ -48,7 +48,7 @@ public class App {
         double digit = Double.parseDouble(inputData[0]);
         long degree = Long.parseLong(inputData[1]);
         double expected = Double.parseDouble(expectedData[0]);
-        double result = Pow.binPow(digit, degree);
+        double result = Pow.bin(digit, degree);
         if (!DoubleComparator.equals(expected, result)) {
             out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
