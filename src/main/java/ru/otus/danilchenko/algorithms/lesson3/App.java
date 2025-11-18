@@ -4,6 +4,7 @@ import ru.otus.danilchenko.algorithms.test.DoubleComparator;
 import ru.otus.danilchenko.algorithms.test.Test;
 
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.file.Paths;
 import java.util.List;
@@ -81,6 +82,19 @@ public class App {
         }
     }
 
+
+    private static void goldenRatioFibonacciRecursionTest(String[] inputData, String[] expectedData, PrintStream out) {
+        BigInteger period = new BigInteger(inputData[0]);
+        BigInteger expected = new BigInteger(expectedData[0]);
+        BigInteger result = Fibonacci.goldenRatio(period.intValue());
+        if (!expected.equals(result)) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println("Test ok");
+        }
+    }
+
+
     public static void main(String[] args) {
         final var tests = List.of(new Test(
                         "Simple iteration pow test",
@@ -117,6 +131,12 @@ public class App {
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 11,
                         App::iterationFibonacciRecursionTest
+                ),
+                new Test(
+                        "Fibonacci golden ratio test",
+                        Paths.get("./test_cases/lesson3/4.Fibo"),
+                        0, Integer.MAX_VALUE,
+                        App::goldenRatioFibonacciRecursionTest
                 )
         );
         for (var test : tests) {

@@ -1,6 +1,9 @@
 package ru.otus.danilchenko.algorithms.lesson3;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class Fibonacci {
     public static BigInteger simpleRecursion(BigInteger period) {
@@ -14,7 +17,7 @@ public class Fibonacci {
     }
 
     public static BigInteger iteration(BigInteger period) {
-        if(period.equals(BigInteger.ZERO)){
+        if (period.equals(BigInteger.ZERO)) {
             return BigInteger.ZERO;
         }
         BigInteger previous = BigInteger.ONE;
@@ -28,5 +31,10 @@ public class Fibonacci {
             i = i.subtract(BigInteger.ONE);
         }
         return next;
+    }
+
+    public static BigInteger goldenRatio(int period) { //todo not working
+        double fi = (1 + Math.sqrt(5)) / 2.0;
+        return BigInteger.valueOf((long) Math.floor(Math.pow(fi, period) / Math.sqrt(5) + 1.0 / 2.0));
     }
 }
