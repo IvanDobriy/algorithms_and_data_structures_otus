@@ -12,6 +12,21 @@ public class Pow {
         return result;
     }
 
+    static double iterationPow(double digit, long degreeIndicator) {
+        double result = 1.0;
+        if (degreeIndicator == 0) {
+            return result;
+        }
+        for (int degree = 0; degree < (degreeIndicator >> 1); degree++) {
+            result *= digit;
+        }
+        result *= result;
+        if (degreeIndicator % 2 > 0) {
+            result *= digit;
+        }
+        return result;
+    }
+
     static double twoPow(double digit, long degreeIndicator) {
         double result = 1.0;
         if (degreeIndicator == 0) {

@@ -20,6 +20,18 @@ public class App {
         }
     }
 
+    private static void iterationPowTest(String[] inputData, String[] expectedData, PrintStream out) {
+        double digit = Double.parseDouble(inputData[0]);
+        long degree = Long.parseLong(inputData[1]);
+        double expected = Double.parseDouble(expectedData[0]);
+        double result = Pow.iterationPow(digit, degree);
+        if (!DoubleComparator.equals(expected, result)) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println(String.format("Test ok, expected: %s, result: %s", expected, result));
+        }
+    }
+
     private static void twoPowTest(String[] inputData, String[] expectedData, PrintStream out) {
         double digit = Double.parseDouble(inputData[0]);
         long degree = Long.parseLong(inputData[1]);
@@ -50,7 +62,14 @@ public class App {
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, 9,
                         App::simpleIterationPowTest
-                ), new Test(
+                )
+                , new Test(
+                        "Iteration pow test",
+                        Paths.get("./test_cases/lesson3/3.Power"),
+                        0, 9,
+                        App::iterationPowTest
+                )
+                , new Test(
                         "Two pow test",
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, Integer.MAX_VALUE,
