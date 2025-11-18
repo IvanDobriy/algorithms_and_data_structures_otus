@@ -23,8 +23,8 @@ public class Fibonacci {
         BigInteger i = period;
         while (i.compareTo(BigInteger.TWO) > 0) {
             sumOfPeriods = previous.add(next);
-            next = sumOfPeriods;
             previous = next;
+            next = sumOfPeriods;
             i = i.subtract(BigInteger.ONE);
         }
         return next;

@@ -77,7 +77,7 @@ public class App {
         if (!expected.equals(result)) {
             out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
-            out.println(String.format("Test ok, expected: %s, result: %s", expected, result));
+            out.println("Test ok");
         }
     }
 
@@ -115,7 +115,7 @@ public class App {
                 new Test(
                         "Fibonacci iteration test",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
-                        0, 8,
+                        0, 11,
                         App::iterationFibonacciRecursionTest
                 )
         );
