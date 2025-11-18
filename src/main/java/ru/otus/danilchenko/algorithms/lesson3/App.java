@@ -70,6 +70,17 @@ public class App {
     }
 
 
+    private static void iterationFibonacciRecursionTest(String[] inputData, String[] expectedData, PrintStream out) {
+        BigInteger period = new BigInteger(inputData[0]);
+        BigInteger expected = new BigInteger(expectedData[0]);
+        BigInteger result = Fibonacci.iteration(period);
+        if (!expected.equals(result)) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println(String.format("Test ok, expected: %s, result: %s", expected, result));
+        }
+    }
+
     public static void main(String[] args) {
         final var tests = List.of(new Test(
                         "Simple iteration pow test",
@@ -100,6 +111,12 @@ public class App {
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 7,
                         App::simpleFibonacciRecursionTest
+                ),
+                new Test(
+                        "Fibonacci iteration test",
+                        Paths.get("./test_cases/lesson3/4.Fibo"),
+                        0, 8,
+                        App::iterationFibonacciRecursionTest
                 )
         );
         for (var test : tests) {
