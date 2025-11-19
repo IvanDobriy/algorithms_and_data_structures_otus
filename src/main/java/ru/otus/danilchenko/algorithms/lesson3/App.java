@@ -106,6 +106,18 @@ public class App {
     }
 
 
+    private static void countPrimeNumbersByEnumeratingTest(String[] inputData, String[] expectedData, PrintStream out) {
+        int number = Integer.parseInt(inputData[0]);
+        int expected = Integer.parseInt(expectedData[0]);
+        int result = PrimeNumbers.countByEnumeratingDivisors(number);
+        if (expected != result) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println("Test ok");
+        }
+    }
+
+
     public static void main(String[] args) {
         final var tests = List.of(new Test(
                         "Simple iteration pow test",
@@ -148,13 +160,18 @@ public class App {
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 12,
                         App::goldenRatioFibonacciRecursionTest
-                )
-                ,
+                ),
                 new Test(
                         "Fibonacci matrix test",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
-                        0, Integer.MAX_VALUE,
+                        0, 11,
                         App::matrixFibonacciTest
+                ),
+                new Test(
+                        "Fibonacci count prime numbers by enumerationg test",
+                        Paths.get("./test_cases/lesson3/5.Primes"),
+                        0, Integer.MAX_VALUE,
+                        App::countPrimeNumbersByEnumeratingTest
                 )
         );
         for (var test : tests) {
