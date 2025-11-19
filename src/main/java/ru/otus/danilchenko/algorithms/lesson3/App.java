@@ -95,11 +95,11 @@ public class App {
 
 
     private static void matrixFibonacciTest(String[] inputData, String[] expectedData, PrintStream out) {
-        BigInteger period = new BigInteger(inputData[0]);
+        int period = Integer.parseInt(inputData[0]);
         BigInteger expected = new BigInteger(expectedData[0]);
-        BigInteger result = Fibonacci.matrix(period.intValue());
+        BigInteger result = Fibonacci.matrix(period);
         if (!expected.equals(result)) {
-            out.println("Failed test");
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
             out.println("Test ok");
         }
@@ -153,7 +153,7 @@ public class App {
                 new Test(
                         "Fibonacci matrix test",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
-                        0, 12,
+                        0, Integer.MAX_VALUE,
                         App::matrixFibonacciTest
                 )
         );

@@ -64,17 +64,20 @@ public class Fibonacci {
     }
 
     private static BigInteger[][] powMatrix(BigInteger[][] matrix, int degreeIndicator) {
-        if (degreeIndicator < 2) {
+        if (degreeIndicator <= 1) {
             return matrix;
         }
-        BigInteger[][] result = powMatrix(matrix, degreeIndicator >> 1);
+        BigInteger[][] result = powMatrix(matrix, degreeIndicator /2);
         if (degreeIndicator % 2 > 0) {
-            return multiplyMatrix(multiplyMatrix(result, result), result);
+            return multiplyMatrix(multiplyMatrix(result, result), matrix);
         }
         return multiplyMatrix(result, result);
     }
 
     public static BigInteger matrix(int period) {
+        if (period == 0) {
+            return BigInteger.ZERO;
+        }
         BigInteger[][] intial = {{BigInteger.ONE, BigInteger.ONE}, {BigInteger.ONE, BigInteger.ZERO}};
         return powMatrix(intial, period - 1)[0][0];
     }
