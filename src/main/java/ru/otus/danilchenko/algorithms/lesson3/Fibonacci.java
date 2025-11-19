@@ -1,29 +1,30 @@
 package ru.otus.danilchenko.algorithms.lesson3;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
-import java.math.RoundingMode;
 
 public class Fibonacci {
-    public static BigInteger simpleRecursion(BigInteger period) {
+    private static BigInteger simpleRecursionAlgorithm(BigInteger period) {
         if (period.equals(BigInteger.ZERO)) {
             return BigInteger.ZERO;
         }
         if (period.equals(BigInteger.ONE) || period.equals(BigInteger.TWO)) {
             return BigInteger.ONE;
         }
-        return simpleRecursion(period.subtract(BigInteger.ONE)).add(simpleRecursion(period.subtract(BigInteger.TWO)));
+        return simpleRecursionAlgorithm(period.subtract(BigInteger.ONE)).add(simpleRecursionAlgorithm(period.subtract(BigInteger.TWO)));
     }
 
-    public static BigInteger iteration(BigInteger period) {
-        if (period.equals(BigInteger.ZERO)) {
+    public static BigInteger simpleRecursion(int period) {
+        return simpleRecursionAlgorithm(BigInteger.valueOf(period));
+    }
+
+    static BigInteger iteration(int period) {
+        if (period == 0) {
             return BigInteger.ZERO;
         }
         BigInteger previous = BigInteger.ONE;
         BigInteger next = BigInteger.ONE;
         BigInteger sumOfPeriods;
-        BigInteger i = period;
+        BigInteger i = BigInteger.valueOf(period);
         while (i.compareTo(BigInteger.TWO) > 0) {
             sumOfPeriods = previous.add(next);
             previous = next;
@@ -36,5 +37,45 @@ public class Fibonacci {
     public static BigInteger goldenRatio(int period) { //todo not working
         double fi = (1 + Math.sqrt(5)) / 2.0;
         return BigInteger.valueOf((long) Math.floor(Math.pow(fi, period) / Math.sqrt(5) + 1.0 / 2.0));
+    }
+
+    private static BigInteger[][] multiplyMatrix(BigInteger[][] leftMatrix, BigInteger[][] rightMatrix) {
+        //todo add matrix multiply check
+        if (leftMatrix.length != rightMatrix.length) {
+            throw new RuntimeException("matrix must be equals");
+        }
+        for (int i = 0; i < leftMatrix.length; i++) {
+            if (leftMatrix[i].length != rightMatrix[i].length) {
+                throw new RuntimeException("matrix must be equals");
+            }
+        }
+
+        BigInteger[][] result = new BigInteger[leftMatrix.length][rightMatrix[0].length];
+        for (int i = 0; i < leftMatrix.length; i++) {
+            for (int j = 0; j < rightMatrix[0].length; j++) {
+                BigInteger newValue = BigInteger.ZERO;
+                for (int k = 0; k < leftMatrix[0].length; k++) {
+                    newValue = newValue.add(leftMatrix[i][k].multiply(rightMatrix[k][j]));
+                }
+                result[i][j] = newValue;
+            }
+        }
+        return result;
+    }
+
+    private static BigInteger[][] powMatrix(BigInteger[][] matrix, int degreeIndicator) {
+        if (degreeIndicator < 2) {
+            return matrix;
+        }
+        BigInteger[][] result = powMatrix(matrix, degreeIndicator >> 1);
+        if (degreeIndicator % 2 > 0) {
+            return multiplyMatrix(multiplyMatrix(result, result), result);
+        }
+        return multiplyMatrix(result, result);
+    }
+
+    public static BigInteger matrix(int period) {
+        BigInteger[][] intial = {{BigInteger.ONE, BigInteger.ONE}, {BigInteger.ONE, BigInteger.ZERO}};
+        return powMatrix(intial, period - 1)[0][0];
     }
 }
