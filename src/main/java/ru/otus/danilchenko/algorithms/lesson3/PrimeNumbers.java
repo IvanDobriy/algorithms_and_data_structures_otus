@@ -64,4 +64,19 @@ public class PrimeNumbers {
         }
         return counter;
     }
+
+    public static int countByEratosthenesSieve(int n) {
+        boolean[] sieve = new boolean[n + 1];
+        int counter = 0;
+        for (int i = 2; i <= n; i++) {
+            if (!sieve[i]) {
+                counter++;
+                for (int j = i * i; j <= n; j += i) {
+                    sieve[j] = true;
+                }
+            }
+        }
+        return counter;
+    }
+
 }
