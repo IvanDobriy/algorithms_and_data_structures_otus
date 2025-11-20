@@ -106,10 +106,21 @@ public class App {
     }
 
 
-    private static void countPrimeNumbersByEnumeratingTest(String[] inputData, String[] expectedData, PrintStream out) {
+    private static void countPrimeNumbersByEnumeratingDivisorsTest(String[] inputData, String[] expectedData, PrintStream out) {
         int number = Integer.parseInt(inputData[0]);
         int expected = Integer.parseInt(expectedData[0]);
-        int result = PrimeNumbers.countByEnumeratingDivisors(number);
+        int result = PrimeNumbers.countByEnumeratingDivisors(number, PrimeNumbers::isPrimeByEnumeratingDivisors);
+        if (expected != result) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println("Test ok");
+        }
+    }
+
+    private static void countPrimeNumbersByEnumeratingOnlyOddDivisors(String[] inputData, String[] expectedData, PrintStream out) {
+        int number = Integer.parseInt(inputData[0]);
+        int expected = Integer.parseInt(expectedData[0]);
+        int result = PrimeNumbers.countByEnumeratingDivisors(number, PrimeNumbers::isPrimeByEnumeratingOnlyOddDivisors);
         if (expected != result) {
             out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
         } else {
@@ -168,10 +179,16 @@ public class App {
                         App::matrixFibonacciTest
                 ),
                 new Test(
-                        "Fibonacci count prime numbers by enumerationg test",
+                        "Prime numbers counting by enumerating divisors test",
                         Paths.get("./test_cases/lesson3/5.Primes"),
-                        0, Integer.MAX_VALUE,
-                        App::countPrimeNumbersByEnumeratingTest
+                        0, 10,
+                        App::countPrimeNumbersByEnumeratingDivisorsTest
+                ),
+                new Test(
+                        "Prime numbers counting by enumerating only odd divisors test",
+                        Paths.get("./test_cases/lesson3/5.Primes"),
+                        0, 10,
+                        App::countPrimeNumbersByEnumeratingOnlyOddDivisors
                 )
         );
         for (var test : tests) {
