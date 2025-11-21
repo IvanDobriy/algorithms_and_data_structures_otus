@@ -71,7 +71,7 @@ public class PrimeNumbers {
         for (int i = 2; i <= n; i++) {
             if (!sieve[i]) {
                 counter++;
-                for (int j = i * i; j <= n; j += i) {
+                for (int j = i * i; j <= n && j > 0; j += i) {
                     sieve[j] = true;
                 }
             }
@@ -79,4 +79,19 @@ public class PrimeNumbers {
         return counter;
     }
 
+    public static int countByEratosthenesSieveBitMap(int n) {
+        int[] sieve = new int[n / 32 + 1];
+        int counter = 0;
+        int el;
+        for (int i = 2; i <= n; i++) {
+            el = sieve[i / 32];
+            if ((el & (1 << (i % 32))) == 1) {
+                counter++;
+                for (int j = i * i; j <= n; j += i) {
+                    el = el & (1 << (i % 32));
+                }
+            }
+        }
+        return counter;
+    }
 }

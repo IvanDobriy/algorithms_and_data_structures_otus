@@ -151,6 +151,17 @@ public class App {
         }
     }
 
+    private static void countPrimeNumbersByEratosthenesSieveBitmap(String[] inputData, String[] expectedData, PrintStream out) {
+        int number = Integer.parseInt(inputData[0]);
+        int expected = Integer.parseInt(expectedData[0]);
+        int result = PrimeNumbers.countByEratosthenesSieveBitMap(number);
+        if (expected != result) {
+            out.println(String.format("Failed test, expected: %s, result: %s", expected, result));
+        } else {
+            out.println("Test ok");
+        }
+    }
+
 
     public static void main(String[] args) {
         final var tests = List.of(new Test(
@@ -223,7 +234,13 @@ public class App {
                         "Prime numbers counting by eratosthenes sieve test",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
-                        App::countPrimeNumbersByEnumeratingToItsSquareRoot
+                        App::countPrimeNumbersByEratosthenesSieve
+                ),
+                new Test(
+                        "Prime numbers counting by eratosthenes sieve test",
+                        Paths.get("./test_cases/lesson3/5.Primes"),
+                        0, 10,
+                        App::countPrimeNumbersByEratosthenesSieveBitmap
                 )
         );
         for (var test : tests) {
