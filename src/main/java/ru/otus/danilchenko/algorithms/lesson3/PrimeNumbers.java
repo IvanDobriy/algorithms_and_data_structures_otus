@@ -93,5 +93,17 @@ public class PrimeNumbers {
         return counter;
     }
 
-
+    public static int countByEratosthenesSieveOddBitMap(int n) {
+        int[] sieve = new int[n / 32 + 1];
+        int counter = 1;
+        for (int i = 3; i <= n; i += 2) {
+            if ((sieve[i / 32] & (1 << (i % 32))) == 0) {
+                counter++;
+                for (int j = i * i; j <= n && j > 0; j += i) {
+                    sieve[j / 32] = sieve[j / 32] | (1 << (j % 32));
+                }
+            }
+        }
+        return counter;
+    }
 }
