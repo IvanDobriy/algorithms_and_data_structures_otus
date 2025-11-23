@@ -46,4 +46,14 @@ public class MatrixArray<T> implements IArray<T> {
         partition[partitionPosition] = null;
         return result;
     }
+
+    @Override
+    public T get(int index) {
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
 }

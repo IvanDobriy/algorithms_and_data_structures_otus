@@ -38,4 +38,14 @@ public class VectorArray<T> implements IArray<T> {
         }
         return container[index];
     }
+
+    @Override
+    public T get(int index) {
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
 }

@@ -34,4 +34,14 @@ public class SingleArray<T> implements IArray<T> {
         container[index] = null;
         return result;
     }
+
+    @Override
+    public T get(int index) {
+        return null;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
 }
