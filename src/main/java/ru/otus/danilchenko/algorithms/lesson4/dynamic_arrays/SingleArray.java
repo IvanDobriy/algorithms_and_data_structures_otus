@@ -13,12 +13,23 @@ public class SingleArray<T> implements IArray<T> {
             throw new IllegalArgumentException("index must be positive");
         }
         if (index < container.length) {
-            container[index] = item;
+            T[] newArray = ArrayUtils.createArray(container.length + 1);
+            if (index == 0) {
+                System.arraycopy(container, 0, newArray, 1, container.length);
+                newArray[index] = item;
+                container = newArray;
+                return;
+            }
+            System.arraycopy(container, 0, newArray, 0, index + 1);
+            newArray[index] = item;
+            System.arraycopy(container, index, newArray, index + 1, container.length - index);
+            container = newArray;
             return;
         }
         T[] newArray = ArrayUtils.createArray(index + 1);
-        ArrayUtils.copyArray(container, newArray);
-        container[index] = item;
+        System.arraycopy(container, 0, newArray, 0, container.length);
+        newArray[index] = item;
+        container = newArray;
     }
 
 
@@ -37,11 +48,17 @@ public class SingleArray<T> implements IArray<T> {
 
     @Override
     public T get(int index) {
-        return null;
+        if(index < 0){
+            throw new IllegalArgumentException("index must be positive");
+        }
+        if (index >= container.length) {
+            throw new IllegalArgumentException("out of range");
+        }
+        return container[index];
     }
 
     @Override
     public int size() {
-        return 0;
+        return container.length;
     }
 }
