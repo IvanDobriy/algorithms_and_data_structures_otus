@@ -3,8 +3,13 @@ package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
 public class FactorArray<T> implements IArray<T> {
     private static int FACTOR = 2;
     private T[] container;
+    private int size;
 
     FactorArray(int size) {
+        if (size < 0) {
+            throw new IllegalArgumentException("size must be positive");
+        }
+        this.size = size;
         container = ArrayUtils.createArray(size);
     }
 
@@ -13,26 +18,31 @@ public class FactorArray<T> implements IArray<T> {
         if (index < 0) {
             throw new IllegalArgumentException("index must be positive");
         }
-        if (index < container.length) {
-            T[] newArray = ArrayUtils.createArray(container.length + 1);
-            if (index == 0) {
-                System.arraycopy(container, 0, newArray, 1, container.length);
-                newArray[index] = item;
+        if (index < size) {
+            if (size >= container.length) {
+                T[] newArray = ArrayUtils.createArray(container.length * FACTOR);
+                System.arraycopy(container, 0, newArray, 0, container.length);
                 container = newArray;
-                return;
             }
-            System.arraycopy(container, 0, newArray, 0, index + 1);
-            newArray[index] = item;
-            System.arraycopy(container, index, newArray, index + 1, container.length - index);
+
+            for (int i = size - 1; i >= index; i--) {
+                container[i + 1] = container[i];
+            }
+            container[index] = item;
+            size++;
             return;
         }
-        int diff = index - container.length;
-        int multiplyFactor = diff / FACTOR;
-        int size = container.length * multiplyFactor == 0 ? 1 : multiplyFactor * FACTOR;
-        T[] newArray = ArrayUtils.createArray(size);
-        newArray[index] = item;
-        System.arraycopy(container, 0, newArray, 0, container.length);
-        container = newArray;
+        int diff = index - size;
+        int multiplyFactor = diff / FACTOR + 1;
+        int newSize = size * multiplyFactor * FACTOR;
+        newSize = newSize == 0 ? 1 : newSize;
+        if (newSize > container.length) {
+            T[] newArray = ArrayUtils.createArray(newSize);
+            System.arraycopy(container, 0, newArray, 0, container.length);
+            container = newArray;
+        }
+        container[index] = item;
+        size = index + 1;
     }
 
     @Override
@@ -61,6 +71,6 @@ public class FactorArray<T> implements IArray<T> {
 
     @Override
     public int size() {
-        return container.length;
+        return size;
     }
 }
