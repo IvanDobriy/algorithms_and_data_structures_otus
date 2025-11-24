@@ -50,9 +50,17 @@ public class VectorArray<T> implements IArray<T> {
             throw new IllegalArgumentException("index must be positive");
         }
         if (index >= container.length) {
-            return null;
+            throw new IllegalArgumentException("out of range");
         }
-        return container[index];
+        T result = container[index];
+        System.arraycopy(container, index + 1, container, index, size - index - 1);
+        size--;
+        if (container.length - size > 2 * VECTOR_LENGTH) {
+            T[] newArray = ArrayUtils.createArray(container.length - VECTOR_LENGTH);
+            System.arraycopy(container, 0, newArray, 0, size);
+            container = newArray;
+        }
+        return result;
     }
 
     @Override

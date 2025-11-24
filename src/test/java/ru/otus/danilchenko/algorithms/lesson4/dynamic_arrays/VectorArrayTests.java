@@ -91,6 +91,47 @@ public class VectorArrayTests {
         }
     }
 
+    @Test
+    void removeFromEnd() {
+        IArray<Integer> array = new VectorArray<>(0);
+        for (int i = 0; i < 10; i++) {
+            array.add(i, i);
+        }
+        Integer[] expected = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+        Integer el = array.remove(9);
+        Assertions.assertEquals(9, el);
+        Assertions.assertEquals(expected.length, array.size());
+        for (int i = 0; i < expected.length; i++) {
+            Assertions.assertEquals(expected[i], array.get(i));
+        }
+    }
 
+    @Test
+    void removeFromMiddle() {
+        IArray<Integer> array = new VectorArray<>(0);
+        for (int i = 0; i < 10; i++) {
+            array.add(i, i);
+        }
+        Integer[] expected = {0, 1, 2, 3, 4, 6, 7, 8, 9};
+        Integer el = array.remove(5);
+        Assertions.assertEquals(5, el);
+        Assertions.assertEquals(expected.length, array.size());
+        for (int i = 0; i < expected.length; i++) {
+            Assertions.assertEquals(expected[i], array.get(i));
+        }
+    }
+
+
+    @Test
+    void removeAll() {
+        IArray<Integer> array = new SingleArray<>(0);
+        for (int i = 0; i < 10; i++) {
+            array.add(i, i);
+        }
+        for (int i = 0; i < 10; i++) {
+            array.remove(0);
+        }
+        Assertions.assertEquals(0, array.size());
+    }
 
 }
