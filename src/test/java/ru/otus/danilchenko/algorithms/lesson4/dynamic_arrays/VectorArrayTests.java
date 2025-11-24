@@ -124,7 +124,7 @@ public class VectorArrayTests {
 
     @Test
     void removeAll() {
-        IArray<Integer> array = new SingleArray<>(0);
+        IArray<Integer> array = new VectorArray<>(0);
         for (int i = 0; i < 10; i++) {
             array.add(i, i);
         }

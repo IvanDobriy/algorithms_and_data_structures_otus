@@ -50,12 +50,18 @@ public class FactorArray<T> implements IArray<T> {
         if (index < 0) {
             throw new IllegalArgumentException("index must be positive");
         }
-        if (index < container.length) {
-            T result = container[index];
-            container[index] = null;
-            return result;
+        if (index >= container.length) {
+            throw new IllegalArgumentException("out of range");
         }
-        return null;
+        T result = container[index];
+        System.arraycopy(container, index + 1, container, index, size - index - 1);
+        size--;
+        if (container.length - size > 2 * FACTOR) {
+            T[] newArray = ArrayUtils.createArray(container.length - container.length / FACTOR);
+            System.arraycopy(container, 0, newArray, 0, size);
+            container = newArray;
+        }
+        return result;
     }
 
     @Override
