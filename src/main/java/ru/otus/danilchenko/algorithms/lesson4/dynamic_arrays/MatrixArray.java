@@ -58,15 +58,23 @@ public class MatrixArray<T> implements IArray<T> {
         if (index < 0) {
             throw new IllegalArgumentException("index must be positive");
         }
-//        int containerSize = container.length * PARTITION_SIZE;
-//        if (index >= containerSize) {
-//            return null;
-//        }
-//        T[] partition = container[index / PARTITION_SIZE];
-//        int partitionPosition = index % PARTITION_SIZE;
-//        T result = partition[partitionPosition];
-//        partition[partitionPosition] = null;
-        return null;
+        if (index >= container.getRowSize() * container.getColSize()) {
+            throw new IllegalArgumentException("out of range");
+        }
+        T result = container.get(calculateRowIndex(index), calculateColumnIndex(index));
+        for (int i = 0; i < size - index; i++) {
+            container.set(
+                    calculateRowIndex(i + index), calculateColumnIndex(i + index),
+                    container.get(calculateRowIndex(i + index + 1), calculateColumnIndex(i + index + 1))
+            );
+        }
+        size--;
+        if (container.getRowSize() * container.getColSize() - size > 2 * PARTITION_SIZE) {
+            TwoDimensionallyArray<T> newArray = new TwoDimensionallyArray<>(container.getRowSize() - 1, container.getColSize());
+            newArray.update(0, container, newArray.getRowSize(), 0);
+            container = newArray;
+        }
+        return result;
     }
 
     @Override
