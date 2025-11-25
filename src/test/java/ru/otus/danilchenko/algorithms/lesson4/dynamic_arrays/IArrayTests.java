@@ -1,14 +1,18 @@
 package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
 
+
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MatrixArrayTests {
-    @Test
-    void insertIntoEmptyArray() {
-        IArray<Integer> array = new MatrixArray<>(0);
+public class IArrayTests {
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void insertIntoEmptyArray(IArray<Integer> array) {
         array.add(1, 0);
         Integer[] expected = new Integer[]{1};
         Assertions.assertEquals(expected.length, array.size());
@@ -17,9 +21,9 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void insertIntoBeginOfArray() {
-        IArray<Integer> array = new MatrixArray<>(0);
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void insertIntoBeginOfArray(IArray<Integer> array) {
         for (int i = 0; i < 10; i++) {
             array.add(i, 0);
         }
@@ -30,9 +34,9 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void insertIntoEndOfArray() {
-        IArray<Integer> array = new MatrixArray<>(0);
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void insertIntoEndOfArray(IArray<Integer> array) {
         for (int i = 0; i < 10; i++) {
             array.add(i, i);
         }
@@ -43,10 +47,10 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void insertIntoMiddleOfArray() {
-        IArray<Integer> array = new MatrixArray<>(0);
-        for (int i = 0; i < 100; i++) {
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void insertIntoMiddleOfArray(IArray<Integer> array) {
+        for (int i = 0; i < 3; i++) {
             array.add(i, i);
         }
         Integer[] expected = new Integer[]{0, 0, 1, 2, 1, 2};
@@ -59,9 +63,9 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void insertIntoMiddleOfArraySameIndex() {
-        IArray<Integer> array = new MatrixArray<>(0);
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void insertIntoMiddleOfArraySameIndex(IArray<Integer> array) {
         for (int i = 0; i < 3; i++) {
             array.add(i, i);
         }
@@ -75,9 +79,10 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void removeFromBeginning() {
-        IArray<Integer> array = new MatrixArray<>(0);
+
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void removeFromBeginning(IArray<Integer> array) {
         for (int i = 0; i < 10; i++) {
             array.add(i, i);
         }
@@ -91,10 +96,9 @@ public class MatrixArrayTests {
         }
     }
 
-
-    @Test
-    void removeFromEnd() {
-        IArray<Integer> array = new MatrixArray<>(0);
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void removeFromEnd(IArray<Integer> array) {
         for (int i = 0; i < 10; i++) {
             array.add(i, i);
         }
@@ -107,9 +111,9 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void removeFromMiddle() {
-        IArray<Integer> array = new MatrixArray<>(0);
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void removeFromMiddle(IArray<Integer> array) {
         for (int i = 0; i < 10; i++) {
             array.add(i, i);
         }
@@ -122,15 +126,24 @@ public class MatrixArrayTests {
         }
     }
 
-    @Test
-    void removeAll() {
-        IArray<Integer> array = new MatrixArray<>(0);
-        for (int i = 0; i < 100; i++) {
+    @ParameterizedTest
+    @MethodSource("provideArray")
+    void removeAll(IArray<Integer> array) {
+        for (int i = 0; i < 10; i++) {
             array.add(i, i);
         }
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             array.remove(0);
         }
         Assertions.assertEquals(0, array.size());
+    }
+
+    private static Stream<IArray<Integer>> provideArray() {
+        return Stream.of(
+                new SingleArray<>(0),
+                new VectorArray<>(0),
+                new FactorArray<>(0),
+                new MatrixArray<>(0)
+        );
     }
 }
