@@ -5,6 +5,14 @@ public class MatrixArray<T> implements IArray<T> {
     private TwoDimensionallyArray<T> container;
     private int size;
 
+    private int calculateColumnIndex(int index) {
+        return index % PARTITION_SIZE;
+    }
+
+    private int calculateRowIndex(int index) {
+        return index / PARTITION_SIZE;
+    }
+
     MatrixArray(int size) {
         int linkSize = size / PARTITION_SIZE + 1;
         container = new TwoDimensionallyArray<>(linkSize, PARTITION_SIZE);
@@ -16,17 +24,33 @@ public class MatrixArray<T> implements IArray<T> {
         if (index < 0) {
             throw new IllegalArgumentException("index must be positive");
         }
-        int containerSize = container.getRowSize() * container.getColSize();
-        if (index < containerSize) {
-            container.set(index / PARTITION_SIZE, index % PARTITION_SIZE, item);
+        int containerSize = container.getColSize() * container.getRowSize();
+        if (index < size) {
+            if (size >= containerSize) {
+                TwoDimensionallyArray<T> newArray = new TwoDimensionallyArray<>(container.getRowSize() + 1, container.getColSize());
+                newArray.update(0, container, container.getRowSize(), 0);
+                container = newArray;
+            }
+            for (int i = size - 1; i >= index; i--) {
+                container.set(
+                        calculateRowIndex(i + 1), calculateColumnIndex(i + 1),
+                        container.get(calculateRowIndex(i), calculateColumnIndex(i))
+                );
+            }
+            container.set(calculateRowIndex(index), calculateColumnIndex(index), item);
+            size++;
             return;
         }
-        int factor = index / PARTITION_SIZE;
-
-        TwoDimensionallyArray<T> newArray = new TwoDimensionallyArray<>(factor + 1, PARTITION_SIZE);
-        newArray.copy(0, container, 0, container.getRowSize());
-        newArray.set(index / PARTITION_SIZE, index % PARTITION_SIZE, item);
-        container = newArray;
+        int diff = index - size;
+        int factor = diff / PARTITION_SIZE + 1;
+        int expectedContainerSize = size + factor * PARTITION_SIZE;
+        if (expectedContainerSize > containerSize) {
+            TwoDimensionallyArray<T> newArray = new TwoDimensionallyArray<>(container.getRowSize() + factor, container.getColSize());
+            newArray.update(0, container, container.getRowSize(), 0);
+            container = newArray;
+        }
+        container.set(calculateRowIndex(index), calculateColumnIndex(index), item);
+        size = index + 1;
     }
 
     @Override
@@ -47,7 +71,7 @@ public class MatrixArray<T> implements IArray<T> {
 
     @Override
     public T get(int index) {
-        return container.get(index / PARTITION_SIZE, index % PARTITION_SIZE);
+        return container.get(calculateRowIndex(index), calculateColumnIndex(index));
     }
 
     @Override

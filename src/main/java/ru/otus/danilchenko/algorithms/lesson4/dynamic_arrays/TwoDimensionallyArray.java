@@ -46,7 +46,7 @@ public class TwoDimensionallyArray<T> {
         return (T) array[rowIndex][colIndex];
     }
 
-    public void copy(int fromRowIndex, TwoDimensionallyArray<T> from, int rowSize, int toRowIndex) {
+    public void update(int fromRowIndex, TwoDimensionallyArray<T> from, int rowSize, int toRowIndex) {
         Objects.requireNonNull(from);
         if (fromRowIndex < 0) {
             throw new IllegalArgumentException("from row index must be positive");
