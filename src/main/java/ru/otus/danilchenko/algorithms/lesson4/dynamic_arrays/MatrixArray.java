@@ -1,7 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
 
 public class MatrixArray<T> implements IArray<T> {
-    private static final int PARTITION_SIZE = 10;
+    private static final int PARTITION_SIZE = 1024;
     private TwoDimensionallyArray<T> container;
     private int size;
 

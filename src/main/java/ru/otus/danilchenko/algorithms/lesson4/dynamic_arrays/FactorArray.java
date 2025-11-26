@@ -56,7 +56,7 @@ public class FactorArray<T> implements IArray<T> {
         T result = container[index];
         System.arraycopy(container, index + 1, container, index, size - index - 1);
         size--;
-        if (container.length - size > 2 * FACTOR) {
+        if (container.length - size > size * FACTOR) {
             T[] newArray = ArrayUtils.createArray(container.length - container.length / FACTOR);
             System.arraycopy(container, 0, newArray, 0, size);
             container = newArray;

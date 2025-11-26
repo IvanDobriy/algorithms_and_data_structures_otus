@@ -1,7 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
 
 public class VectorArray<T> implements IArray<T> {
-    private static final int VECTOR_LENGTH = 10;
+    private static final int VECTOR_LENGTH = 1024;
     private T[] container;
     private int size;
 
