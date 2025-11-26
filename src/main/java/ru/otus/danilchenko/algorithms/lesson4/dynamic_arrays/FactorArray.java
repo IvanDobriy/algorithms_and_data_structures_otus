@@ -5,7 +5,7 @@ public class FactorArray<T> implements IArray<T> {
     private T[] container;
     private int size;
 
-    FactorArray(int size) {
+    public FactorArray(int size) {
         if (size < 0) {
             throw new IllegalArgumentException("size must be positive");
         }

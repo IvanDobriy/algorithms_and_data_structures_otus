@@ -3,7 +3,7 @@ package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
 public class SingleArray<T> implements IArray<T> {
     private T[] container;
 
-    SingleArray(int size) {
+    public SingleArray(int size) {
         container = ArrayUtils.createArray(size);
     }
 

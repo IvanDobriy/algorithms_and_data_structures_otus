@@ -13,7 +13,7 @@ public class MatrixArray<T> implements IArray<T> {
         return index / PARTITION_SIZE;
     }
 
-    MatrixArray(int size) {
+    public MatrixArray(int size) {
         int linkSize = size / PARTITION_SIZE + 1;
         container = new TwoDimensionallyArray<>(linkSize, PARTITION_SIZE);
         this.size = size;

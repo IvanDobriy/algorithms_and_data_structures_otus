@@ -5,7 +5,7 @@ public class VectorArray<T> implements IArray<T> {
     private T[] container;
     private int size;
 
-    VectorArray(int size) {
+    public VectorArray(int size) {
         if (size < 0) {
             throw new IllegalArgumentException("size must be positive");
         }
