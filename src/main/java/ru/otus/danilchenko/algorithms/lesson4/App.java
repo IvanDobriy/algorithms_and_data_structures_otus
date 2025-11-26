@@ -100,7 +100,7 @@ public class App {
             for (int i = 0; i < max; i++) {
                 array.add(i, i);
             }
-            measure(String.format("for: %s, check removing from beginning, max: %s", entry.getKey(), max), () -> {
+            measure(String.format("for: %s, check removing from end, max: %s", entry.getKey(), max), () -> {
                 for (int i = max - 1; i >= 0; i--) {
                     array.remove(i);
                 }
@@ -110,15 +110,15 @@ public class App {
 
 
     private void run() {
-//        for (int i = 100; i <= 10_000; i *= 10) {
-//            System.out.println("=============================================================================");
-//            checkInsertionToBeginning(i);
-//            System.out.println("=============================================================================");
-//            checkInsertionToMiddle(i);
-//            System.out.println("=============================================================================");
-//            checkInsertionToEnd(i);
-//            System.out.println("=============================================================================");
-//        }
+        for (int i = 100; i <= 10_000; i *= 10) {
+            System.out.println("=============================================================================");
+            checkInsertionToBeginning(i);
+            System.out.println("=============================================================================");
+            checkInsertionToMiddle(i);
+            System.out.println("=============================================================================");
+            checkInsertionToEnd(i);
+            System.out.println("=============================================================================");
+        }
 
         for (int i = 100; i <= 10_000; i *= 10) {
             System.out.println("=============================================================================");
