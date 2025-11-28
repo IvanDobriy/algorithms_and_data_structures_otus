@@ -1,5 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson2;
 
+import ru.otus.danilchenko.algorithms.test.Test;
+
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
