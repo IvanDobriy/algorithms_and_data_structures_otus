@@ -1,0 +1,81 @@
+package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
+
+public class VectorArray<T> implements IArray<T> {
+    private static final int VECTOR_LENGTH = 1024;
+    private T[] container;
+    private int size;
+
+    public VectorArray(int size) {
+        if (size < 0) {
+            throw new IllegalArgumentException("size must be positive");
+        }
+        this.size = size;
+        container = ArrayUtils.createArray(size);
+    }
+
+    @Override
+    public void add(T item, int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException("index must be positive");
+        }
+        if (index < size) {
+            if (size >= container.length) {
+                T[] newArray = ArrayUtils.createArray(container.length + VECTOR_LENGTH);
+                System.arraycopy(container, 0, newArray, 0, container.length);
+                container = newArray;
+            }
+            for (int i = size - 1; i >= index; i--) {
+                container[i + 1] = container[i];
+            }
+            container[index] = item;
+            size++;
+            return;
+        }
+
+        int diff = index - size;
+        int multiplyFactor = diff / VECTOR_LENGTH + 1;
+        int newSize = size + multiplyFactor * VECTOR_LENGTH;
+        if (newSize > container.length) {
+            T[] newArray = ArrayUtils.createArray(newSize);
+            System.arraycopy(container, 0, newArray, 0, container.length);
+            container = newArray;
+        }
+        container[index] = item;
+        size = index + 1;
+    }
+
+    @Override
+    public T remove(int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException("index must be positive");
+        }
+        if (index >= container.length) {
+            throw new IllegalArgumentException("out of range");
+        }
+        T result = container[index];
+        System.arraycopy(container, index + 1, container, index, size - index - 1);
+        size--;
+        if (container.length - size > 2 * VECTOR_LENGTH) {
+            T[] newArray = ArrayUtils.createArray(container.length - VECTOR_LENGTH);
+            System.arraycopy(container, 0, newArray, 0, size);
+            container = newArray;
+        }
+        return result;
+    }
+
+    @Override
+    public T get(int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException("index must be positive");
+        }
+        if (index >= size) {
+            throw new IllegalArgumentException("out of range");
+        }
+        return container[index];
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+}
