@@ -53,7 +53,7 @@ public class App {
                 "Knight test",
                 Paths.get("./test_cases/lesson4/0.BITS/2.Bitboard - Конь"),
                 0, Integer.MAX_VALUE,
-                this::kingTest
+                this::knightTest
         ));
 
         for (var test : tests) {

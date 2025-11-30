@@ -10,16 +10,25 @@ public class King implements ChessPiece {
 
     private long calculateMovesPosition(long position) {
         position = 1L << position;
-        long result =
-                nA & (position << 1)
-                | nF & (position >> 1)
+        if (position > 0) {
+            return nA & (position << 1)
+                    | nF & (position >> 1)
+                    | position << 8
+                    | position >> 8
+                    | nA & (position << 9)
+                    | nF & (position >> 9)
+                    | nF & (position << 7)
+                    | nA & (position >> 7);
+        }
+
+        return nA & (position << 1)
+                | nF & ((position >> 1) ^ position)
                 | position << 8
-                | position >> 8
+                | (position >> 8) ^ (position >> 7)
                 | nA & (position << 9)
-                | nF & (position >> 9)
+                | nF & (position >> 9 ^ (position >> 8))
                 | nF & (position << 7)
-                | nA & (position >> 7);
-        return result;
+                | nA & ((position >> 7) ^ (position >> 6));
     }
 
     private int calculateNumberOfMovies(long movesPosition) {
