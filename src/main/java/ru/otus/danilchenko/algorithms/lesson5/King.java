@@ -5,12 +5,33 @@ public class King implements ChessPiece {
     private final int numberOfMovies;
     private final long movesPosition;
 
+    private final long nA = 0xfefefefefefefefeL;
+    private final long nF = 0x7f7f7f7f7f7f7f7fL;
+
+    private final long fieldMask = 0x7e7e7e7e7e7e7e7eL;
+
+
     private long calculateMovesPosition(long position) {
-        return 0;
+        position = 1L << position;
+        long result =
+                nA & (position << 1)
+                | nF & (position >> 1)
+                | position << 8
+                | position >> 8
+                | nA & (position << 9)
+                | nF & (position >> 9)
+                | nF & (position << 7)
+                | nA & (position >> 7);
+        return result;
     }
 
     private int calculateNumberOfMovies(long movesPosition) {
-        return 0;
+        int result = 0;
+        while (movesPosition != 0) {
+            movesPosition &= (movesPosition - 1);
+            result++;
+        }
+        return result;
     }
 
 
