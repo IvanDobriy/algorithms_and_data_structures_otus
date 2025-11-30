@@ -1,24 +1,25 @@
 package ru.otus.danilchenko.algorithms.lesson5;
 
-public class King implements ChessPiece {
+public class Knight implements ChessPiece {
+    final long nAB = 0x3f3f3f3f3f3f3f3fL;
+    final long nEF = 0xfcfcfcfcfcfcfcfcL;
+
     private final long position;
     private final int numberOfMovies;
     private final long movesPosition;
 
-    private final long nA = 0xfefefefefefefefeL;
-    private final long nF = 0x7f7f7f7f7f7f7f7fL;
 
     private long calculateMovesPosition(long position) {
         position = 1L << position;
         long result =
-                nA & (position << 1)
-                | nF & (position >> 1)
-                | position << 8
-                | position >> 8
-                | nA & (position << 9)
-                | nF & (position >> 9)
-                | nF & (position << 7)
-                | nA & (position >> 7);
+                nEF & (position << 10)
+                        | nAB & (position >> 10)
+                        | position << 17
+                        | nAB & (position >> 17)
+                        | nAB & (position << 15)
+                        | nEF & (position >> 15)
+                        | nEF & (position << 6)
+                        | nAB & (position >> 7);
         return result;
     }
 
@@ -31,8 +32,7 @@ public class King implements ChessPiece {
         return result;
     }
 
-
-    public King(long position) {
+    public Knight(long position) {
         this.position = position;
         movesPosition = calculateMovesPosition(position);
         numberOfMovies = calculateNumberOfMovies(movesPosition);
@@ -45,11 +45,11 @@ public class King implements ChessPiece {
 
     @Override
     public long getPosition() {
-        return position;
+        return movesPosition;
     }
 
     @Override
     public long getMovesPosition() {
-        return movesPosition;
+        return numberOfMovies;
     }
 }
