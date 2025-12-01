@@ -1,8 +1,8 @@
 package ru.otus.danilchenko.algorithms.lesson5;
 
 public class Knight implements ChessPiece {
-    final long nAB = 0x3f3f3f3f3f3f3f3fL;
-    final long nEF = 0xfcfcfcfcfcfcfcfcL;
+    final long nAB = 0xfcfcfcfcfcfcfcfcL;
+    final long nGH = 0x3f3f3f3f3f3f3f3fL;
 
     private final long position;
     private final int numberOfMovies;
@@ -11,16 +11,29 @@ public class Knight implements ChessPiece {
 
     private long calculateMovesPosition(long position) {
         position = 1L << position;
-        long result =
-                nEF & (position << 10)
-                        | nAB & (position >> 10)
-                        | position << 17
-                        | nAB & (position >> 17)
-                        | nAB & (position << 15)
-                        | nEF & (position >> 15)
-                        | nEF & (position << 6)
-                        | nAB & (position >> 7);
-        return result;
+
+        if ((position & (nAB & nGH)) != 0) {
+            return position << 6 | position >> 6 | position << 10 | position >> 10 | position << 15 | position >> 15 | position << 17 | position >> 17;
+        }
+        
+        if ((position & ~nAB) != 0) {
+            return nAB & (position << 10)
+                    | nGH & (position >> 10)
+                    | position << 17
+                    | nGH & (position >> 17)
+                    | nGH & (position << 6)
+                    | nAB & (position >> 6)
+                    | nGH & (position << 15)
+                    | nGH & (position >> 15);
+        }
+
+        return nAB & (position << 10)
+                | nGH & (position >> 10)
+                | position >> 17
+                | nGH & (position << 6)
+                | nAB & (position >> 6)
+                | position << 15
+                | nAB & (position >> 15);
     }
 
     private int calculateNumberOfMovies(long movesPosition) {
@@ -45,11 +58,11 @@ public class Knight implements ChessPiece {
 
     @Override
     public long getPosition() {
-        return movesPosition;
+        return position;
     }
 
     @Override
     public long getMovesPosition() {
-        return numberOfMovies;
+        return movesPosition;
     }
 }
