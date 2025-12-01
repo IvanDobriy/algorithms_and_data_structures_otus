@@ -11,29 +11,47 @@ public class Knight implements ChessPiece {
 
     private long calculateMovesPosition(long position) {
         position = 1L << position;
+        if (position > 0) {
+            if ((position & (nAB & nGH)) != 0) {
+                return position << 6 | position >> 6 | position << 10 | position >> 10 | position << 15 | position >> 15 | position << 17 | position >> 17;
+            }
+            long result = nAB & position << 10
+                    | nGH & position >> 10
+                    | nGH & position << 6
+                    | nAB & position >> 6;
 
+            if ((position & ~nAB) != 0) {
+                result |= position << 17
+                        | nGH & position >> 17
+                        | nGH & position << 15
+                        | nGH & position >> 15;
+            } else {
+                result |= position >> 17
+                        | position << 15
+                        | nAB & position >> 15;
+            }
+            return result;
+        }
         if ((position & (nAB & nGH)) != 0) {
-            return position << 6 | position >> 6 | position << 10 | position >> 10 | position << 15 | position >> 15 | position << 17 | position >> 17;
+            return position << 6 | (position >> 6 ^ position >> 5) | position << 10 | (position >> 10 ^ position >> 9) | position << 15 | (position >> 15 ^ position >> 14) | position << 17 | (position >> 17 ^ position >> 16);
         }
-        
-        if ((position & ~nAB) != 0) {
-            return nAB & (position << 10)
-                    | nGH & (position >> 10)
-                    | position << 17
-                    | nGH & (position >> 17)
-                    | nGH & (position << 6)
-                    | nAB & (position >> 6)
-                    | nGH & (position << 15)
-                    | nGH & (position >> 15);
-        }
-
-        return nAB & (position << 10)
-                | nGH & (position >> 10)
-                | position >> 17
+        long result = nAB & position << 10
+                | nGH & (position >> 10 ^ position >> 9)
                 | nGH & (position << 6)
-                | nAB & (position >> 6)
-                | position << 15
-                | nAB & (position >> 15);
+                | nAB & (position >> 6 ^ position >> 5);
+
+        if ((position & ~nAB) != 0) {
+            result |= position << 17
+                    | nGH & (position >> 17 ^ position >> 16)
+                    | nGH & (position << 15)
+                    | nGH & (position >> 15 ^ position >> 14);
+        } else {
+            result |= (position >> 17 ^ position >> 16)
+                    | position << 15
+                    | nAB & (position >> 15 ^ position >> 14);
+        }
+        return result;
+
     }
 
     private int calculateNumberOfMovies(long movesPosition) {
