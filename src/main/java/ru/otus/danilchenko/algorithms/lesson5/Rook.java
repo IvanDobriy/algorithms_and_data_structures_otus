@@ -2,28 +2,19 @@ package ru.otus.danilchenko.algorithms.lesson5;
 
 import java.util.Objects;
 
-public class King implements ChessPiece {
+public class Rook implements ChessPiece {
+
     private final int position;
     private final int numberOfSteps;
     private final long stepsPosition;
 
-    private final long nA = 0xfefefefefefefefeL;
-    private final long nH = 0x7f7f7f7f7f7f7f7fL;
 
-    private long calculateMovesPosition(long position) {
+    private long calculateMovesPosition(int position) {
         long positionMap = 1L << position;
-        return nA & BitOps.lSh(positionMap, 1)
-                | nH & (BitOps.rSh(positionMap, 1))
-                | BitOps.lSh(positionMap, 8)
-                | BitOps.rSh(positionMap, 8)
-                | nA & (BitOps.lSh(positionMap, 9))
-                | nH & (BitOps.rSh(positionMap, 9))
-                | nH & (BitOps.lSh(positionMap, 7))
-                | nA & (BitOps.rSh(positionMap, 7));
+        return 0;
     }
 
-
-    public King(int position, IStepsCalculator calculator) {
+    public Rook(int position, IStepsCalculator calculator) {
         Objects.requireNonNull(calculator);
         if (position < 0 || position > 63) {
             throw new IllegalArgumentException("position must be in range 0..63");

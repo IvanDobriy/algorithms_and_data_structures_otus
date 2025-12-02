@@ -9,7 +9,7 @@ import java.util.List;
 
 public class App {
     private void kingTest(String[] inputData, String[] expectedData, PrintStream out) {
-        final long position = Long.parseLong(inputData[0]);
+        final int position = Integer.parseInt(inputData[0]);
         final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();//Long.parseLong(expectedData[1]);
 
@@ -26,7 +26,7 @@ public class App {
     }
 
     private void knightTest(String[] inputData, String[] expectedData, PrintStream out) {
-        final long position = Long.parseLong(inputData[0]);
+        final int position = Integer.parseInt(inputData[0]);
         final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
         final ChessPiece knight = new Knight(position, BitOnesCalculators::kernighanCalculation);

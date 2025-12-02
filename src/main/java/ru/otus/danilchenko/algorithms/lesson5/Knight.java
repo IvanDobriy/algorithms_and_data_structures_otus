@@ -6,7 +6,7 @@ public class Knight implements ChessPiece {
     final long nAB = 0xfcfcfcfcfcfcfcfcL;
     final long nGH = 0x3f3f3f3f3f3f3f3fL;
 
-    private final long position;
+    private final int position;
     private final int numberOfSteps;
     private final long stepsPosition;
 
@@ -43,7 +43,7 @@ public class Knight implements ChessPiece {
     }
 
 
-    public Knight(long position, IStepsCalculator calculator) {
+    public Knight(int position, IStepsCalculator calculator) {
         Objects.requireNonNull(calculator);
         if (position < 0 || position > 63) {
             throw new IllegalArgumentException("position must be in range 0..63");
@@ -59,7 +59,7 @@ public class Knight implements ChessPiece {
     }
 
     @Override
-    public long getPosition() {
+    public int getPosition() {
         return position;
     }
 
