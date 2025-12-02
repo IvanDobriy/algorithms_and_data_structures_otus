@@ -25,8 +25,8 @@ public class King implements ChessPiece {
 
     public King(long position, IStepsCalculator calculator) {
         Objects.requireNonNull(calculator);
-        if (position < 0 || position > 64) {
-            throw new IllegalArgumentException("position must be in range 0..64");
+        if (position < 0 || position > 63) {
+            throw new IllegalArgumentException("position must be in range 0..63");
         }
         this.position = position;
         stepsPosition = calculateMovesPosition(position);

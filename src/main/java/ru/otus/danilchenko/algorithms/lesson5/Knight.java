@@ -1,5 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson5;
 
+import java.util.Objects;
+
 public class Knight implements ChessPiece {
     final long nAB = 0xfcfcfcfcfcfcfcfcL;
     final long nGH = 0x3f3f3f3f3f3f3f3fL;
@@ -40,19 +42,15 @@ public class Knight implements ChessPiece {
         return result;
     }
 
-    private int calculateNumberOfMovies(long movesPosition) {
-        int result = 0;
-        while (movesPosition != 0) {
-            movesPosition &= (movesPosition - 1);
-            result++;
-        }
-        return result;
-    }
 
-    public Knight(long position) {
+    public Knight(long position, IStepsCalculator calculator) {
+        Objects.requireNonNull(calculator);
+        if (position < 0 || position > 63) {
+            throw new IllegalArgumentException("position must be in range 0..63");
+        }
         this.position = position;
         stepsPosition = calculateMovesPosition(position);
-        numberOfSteps = calculateNumberOfMovies(stepsPosition);
+        numberOfSteps = calculator.calculate(stepsPosition);
     }
 
     @Override
