@@ -14,12 +14,12 @@ public class App {
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();//Long.parseLong(expectedData[1]);
 
         final ChessPiece king = new King(position);
-        if (expectedBitMask != king.getMovesPosition()) {
-            out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, king.getMovesPosition()));
+        if (expectedBitMask != king.getStepsPosition()) {
+            out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, king.getStepsPosition()));
             return;
         }
-        if (expectedNumberOfMoves != king.getNumberOfMoves()) {
-            out.println(String.format("Failed test, expected number of moves: %s, result: %s", expectedBitMask, king.getNumberOfMoves()));
+        if (expectedNumberOfMoves != king.getNumberOfSteps()) {
+            out.println(String.format("Failed test, expected number of moves: %s, result: %s", expectedBitMask, king.getNumberOfSteps()));
             return;
         }
         out.println("Test ok");
@@ -30,12 +30,12 @@ public class App {
         final long expectedNumberOfMoves = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
         final ChessPiece knight = new Knight(position);
-        if (expectedBitMask != knight.getMovesPosition()) {
-            out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, knight.getMovesPosition()));
+        if (expectedBitMask != knight.getStepsPosition()) {
+            out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, knight.getStepsPosition()));
             return;
         }
-        if (expectedNumberOfMoves != knight.getNumberOfMoves()) {
-            out.println(String.format("Failed test, expected number of moves: %s, result: %s", expectedBitMask, knight.getNumberOfMoves()));
+        if (expectedNumberOfMoves != knight.getNumberOfSteps()) {
+            out.println(String.format("Failed test, expected number of moves: %s, result: %s", expectedBitMask, knight.getNumberOfSteps()));
             return;
         }
         out.println("Test ok");

@@ -1,7 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson5;
 
 public interface ChessPiece {
-    int getNumberOfMoves();
+    int getNumberOfSteps();
     long getPosition();
-    long getMovesPosition();
+    long getStepsPosition();
 }

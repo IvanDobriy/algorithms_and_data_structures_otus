@@ -5,8 +5,8 @@ public class Knight implements ChessPiece {
     final long nGH = 0x3f3f3f3f3f3f3f3fL;
 
     private final long position;
-    private final int numberOfMovies;
-    private final long movesPosition;
+    private final int numberOfSteps;
+    private final long stepsPosition;
 
 
     private long calculateMovesPosition(long position) {
@@ -51,13 +51,13 @@ public class Knight implements ChessPiece {
 
     public Knight(long position) {
         this.position = position;
-        movesPosition = calculateMovesPosition(position);
-        numberOfMovies = calculateNumberOfMovies(movesPosition);
+        stepsPosition = calculateMovesPosition(position);
+        numberOfSteps = calculateNumberOfMovies(stepsPosition);
     }
 
     @Override
-    public int getNumberOfMoves() {
-        return numberOfMovies;
+    public int getNumberOfSteps() {
+        return numberOfSteps;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Knight implements ChessPiece {
     }
 
     @Override
-    public long getMovesPosition() {
-        return movesPosition;
+    public long getStepsPosition() {
+        return stepsPosition;
     }
 }

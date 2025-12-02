@@ -2,8 +2,8 @@ package ru.otus.danilchenko.algorithms.lesson5;
 
 public class King implements ChessPiece {
     private final long position;
-    private final int numberOfMovies;
-    private final long movesPosition;
+    private final int numberOfSteps;
+    private final long stepsPosition;
 
     private final long nA = 0xfefefefefefefefeL;
     private final long nH = 0x7f7f7f7f7f7f7f7fL;
@@ -32,13 +32,13 @@ public class King implements ChessPiece {
 
     public King(long position) {
         this.position = position;
-        movesPosition = calculateMovesPosition(position);
-        numberOfMovies = calculateNumberOfMovies(movesPosition);
+        stepsPosition = calculateMovesPosition(position);
+        numberOfSteps = calculateNumberOfMovies(stepsPosition);
     }
 
     @Override
-    public int getNumberOfMoves() {
-        return numberOfMovies;
+    public int getNumberOfSteps() {
+        return numberOfSteps;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class King implements ChessPiece {
     }
 
     @Override
-    public long getMovesPosition() {
-        return movesPosition;
+    public long getStepsPosition() {
+        return stepsPosition;
     }
 }
