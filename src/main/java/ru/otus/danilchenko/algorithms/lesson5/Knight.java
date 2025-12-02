@@ -10,48 +10,34 @@ public class Knight implements ChessPiece {
 
 
     private long calculateMovesPosition(long position) {
-        position = 1L << position;
-        if (position > 0) {
-            if ((position & (nAB & nGH)) != 0) {
-                return position << 6 | position >> 6 | position << 10 | position >> 10 | position << 15 | position >> 15 | position << 17 | position >> 17;
-            }
-            long result = nAB & position << 10
-                    | nGH & position >> 10
-                    | nGH & position << 6
-                    | nAB & position >> 6;
-
-            if ((position & ~nAB) != 0) {
-                result |= position << 17
-                        | nGH & position >> 17
-                        | nGH & position << 15
-                        | nGH & position >> 15;
-            } else {
-                result |= position >> 17
-                        | position << 15
-                        | nAB & position >> 15;
-            }
-            return result;
+        long positionMap = 1L << position;
+        if ((positionMap & (nAB & nGH)) != 0) {
+            return BitOps.lSh(positionMap, 6)
+                    | BitOps.rSh(positionMap, 6)
+                    | BitOps.lSh(positionMap, 10)
+                    | BitOps.rSh(positionMap, 10)
+                    | BitOps.lSh(positionMap, 15)
+                    | BitOps.rSh(positionMap, 15)
+                    | BitOps.lSh(positionMap, 17)
+                    | BitOps.rSh(positionMap, 17);
         }
-        if ((position & (nAB & nGH)) != 0) {
-            return position << 6 | (position >> 6 ^ position >> 5) | position << 10 | (position >> 10 ^ position >> 9) | position << 15 | (position >> 15 ^ position >> 14) | position << 17 | (position >> 17 ^ position >> 16);
-        }
-        long result = nAB & position << 10
-                | nGH & (position >> 10 ^ position >> 9)
-                | nGH & (position << 6)
-                | nAB & (position >> 6 ^ position >> 5);
+        long result = nAB & BitOps.lSh(positionMap, 10)
+                | nGH & BitOps.rSh(positionMap, 10)
+                | nGH & BitOps.lSh(positionMap, 6)
+                | nAB & BitOps.rSh(positionMap, 6);
 
-        if ((position & ~nAB) != 0) {
-            result |= position << 17
-                    | nGH & (position >> 17 ^ position >> 16)
-                    | nGH & (position << 15)
-                    | nGH & (position >> 15 ^ position >> 14);
+        if ((positionMap & ~nAB) != 0) {
+            result |= BitOps.lSh(positionMap, 17)
+                    | nGH & BitOps.rSh(positionMap, 17)
+                    | nGH & BitOps.lSh(positionMap, 15)
+                    | nGH & BitOps.rSh(positionMap, 15);
         } else {
-            result |= (position >> 17 ^ position >> 16)
-                    | position << 15
-                    | nAB & (position >> 15 ^ position >> 14);
+            result |= BitOps.rSh(positionMap, 17)
+                    | BitOps.lSh(positionMap, 15)
+                    | nAB & BitOps.rSh(positionMap, 15);
         }
-        return result;
 
+        return result;
     }
 
     private int calculateNumberOfMovies(long movesPosition) {
