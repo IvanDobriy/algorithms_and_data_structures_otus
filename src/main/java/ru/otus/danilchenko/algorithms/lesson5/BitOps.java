@@ -1,14 +1,20 @@
 package ru.otus.danilchenko.algorithms.lesson5;
 
 public class BitOps {
-    public static long lSh(long l, long r) {
-        return l << r;
+    public static long lSh(long value, int shiftPosition) {
+        if(shiftPosition < 0){
+            throw new IllegalArgumentException("shift position must be positive");
+        }
+        return value << shiftPosition;
     }
 
-    public static long rSh(long l, long r) {
-        if (l < 0) {
-            return (l >> r) ^ (l >> (r - 1));
+    public static long rSh(long value, int shiftPosition) {
+        if(shiftPosition < 0){
+            throw new IllegalArgumentException("shift position must be positive");
         }
-        return l >> r;
+        if (value < 0) {
+            return (value >> shiftPosition) ^ (value >> (shiftPosition - 1));
+        }
+        return value >> shiftPosition;
     }
 }
