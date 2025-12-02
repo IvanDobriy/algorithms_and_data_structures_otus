@@ -41,6 +41,23 @@ public class App {
         out.println("Test ok");
     }
 
+    private void rookTest(String[] inputData, String[] expectedData, PrintStream out) {
+        final int position = Integer.parseInt(inputData[0]);
+        final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
+        final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
+        final ChessPiece rook = new Rook(position, BitOnesCalculators::kernighanCalculation);
+        if (expectedBitMask != rook.getStepsPosition()) {
+            out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, rook.getStepsPosition()));
+            return;
+        }
+        if (expectedNumberOfSteps != rook.getNumberOfSteps()) {
+            out.println(String.format("Failed test, expected number of steps: %s, result: %s", expectedNumberOfSteps, rook.getNumberOfSteps()));
+            return;
+        }
+        out.println("Test ok");
+    }
+
+
     private void run(String[] args) {
         final var tests = List.of(new Test(
                 "King test",
@@ -52,6 +69,11 @@ public class App {
                 Paths.get("./test_cases/lesson4/0.BITS/2.Bitboard - Конь"),
                 0, Integer.MAX_VALUE,
                 this::knightTest
+        ), new Test(
+                "Rook test",
+                Paths.get("./test_cases/lesson4/0.BITS/3.Bitboard - Ладья"),
+                0, Integer.MAX_VALUE,
+                this::rookTest
         ));
 
         for (var test : tests) {
