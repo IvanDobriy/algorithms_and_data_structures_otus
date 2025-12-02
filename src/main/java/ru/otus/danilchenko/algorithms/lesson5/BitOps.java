@@ -12,6 +12,9 @@ public class BitOps {
         if(shiftPosition < 0){
             throw new IllegalArgumentException("shift position must be positive");
         }
+        if(shiftPosition == 0){
+            return value;
+        }
         if (value < 0) {
             return (value >> shiftPosition) ^ (value >> (shiftPosition - 1));
         }
