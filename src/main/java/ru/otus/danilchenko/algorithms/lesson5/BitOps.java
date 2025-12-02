@@ -16,7 +16,7 @@ public class BitOps {
             return value;
         }
         if (value < 0) {
-            return (value >> shiftPosition) ^ (value >> (shiftPosition - 1));
+            return (value >> shiftPosition) ^ (0x8000000000000000L >> (shiftPosition - 1));
         }
         return value >> shiftPosition;
     }
