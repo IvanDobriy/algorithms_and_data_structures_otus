@@ -8,12 +8,16 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class App {
+    private final IStepsCalculator cachedCalculation = BitOnesCalculators.cachedCalculation();
+    private final IStepsCalculator simpleCalculation = BitOnesCalculators::simpleCalculation;
+    private final IStepsCalculator kernighanCalculation = BitOnesCalculators::kernighanCalculation;
+
     private void kingTest(String[] inputData, String[] expectedData, PrintStream out) {
         final int position = Integer.parseInt(inputData[0]);
         final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();//Long.parseLong(expectedData[1]);
 
-        final ChessPiece king = new King(position, BitOnesCalculators::simpleCalculation);
+        final ChessPiece king = new King(position, simpleCalculation);
         if (expectedBitMask != king.getStepsPosition()) {
             out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, king.getStepsPosition()));
             return;
@@ -29,7 +33,7 @@ public class App {
         final int position = Integer.parseInt(inputData[0]);
         final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
-        final ChessPiece knight = new Knight(position, BitOnesCalculators::kernighanCalculation);
+        final ChessPiece knight = new Knight(position, kernighanCalculation);
         if (expectedBitMask != knight.getStepsPosition()) {
             out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, knight.getStepsPosition()));
             return;
@@ -45,7 +49,7 @@ public class App {
         final int position = Integer.parseInt(inputData[0]);
         final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
-        final ChessPiece rook = new Rook(position, BitOnesCalculators::kernighanCalculation);
+        final ChessPiece rook = new Rook(position, cachedCalculation);
         if (expectedBitMask != rook.getStepsPosition()) {
             out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, rook.getStepsPosition()));
             return;

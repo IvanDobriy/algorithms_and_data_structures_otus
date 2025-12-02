@@ -12,6 +12,10 @@ public class BitOnesCalculators {
         return counter;
     }
 
+    public static IStepsCalculator cachedCalculation() {
+        return new CachedBitsCounter();
+    }
+
     public static int kernighanCalculation(long map) {
         int counter = 0;
         while (map != 0) {
