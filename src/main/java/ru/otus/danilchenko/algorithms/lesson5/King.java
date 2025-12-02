@@ -6,29 +6,18 @@ public class King implements ChessPiece {
     private final long movesPosition;
 
     private final long nA = 0xfefefefefefefefeL;
-    private final long nF = 0x7f7f7f7f7f7f7f7fL;
+    private final long nH = 0x7f7f7f7f7f7f7f7fL;
 
     private long calculateMovesPosition(long position) {
-        position = 1L << position;
-        if (position > 0) {
-            return nA & (position << 1)
-                    | nF & (position >> 1)
-                    | position << 8
-                    | position >> 8
-                    | nA & (position << 9)
-                    | nF & (position >> 9)
-                    | nF & (position << 7)
-                    | nA & (position >> 7);
-        }
-
-        return nA & (position << 1)
-                | nF & (position >> 1 ^ position)
-                | position << 8
-                | position >> 8 ^ (position >> 7)
-                | nA & (position << 9)
-                | nF & (position >> 9 ^ (position >> 8))
-                | nF & (position << 7)
-                | nA & (position >> 7 ^ (position >> 6));
+        long positionMap = 1L << position;
+        return nA & BitOps.lSh(positionMap, 1)
+                | nH & (BitOps.rSh(positionMap, 1))
+                | BitOps.lSh(positionMap, 8)
+                | BitOps.rSh(positionMap, 8)
+                | nA & (BitOps.lSh(positionMap, 9))
+                | nH & (BitOps.rSh(positionMap, 9))
+                | nH & (BitOps.lSh(positionMap, 7))
+                | nA & (BitOps.rSh(positionMap, 7));
     }
 
     private int calculateNumberOfMovies(long movesPosition) {
