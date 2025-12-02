@@ -13,7 +13,7 @@ public class App {
         final long expectedNumberOfMoves = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();//Long.parseLong(expectedData[1]);
 
-        final ChessPiece king = new King(position);
+        final ChessPiece king = new King(position, Calculators::kernighanCalculation);
         if (expectedBitMask != king.getStepsPosition()) {
             out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, king.getStepsPosition()));
             return;

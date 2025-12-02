@@ -1,5 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson5;
 
+import java.util.Objects;
+
 public class King implements ChessPiece {
     private final long position;
     private final int numberOfSteps;
@@ -20,20 +22,15 @@ public class King implements ChessPiece {
                 | nA & (BitOps.rSh(positionMap, 7));
     }
 
-    private int calculateNumberOfMovies(long movesPosition) {
-        int result = 0;
-        while (movesPosition != 0) {
-            movesPosition &= (movesPosition - 1);
-            result++;
+
+    public King(long position, IStepsCalculator calculator) {
+        Objects.requireNonNull(calculator);
+        if (position < 0 || position > 64) {
+            throw new IllegalArgumentException("position must be in range 0..64");
         }
-        return result;
-    }
-
-
-    public King(long position) {
         this.position = position;
         stepsPosition = calculateMovesPosition(position);
-        numberOfSteps = calculateNumberOfMovies(stepsPosition);
+        numberOfSteps = calculator.calculate(stepsPosition);
     }
 
     @Override
