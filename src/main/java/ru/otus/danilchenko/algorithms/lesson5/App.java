@@ -77,6 +77,22 @@ public class App {
         out.println("Test ok");
     }
 
+    private void queenTest(String[] inputData, String[] expectedData, PrintStream out) {
+        final int position = Integer.parseInt(inputData[0]);
+        final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
+        final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
+        final ChessPiece queen = new Queen(position, kernighanCalculation);
+        if (expectedBitMask != queen.getStepsPosition()) {
+            out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, queen.getStepsPosition()));
+            return;
+        }
+        if (expectedNumberOfSteps != queen.getNumberOfSteps()) {
+            out.println(String.format("Failed test, expected number of steps: %s, result: %s", expectedNumberOfSteps, queen.getNumberOfSteps()));
+            return;
+        }
+        out.println("Test ok");
+    }
+
 
     private void run(String[] args) {
         final var tests = List.of(new Test(
@@ -99,6 +115,11 @@ public class App {
                 Paths.get("./test_cases/lesson4/0.BITS/4.Bitboard - Слон"),
                 0, Integer.MAX_VALUE,
                 this::bishopTest
+        ), new Test(
+                "Queen test",
+                Paths.get("./test_cases/lesson4/0.BITS/5.Bitboard - Ферзь"),
+                0, Integer.MAX_VALUE,
+                this::queenTest
         ));
 
         for (var test : tests) {
