@@ -14,13 +14,13 @@ public class CachedBitsCounter implements IStepsCalculator {
     public int calculate(long map) {
         int counter = 0;
         int firstHalf = (int) (map & 0xffffffffL);
-        int secondHalf = (int) (BitOps.rSh(map, 8) & 0xffffffffL);
+        int secondHalf = (int) (BitOps.rSh(map, 8 * 4 ) & 0xffffffffL);
 
         for (int i = 0; i < 4; i++) {
-            counter += cache[(int) BitOps.rSh(firstHalf, i) & 0xff];
+            counter += cache[(int) BitOps.rSh(firstHalf, i * 8) & 0xff];
         }
         for (int i = 0; i < 4; i++) {
-            counter += cache[(int) BitOps.rSh(secondHalf, i) & 0xff];
+            counter += cache[(int) BitOps.rSh(secondHalf, i * 8) & 0xff];
         }
         return counter;
     }
