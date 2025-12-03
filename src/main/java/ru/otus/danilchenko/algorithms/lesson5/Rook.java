@@ -8,24 +8,23 @@ public class Rook implements ChessPiece {
     private final int numberOfSteps;
     private final long stepsPosition;
 
-    private final int COLUMN_SIZE = 8;
-    private final int ROW_SIZE = 8;
+    private final int SIZE = 8;
 
     private long calculateMovesPosition(int position) {
-        int columnNumber = position % COLUMN_SIZE;
-        int rowNumber = position / ROW_SIZE;
+        int columnNumber = position % SIZE;
+        int rowNumber = position / SIZE;
         long positionMap = 1L << position;
         long result = 0;
         for (int i = 0; i < columnNumber; i++) {
             result |= BitOps.rSh(positionMap, i + 1);
         }
-        for (int i = 0; i < COLUMN_SIZE - columnNumber - 1; i++) {
+        for (int i = 0; i < SIZE - columnNumber - 1; i++) {
             result |= BitOps.lSh(positionMap, i + 1);
         }
         for (int i = 0; i < rowNumber; i++) {
             result |= BitOps.rSh(positionMap, (i + 1) * 8);
         }
-        for (int i = 0; i < ROW_SIZE - rowNumber - 1; i++) {
+        for (int i = 0; i < SIZE - rowNumber - 1; i++) {
             result |= BitOps.lSh(positionMap, (i + 1) * 8);
         }
         return result;
