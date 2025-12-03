@@ -65,7 +65,7 @@ public class App {
         final int position = Integer.parseInt(inputData[0]);
         final long expectedNumberOfSteps = Long.parseLong(expectedData[0]);
         final long expectedBitMask = new BigInteger(expectedData[1]).longValue();
-        final ChessPiece bishop = new Bishop(position, cachedCalculation);
+        final ChessPiece bishop = new Bishop(position, kernighanCalculation);
         if (expectedBitMask != bishop.getStepsPosition()) {
             out.println(String.format("Failed test, expected bit mask: %s, result: %s", expectedBitMask, bishop.getStepsPosition()));
             return;

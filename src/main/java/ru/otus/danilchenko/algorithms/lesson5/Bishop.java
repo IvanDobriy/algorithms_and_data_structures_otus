@@ -7,25 +7,52 @@ public class Bishop implements ChessPiece {
     private final int numberOfSteps;
     private final long stepsPosition;
 
-    private final int COLUMN_SIZE = 8;
-    private final int ROW_SIZE = 8;
+    private final int SIZE = 8;
 
+    private int countIterator(int columnNumber, int rowNumber) {
+        int side = columnNumber;
+        if (side < rowNumber) {
+            side = rowNumber;
+        }
+        if (side == 0) {
+            return side;
+        }
+        return (int) (side - 1);
+    }
+
+
+    private int countA(int columnNumber, int rowNumber) {
+        return Math.min(SIZE - rowNumber, columnNumber + 1) - 1;
+    }
+
+    private int countB(int columnNumber, int rowNumber) {
+        return Math.min(rowNumber + 1, SIZE - columnNumber) - 1;
+    }
+
+    private int countC(int columnNumber, int rowNumber) {
+        return Math.min(SIZE - rowNumber, SIZE - columnNumber) - 1;
+    }
+
+    private int countD(int columnNumber, int rowNumber) {
+        return Math.min(rowNumber + 1, columnNumber + 1) - 1;
+    }
 
     private long calculateMovesPosition(int position) {
-        int columnNumber = position % COLUMN_SIZE;
-        int rowNumber = position / ROW_SIZE;
+        int columnNumber = position % SIZE;
+        int rowNumber = position / SIZE;
         long positionMap = 1L << position;
         long result = 0;
-        for (int i = 0; i < columnNumber; i++) {
+
+        for (int i = 0; i < countA(columnNumber, rowNumber); i++) {
             result |= BitOps.lSh(positionMap, (i + 1) * 7);
         }
-        for (int i = 0; i < COLUMN_SIZE - columnNumber - 1; i++) {
+        for (int i = 0; i < countC(columnNumber, rowNumber); i++) {
             result |= BitOps.lSh(positionMap, (i + 1) * 9);
         }
-        for (int i = 0; i < rowNumber; i++) {
+        for (int i = 0; i < countD(columnNumber, rowNumber); i++) {
             result |= BitOps.rSh(positionMap, (i + 1) * 9);
         }
-        for (int i = 0; i < ROW_SIZE - rowNumber - 1; i++) {
+        for (int i = 0; i < countB(columnNumber, rowNumber); i++) {
             result |= BitOps.rSh(positionMap, (i + 1) * 7);
         }
         return result;
