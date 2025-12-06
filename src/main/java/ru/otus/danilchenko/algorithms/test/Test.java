@@ -17,8 +17,38 @@ public class Test {
     private final int numberOfCases;
     private final PrintStream out = System.out;
 
+    public class TestRunnerParameters {
+        private final String[] inputData;
+        private final String[] expectedData;
+        private final PrintStream out;
+        private final Path casePath;
+
+        public TestRunnerParameters(String[] inputData, String[] expectedData, PrintStream out, Path casePath) {
+            this.inputData = inputData;
+            this.expectedData = expectedData;
+            this.out = out;
+            this.casePath = casePath;
+        }
+
+        public String[] getInputData() {
+            return inputData;
+        }
+
+        public String[] getExpectedData() {
+            return expectedData;
+        }
+
+        public PrintStream getOut() {
+            return out;
+        }
+
+        public Path getCasePath() {
+            return casePath;
+        }
+    }
+
     public interface TestRunner {
-        void run(String[] inputData, String[] expectedData, PrintStream out);
+        void run(TestRunnerParameters parameters);
     }
 
     private String[] getTestCaseData(Path testCasePath) {
@@ -71,7 +101,7 @@ public class Test {
                     return;
                 }
                 out.println(String.format("======================= test case: %s ====================", caseNumber));
-                testRunner.run(getTestCaseData(inputTestCasePath), getTestCaseData(outputTestCasePath), out);
+                testRunner.run(new TestRunnerParameters(getTestCaseData(inputTestCasePath), getTestCaseData(outputTestCasePath), out, testCasesPath));
             } catch (Throwable e) {
                 out.println(String.format("Unexpected exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
             } finally {

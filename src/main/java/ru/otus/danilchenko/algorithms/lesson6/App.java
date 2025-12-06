@@ -4,20 +4,27 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import ru.otus.danilchenko.algorithms.lesson6.report.SimpleSortingReport;
+import ru.otus.danilchenko.algorithms.lesson6.report.SortingReportData;
 import ru.otus.danilchenko.algorithms.test.Test;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class App {
+public class App implements AutoCloseable {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
+    private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./simpleReport.xls"));
 
-    private void bubbleSortTest(String[] inputData, String[] expectedData, PrintStream out) {
-        Integer[] arr = Arrays.stream(inputData[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-        Integer[] expected = Arrays.stream(expectedData[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+
+    private void bubbleSortTest(Test.TestRunnerParameters parameters) {
+        Integer[] arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+        Integer[] expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
 
         final var metric = new Metric("bubble sort");
         final var utils = new Utils();
@@ -27,11 +34,12 @@ public class App {
 
         final var result = bubbleSort.sort(arr);
 
+        report.addReportData("bubbleSort", new SortingReportData());
         if (!Arrays.deepEquals(expected, result)) {
-            out.println(String.format("Test err"));
+            parameters.getOut().println(String.format("Test err"));
             return;
         }
-        out.println("Test ok");
+        parameters.getOut().println("Test ok");
     }
 
 
@@ -43,7 +51,7 @@ public class App {
                         this::bubbleSortTest
                 )
         );
-        for(var test: tests) {
+        for (var test : tests) {
             test.run();
         }
     }
@@ -66,7 +74,6 @@ public class App {
         headerStyle.setFillPattern(FillPatternType.SQUARES);
 
 
-
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setFontName("Arial");
         font.setFontHeightInPoints((short) 16);
@@ -74,14 +81,12 @@ public class App {
         headerStyle.setFont(font);
 
 
-
-
         Cell headerCell = header.createCell(0);
         headerCell.setCellValue("Bubble sort bla bla bla ");
         headerCell.setCellStyle(headerStyle);
 
         header.createCell(1).setCellStyle(headerStyle);
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,1));
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
 //        headerCell = header.createCell(1);
 //        headerCell.setCellValue("Age");
 //        headerCell.setCellStyle(headerStyle);
@@ -106,12 +111,20 @@ public class App {
         FileOutputStream outputStream = new FileOutputStream(fileLocation);
         workbook.write(outputStream);
         workbook.close();
-
     }
 
-    public static void main(String[] args) throws IOException {
-        final App app = new App();
-//        app.run(args);
-        app.anotherRun();
+    @Override
+    public void close() throws Exception {
+        report.close();
     }
+
+    public static void main(String[] args) {
+        try (final App app = new App()) {
+            app.anotherRun();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
