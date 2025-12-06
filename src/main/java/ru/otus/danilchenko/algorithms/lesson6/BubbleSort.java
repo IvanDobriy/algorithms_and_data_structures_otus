@@ -18,7 +18,7 @@ public class BubbleSort<T> implements ISort<T> {
     public T[] sort(T[] arr) {
         Objects.requireNonNull(arr);
         for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
+            for (int j = arr.length -1 ; j > i; j--) {
                 if (comparator.compare(arr[j - 1], arr[j]) > 0) {
                     swapper.swap(arr, j - 1, j);
                 }
