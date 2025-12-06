@@ -9,6 +9,7 @@ val JUNIT_VERSION = "5.6.2"
 
 plugins {
     java
+    kotlin("jvm")
 }
 
 java {
@@ -26,6 +27,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION")
     testImplementation("org.mockito:mockito-core:5.17.0")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 
