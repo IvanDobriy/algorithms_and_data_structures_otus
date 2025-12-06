@@ -23,11 +23,13 @@ repositories {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.apache.poi:poi:5.5.1")
+    implementation("org.apache.poi:poi-ooxml:5.5.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION")
     testImplementation("org.mockito:mockito-core:5.17.0")
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 
