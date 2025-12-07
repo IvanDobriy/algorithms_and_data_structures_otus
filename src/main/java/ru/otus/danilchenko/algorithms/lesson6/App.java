@@ -16,6 +16,10 @@ import java.util.logging.Logger;
 public class App implements AutoCloseable {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
+    private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
+    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
+    private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
+    private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
 
 
     private void bubbleSortTest(Test.TestRunnerParameters parameters) {
@@ -100,62 +104,62 @@ public class App implements AutoCloseable {
     private void run(String[] args) {
         final var tests = List.of(
                 new Test("Bubble sort random",
-                        Paths.get("./test_cases/lesson6/sorting-tests/0.random"),
+                        RANDOM_TESTS,
                         0, 5,
                         this::bubbleSortTest
                 ),
                 new Test("Bubble sort digits",
-                        Paths.get("./test_cases/lesson6/sorting-tests/1.digits"),
+                        DIGITS_TESTS,
                         0, 5,
                         this::bubbleSortTest
                 ),
                 new Test("Bubble sort sorted",
-                        Paths.get("./test_cases/lesson6/sorting-tests/2.sorted"),
+                        SORTED_TESTS,
                         0, 5,
                         this::bubbleSortTest
                 ),
                 new Test("Bubble sort revers",
-                        Paths.get("./test_cases/lesson6/sorting-tests/3.revers"),
+                        REVERS_TESTS,
                         0, 5,
                         this::bubbleSortTest
                 ),
                 new Test("Insertion sort random",
-                        Paths.get("./test_cases/lesson6/sorting-tests/0.random"),
+                        RANDOM_TESTS,
                         0, 5,
                         this::insertionSortTest
                 ),
                 new Test("Insertion sort digits",
-                        Paths.get("./test_cases/lesson6/sorting-tests/1.digits"),
+                        DIGITS_TESTS,
                         0, 5,
                         this::insertionSortTest
                 ),
                 new Test("Insertion sort sorted",
-                        Paths.get("./test_cases/lesson6/sorting-tests/2.sorted"),
+                        SORTED_TESTS,
                         0, 5,
                         this::insertionSortTest
                 ),
                 new Test("Insertion sort revers",
-                        Paths.get("./test_cases/lesson6/sorting-tests/3.revers"),
+                        REVERS_TESTS,
                         0, 5,
                         this::insertionSortTest
                 ),
                 new Test("Shell sort random",
-                        Paths.get("./test_cases/lesson6/sorting-tests/0.random"),
+                        RANDOM_TESTS,
                         0, 5,
                         this::shellSortTest
                 ),
                 new Test("Shell sort digits",
-                        Paths.get("./test_cases/lesson6/sorting-tests/1.digits"),
+                        DIGITS_TESTS,
                         0, 5,
                         this::shellSortTest
                 ),
                 new Test("Shell sort sorted",
-                        Paths.get("./test_cases/lesson6/sorting-tests/2.sorted"),
+                        SORTED_TESTS,
                         0, 5,
                         this::shellSortTest
                 ),
                 new Test("Shell sort revers",
-                        Paths.get("./test_cases/lesson6/sorting-tests/3.revers"),
+                        REVERS_TESTS,
                         0, 5,
                         this::shellSortTest
                 )
