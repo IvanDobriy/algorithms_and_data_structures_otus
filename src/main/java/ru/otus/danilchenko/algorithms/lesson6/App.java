@@ -1,16 +1,9 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.otus.danilchenko.algorithms.lesson6.report.SimpleSortingReport;
 import ru.otus.danilchenko.algorithms.lesson6.report.SortingReportData;
 import ru.otus.danilchenko.algorithms.test.Test;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -44,7 +37,7 @@ public class App implements AutoCloseable {
         }
         parameters.getOut().println("Test ok");
     }
-    
+
     private void run(String[] args) {
         final var tests = List.of(
                 new Test("Bubble sort random",
