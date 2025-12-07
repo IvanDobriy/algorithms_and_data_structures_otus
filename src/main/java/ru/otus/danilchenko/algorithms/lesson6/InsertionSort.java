@@ -18,8 +18,9 @@ public class InsertionSort<T> implements ISort<T> {
         Objects.requireNonNull(arr);
         for (int i = 1; i < arr.length; i++) {
             for (int j = i - 1; j >= 0; j--) {
-                if (comparator.compare(arr[j+1], arr[j]) > 0) {
+                if (comparator.compare(arr[j], arr[j + 1]) > 0) {
                     swapper.swap(arr, j, j + 1);
+                    continue;
                 }
                 break;
             }
