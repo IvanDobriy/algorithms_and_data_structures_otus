@@ -26,6 +26,10 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.apache.poi:poi:5.5.1")
     implementation("org.apache.poi:poi-ooxml:5.5.1")
+
+    implementation("org.apache.logging.log4j:log4j-api:2.25.2")
+
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION")
     testImplementation("org.junit.jupiter:junit-jupiter-params:$JUNIT_VERSION")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION")

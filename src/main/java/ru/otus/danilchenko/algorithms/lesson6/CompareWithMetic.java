@@ -3,7 +3,7 @@ package ru.otus.danilchenko.algorithms.lesson6;
 import java.util.Objects;
 
 public class CompareWithMetic<T> implements IComparator<T> {
-    private final String TAG = "comparing";
+    final static String TAG = "comparing";
     private final IComparator<T> comparator;
     private final IMetriс metriс;
 

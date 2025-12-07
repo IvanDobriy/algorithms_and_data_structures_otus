@@ -3,7 +3,7 @@ package ru.otus.danilchenko.algorithms.lesson6;
 import java.util.Objects;
 
 public class SwapWithMetrics<T> implements ISwap<T> {
-    private final static String TAG = "exchange";
+    final static String TAG = "exchange";
     private final ISwap<T> swapper;
     private final IMetriс metriс;
 

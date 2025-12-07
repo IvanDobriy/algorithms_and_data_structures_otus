@@ -23,10 +23,11 @@ public class App implements AutoCloseable {
 
 
     private void bubbleSortTest(Test.TestRunnerParameters parameters) {
+        int size = Integer.parseInt(parameters.getInputData()[0]);
         Integer[] arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
         Integer[] expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
 
-        final var metric = new Metric("bubble sort");
+        final var metric = new Metric("Bubble sort");
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
@@ -34,7 +35,9 @@ public class App implements AutoCloseable {
 
         final var result = bubbleSort.sort(arr);
 
-        report.addReportData("bubbleSort", new SortingReportData());
+        final var metricResult = metric.getMetrics();
+        report.addReportData("bubbleSort", parameters.getCasePath().toString(),
+                new SortingReportData(size, metricResult.get(CompareWithMetic.TAG), metricResult.get(SwapWithMetrics.TAG)));
         if (!Arrays.deepEquals(expected, result)) {
             parameters.getOut().println(String.format("Test err"));
             return;
@@ -115,16 +118,15 @@ public class App implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        report.build();
         report.close();
     }
 
     public static void main(String[] args) {
         try (final App app = new App()) {
-            app.anotherRun();
+            app.run(args);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }
