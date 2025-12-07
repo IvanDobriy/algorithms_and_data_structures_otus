@@ -29,8 +29,11 @@ public class App implements AutoCloseable {
         final var result = bubbleSort.sort(arr);
 
         final var metricResult = metric.getMetrics();
+        final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
+        final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
         report.addReportData("bubbleSort", parameters.getCasePath().toString(),
-                new SortingReportData(size, metricResult.get(CompareWithMetic.TAG), metricResult.get(SwapWithMetrics.TAG)));
+                new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
+                        exchangeMetrics == null ? 0 : exchangeMetrics));
         if (!Arrays.deepEquals(expected, result)) {
             parameters.getOut().println(String.format("Test err"));
             return;
@@ -47,6 +50,16 @@ public class App implements AutoCloseable {
                 ),
                 new Test("Bubble sort digits",
                         Paths.get("./test_cases/lesson6/sorting-tests/1.digits"),
+                        0, 5,
+                        this::bubbleSortTest
+                ),
+                new Test("Bubble sort sorted",
+                        Paths.get("./test_cases/lesson6/sorting-tests/2.sorted"),
+                        0, 5,
+                        this::bubbleSortTest
+                ),
+                new Test("Bubble sort revers",
+                        Paths.get("./test_cases/lesson6/sorting-tests/3.revers"),
                         0, 5,
                         this::bubbleSortTest
                 )

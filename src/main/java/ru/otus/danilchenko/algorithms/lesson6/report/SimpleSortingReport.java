@@ -129,7 +129,7 @@ public class SimpleSortingReport implements AutoCloseable {
     private void createComparisonsRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
         createRow(sheet, index, "Сравнения: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
-            cell.setCellValue(reportData.getArraySize());
+            cell.setCellValue(reportData.getNumberOfComparisons());
         });
     }
 
