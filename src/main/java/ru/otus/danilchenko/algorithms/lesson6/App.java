@@ -58,11 +58,10 @@ public class App implements AutoCloseable {
 
         private void prepareReport() {
             final var metricResult = metric.getMetrics();
-            final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
-            final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
+            final var compareMetrics = metricResult.getOrDefault(CompareWithMetic.TAG, 0);
+            final var exchangeMetrics = metricResult.getOrDefault(SwapWithMetrics.TAG, 0);
             report.addReportData(name, parameters.getCasePath().toString(),
-                    new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
-                            exchangeMetrics == null ? 0 : exchangeMetrics));
+                    new SortingReportData(size, compareMetrics, exchangeMetrics));
         }
 
         public void run() {
@@ -77,7 +76,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new BubbleSort<>(comparator, swapper) );
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new BubbleSort<>(comparator, swapper));
         testFlow.run();
     }
 
@@ -88,7 +87,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new InsertionSort<>(comparator, swapper) );
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new InsertionSort<>(comparator, swapper));
         testFlow.run();
     }
 
@@ -98,7 +97,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShellSort<>(comparator, swapper) );
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShellSort<>(comparator, swapper));
         testFlow.run();
     }
 
