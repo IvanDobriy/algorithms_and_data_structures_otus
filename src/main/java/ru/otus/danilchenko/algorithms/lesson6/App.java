@@ -11,10 +11,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Objects;
 
 public class App implements AutoCloseable {
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
     private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
@@ -22,83 +21,85 @@ public class App implements AutoCloseable {
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
 
 
-    private void bubbleSortTest(Test.TestRunnerParameters parameters) {
-        int size = Integer.parseInt(parameters.getInputData()[0]);
-        Integer[] arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-        Integer[] expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+    private class TestWorkFlow {
+        private final Test.TestRunnerParameters parameters;
+        private final int size;
+        private final Integer[] arr;
+        private final Integer[] expected;
+        private final ISort<Integer> sort;
+        private final String name;
+        private final Metric metric;
 
-        final var metric = new Metric("Bubble sort");
+
+        public TestWorkFlow(String name, Test.TestRunnerParameters parameters, Metric metric, ISort<Integer> sort) {
+            Objects.requireNonNull(name);
+            Objects.requireNonNull(parameters);
+            Objects.requireNonNull(sort);
+            Objects.requireNonNull(metric);
+
+            this.metric = metric;
+            this.name = name;
+            this.sort = sort;
+            this.parameters = parameters;
+            size = Integer.parseInt(parameters.getInputData()[0]);
+            arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+            expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+        }
+
+        private void executeTest() {
+            final var result = sort.sort(arr);
+            if (!Arrays.deepEquals(expected, result)) {
+                parameters.getOut().println(String.format("Test err"));
+                return;
+            }
+            parameters.getOut().println("Test ok");
+
+        }
+
+        private void prepareReport() {
+            final var metricResult = metric.getMetrics();
+            final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
+            final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
+            report.addReportData(name, parameters.getCasePath().toString(),
+                    new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
+                            exchangeMetrics == null ? 0 : exchangeMetrics));
+        }
+
+        public void run() {
+            executeTest();
+            prepareReport();
+        }
+    }
+
+    private void bubbleSortTest(Test.TestRunnerParameters parameters) {
+        final var name = "Bubble sort";
+        final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var bubbleSort = new BubbleSort<Integer>(comparator, swapper);
-
-        final var result = bubbleSort.sort(arr);
-
-        final var metricResult = metric.getMetrics();
-        final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
-        final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
-        report.addReportData("bubbleSort", parameters.getCasePath().toString(),
-                new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
-                        exchangeMetrics == null ? 0 : exchangeMetrics));
-        if (!Arrays.deepEquals(expected, result)) {
-            parameters.getOut().println(String.format("Test err"));
-            return;
-        }
-        parameters.getOut().println("Test ok");
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new BubbleSort<>(comparator, swapper) );
+        testFlow.run();
     }
 
 
     private void insertionSortTest(Test.TestRunnerParameters parameters) {
-        int size = Integer.parseInt(parameters.getInputData()[0]);
-        Integer[] arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-        Integer[] expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-
-        final var metric = new Metric("Insertion sort");
+        final var name = "Insertion sort";
+        final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var insertionSort = new InsertionSort<Integer>(comparator, swapper);
-
-        final var result = insertionSort.sort(arr);
-
-        final var metricResult = metric.getMetrics();
-        final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
-        final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
-        report.addReportData("insertionSort", parameters.getCasePath().toString(),
-                new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
-                        exchangeMetrics == null ? 0 : exchangeMetrics));
-        if (!Arrays.deepEquals(expected, result)) {
-            parameters.getOut().println(String.format("Test err"));
-            return;
-        }
-        parameters.getOut().println("Test ok");
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new InsertionSort<>(comparator, swapper) );
+        testFlow.run();
     }
 
     private void shellSortTest(Test.TestRunnerParameters parameters) {
-        int size = Integer.parseInt(parameters.getInputData()[0]);
-        Integer[] arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-        Integer[] expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-
-        final var metric = new Metric("Shell sort");
+        final var name = "Shell sort";
+        final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var shellSort = new ShellSort<Integer>(comparator, swapper);
-
-        final var result = shellSort.sort(arr);
-
-        final var metricResult = metric.getMetrics();
-        final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
-        final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
-        report.addReportData("shellSort", parameters.getCasePath().toString(),
-                new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
-                        exchangeMetrics == null ? 0 : exchangeMetrics));
-        if (!Arrays.deepEquals(expected, result)) {
-            parameters.getOut().println(String.format("Test err"));
-            return;
-        }
-        parameters.getOut().println("Test ok");
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShellSort<>(comparator, swapper) );
+        testFlow.run();
     }
 
     private void run(String[] args) {
