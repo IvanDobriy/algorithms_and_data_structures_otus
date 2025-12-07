@@ -152,6 +152,7 @@ public class SimpleSortingReport implements AutoCloseable {
 
     public void addReportData(String sheetName, String testCase, SortingReportData sortingReportData) {
         Objects.requireNonNull(sheetName);
+        Objects.requireNonNull(testCase);
         Objects.requireNonNull(sortingReportData);
         Map<String, List<SortingReportData>> sheet = reports.getOrDefault(sheetName, new HashMap<>());
         List<SortingReportData> tableData = sheet.getOrDefault(testCase, new ArrayList<>());

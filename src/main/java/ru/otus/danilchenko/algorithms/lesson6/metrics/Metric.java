@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson6;
+package ru.otus.danilchenko.algorithms.lesson6.metrics;
 
 import java.util.HashMap;
 import java.util.Map;

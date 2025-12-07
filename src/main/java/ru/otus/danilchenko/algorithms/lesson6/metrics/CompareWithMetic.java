@@ -1,9 +1,11 @@
-package ru.otus.danilchenko.algorithms.lesson6;
+package ru.otus.danilchenko.algorithms.lesson6.metrics;
+
+import ru.otus.danilchenko.algorithms.lesson6.IComparator;
 
 import java.util.Objects;
 
 public class CompareWithMetic<T> implements IComparator<T> {
-    final static String TAG = "comparing";
+    public final static String TAG = "comparing";
     private final IComparator<T> comparator;
     private final IMetriс metriс;
 

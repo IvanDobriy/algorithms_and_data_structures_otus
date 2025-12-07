@@ -1,5 +1,8 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
+import ru.otus.danilchenko.algorithms.lesson6.metrics.CompareWithMetic;
+import ru.otus.danilchenko.algorithms.lesson6.metrics.Metric;
+import ru.otus.danilchenko.algorithms.lesson6.metrics.SwapWithMetrics;
 import ru.otus.danilchenko.algorithms.lesson6.report.SimpleSortingReport;
 import ru.otus.danilchenko.algorithms.lesson6.report.SortingReportData;
 import ru.otus.danilchenko.algorithms.test.Test;
@@ -41,6 +44,33 @@ public class App implements AutoCloseable {
         parameters.getOut().println("Test ok");
     }
 
+
+    private void insertionSortTest(Test.TestRunnerParameters parameters) {
+        int size = Integer.parseInt(parameters.getInputData()[0]);
+        Integer[] arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+        Integer[] expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
+
+        final var metric = new Metric("Insertion sort");
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
+        final var insertionSort = new InsertionSort<Integer>(comparator, swapper);
+
+        final var result = insertionSort.sort(arr);
+
+        final var metricResult = metric.getMetrics();
+        final var compareMetrics = metricResult.get(CompareWithMetic.TAG);
+        final var exchangeMetrics = metricResult.get(SwapWithMetrics.TAG);
+        report.addReportData("insertionSort", parameters.getCasePath().toString(),
+                new SortingReportData(size, compareMetrics == null ? 0 : compareMetrics,
+                        exchangeMetrics == null ? 0 : exchangeMetrics));
+        if (!Arrays.deepEquals(expected, result)) {
+            parameters.getOut().println(String.format("Test err"));
+            return;
+        }
+        parameters.getOut().println("Test ok");
+    }
+
     private void run(String[] args) {
         final var tests = List.of(
                 new Test("Bubble sort random",
@@ -62,6 +92,26 @@ public class App implements AutoCloseable {
                         Paths.get("./test_cases/lesson6/sorting-tests/3.revers"),
                         0, 5,
                         this::bubbleSortTest
+                ),
+                new Test("Insertion sort random",
+                        Paths.get("./test_cases/lesson6/sorting-tests/0.random"),
+                        0, 5,
+                        this::insertionSortTest
+                ),
+                new Test("Insertion sort digits",
+                        Paths.get("./test_cases/lesson6/sorting-tests/1.digits"),
+                        0, 5,
+                        this::insertionSortTest
+                ),
+                new Test("Insertion sort sorted",
+                        Paths.get("./test_cases/lesson6/sorting-tests/2.sorted"),
+                        0, 5,
+                        this::insertionSortTest
+                ),
+                new Test("Insertion sort revers",
+                        Paths.get("./test_cases/lesson6/sorting-tests/3.revers"),
+                        0, 5,
+                        this::insertionSortTest
                 )
         );
         for (var test : tests) {
