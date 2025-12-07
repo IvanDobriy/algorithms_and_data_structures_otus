@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class App implements AutoCloseable {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
-    private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./simpleReport.xls"));
+    private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
 
 
     private void bubbleSortTest(Test.TestRunnerParameters parameters) {
