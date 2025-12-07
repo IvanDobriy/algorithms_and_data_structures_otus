@@ -41,7 +41,7 @@ public class SimpleSortingReport implements AutoCloseable {
         namesStyle.setBorderRight(BorderStyle.THIN);
         namesStyle.setBorderTop(BorderStyle.THIN);
         namesStyle.setBorderBottom(BorderStyle.THIN);
-        namesStyle.setFillForegroundColor(IndexedColors.BLUE.getIndex());
+        namesStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
         namesStyle.setFillPattern(FillPatternType.SQUARES);
         namesStyle.setFont(font);
         namesStyle.setAlignment(HorizontalAlignment.RIGHT);
@@ -97,7 +97,7 @@ public class SimpleSortingReport implements AutoCloseable {
         for (int i = position; i < size; i++) {
             header.createCell(i).setCellStyle(headerStyle);
         }
-        sheet.addMergedRegion(new CellRangeAddress(index, index, 0, size - 1));
+        sheet.addMergedRegion(new CellRangeAddress(index, index, 0, size));
     }
 
 
@@ -120,21 +120,21 @@ public class SimpleSortingReport implements AutoCloseable {
     }
 
     private void createExchangeRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
-        createRow(sheet, index, "обмены", reportDataList, (reportData, cell) -> {
+        createRow(sheet, index, "Обмены: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
             cell.setCellValue(reportData.getNumberOfExchanges());
         });
     }
 
     private void createComparisonsRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
-        createRow(sheet, index, "сравнения", reportDataList, (reportData, cell) -> {
+        createRow(sheet, index, "Сравнения: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
             cell.setCellValue(reportData.getArraySize());
         });
     }
 
     private void createArrSizeRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
-        createRow(sheet, index, "размер", reportDataList, (reportData, cell) -> {
+        createRow(sheet, index, "Размер: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
             cell.setCellValue(reportData.getArraySize());
         });
