@@ -68,6 +68,8 @@ public class App implements AutoCloseable {
 
         Row header = sheet.createRow(0);
 
+
+
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setBorderLeft(BorderStyle.THIN);
         headerStyle.setBorderRight(BorderStyle.THIN);
@@ -75,6 +77,7 @@ public class App implements AutoCloseable {
         headerStyle.setBorderBottom(BorderStyle.THIN);
         headerStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
         headerStyle.setFillPattern(FillPatternType.SQUARES);
+        headerStyle.setWrapText(true);
 
 
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();

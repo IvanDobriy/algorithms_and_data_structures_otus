@@ -17,8 +17,12 @@ public class SimpleSortingReport implements AutoCloseable {
     private final Path path;
     private final Map<String, Map<String, List<SortingReportData>>> reports;
     private final CellStyle headerStyle;
+    private final CellStyle namesStyle;
+    private final CellStyle valuesStyle;
     private final XSSFFont font;
     private final Map<Sheet, Integer> nextTablePosition;
+    private final static  int COLUMN_SIZE = 4000;
+
 
     private void prepareHeaderCellStyle() {
         headerStyle.setBorderLeft(BorderStyle.THIN);
@@ -28,7 +32,34 @@ public class SimpleSortingReport implements AutoCloseable {
         headerStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
         headerStyle.setFillPattern(FillPatternType.SQUARES);
         headerStyle.setFont(font);
+        headerStyle.setAlignment(HorizontalAlignment.CENTER);
+        headerStyle.setWrapText(true);
     }
+
+    private void prepareNamesCellStyle() {
+        namesStyle.setBorderLeft(BorderStyle.THIN);
+        namesStyle.setBorderRight(BorderStyle.THIN);
+        namesStyle.setBorderTop(BorderStyle.THIN);
+        namesStyle.setBorderBottom(BorderStyle.THIN);
+        namesStyle.setFillForegroundColor(IndexedColors.BLUE.getIndex());
+        namesStyle.setFillPattern(FillPatternType.SQUARES);
+        namesStyle.setFont(font);
+        namesStyle.setAlignment(HorizontalAlignment.RIGHT);
+        namesStyle.setWrapText(true);
+    }
+
+    private void prepareValuesCellStyle() {
+        valuesStyle.setBorderLeft(BorderStyle.THIN);
+        valuesStyle.setBorderRight(BorderStyle.THIN);
+        valuesStyle.setBorderTop(BorderStyle.THIN);
+        valuesStyle.setBorderBottom(BorderStyle.THIN);
+        valuesStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        valuesStyle.setFillPattern(FillPatternType.SQUARES);
+        valuesStyle.setFont(font);
+        valuesStyle.setAlignment(HorizontalAlignment.CENTER);
+        valuesStyle.setWrapText(true);
+    }
+
 
     private void prepareCellFont() {
         font.setFontName("Arial");
@@ -43,9 +74,13 @@ public class SimpleSortingReport implements AutoCloseable {
         workbook = new XSSFWorkbook();
         reports = new HashMap<>();
         headerStyle = workbook.createCellStyle();
+        namesStyle = workbook.createCellStyle();
+        valuesStyle = workbook.createCellStyle();
         font = ((XSSFWorkbook) workbook).createFont();
         prepareCellFont();
         prepareHeaderCellStyle();
+        prepareNamesCellStyle();
+        prepareValuesCellStyle();
     }
 
     private Sheet createSheet(String name) {
@@ -53,19 +88,66 @@ public class SimpleSortingReport implements AutoCloseable {
         return sheet;
     }
 
-    private void createTableNameHeader(String name, Sheet sheet, int index) {
+    private void createTableNameHeader(String name, Sheet sheet, int size, int index) {
         Row header = sheet.createRow(index);
-        Cell headerCell = header.createCell(0);
+        int position = 0;
+        Cell headerCell = header.createCell(position++);
         headerCell.setCellStyle(headerStyle);
         headerCell.setCellValue(name);
-        header.createCell(1);
-        sheet.addMergedRegion(new CellRangeAddress(index, index, 0, 1));
+        for (int i = position; i < size; i++) {
+            header.createCell(i).setCellStyle(headerStyle);
+        }
+        sheet.addMergedRegion(new CellRangeAddress(index, index, 0, size - 1));
     }
+
+
+    private interface Callback {
+        void run(SortingReportData sortingReportData, Cell cell);
+    }
+
+    private void createRow(Sheet sheet, int index, String name, List<SortingReportData> reportDataList, Callback callback) {
+        Row row = sheet.createRow(index);
+        int position = 0;
+        sheet.setColumnWidth(position, COLUMN_SIZE);
+        Cell nameCell = row.createCell(position++);
+        nameCell.setCellValue(name);
+        nameCell.setCellStyle(namesStyle);
+        for (var reportData : reportDataList) {
+            Cell cell = row.createCell(position++);
+            callback.run(reportData, cell);
+            sheet.setColumnWidth(position, COLUMN_SIZE);
+        }
+    }
+
+    private void createExchangeRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
+        createRow(sheet, index, "обмены", reportDataList, (reportData, cell) -> {
+            cell.setCellStyle(valuesStyle);
+            cell.setCellValue(reportData.getNumberOfExchanges());
+        });
+    }
+
+    private void createComparisonsRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
+        createRow(sheet, index, "сравнения", reportDataList, (reportData, cell) -> {
+            cell.setCellStyle(valuesStyle);
+            cell.setCellValue(reportData.getArraySize());
+        });
+    }
+
+    private void createArrSizeRow(Sheet sheet, List<SortingReportData> reportDataList, int index) {
+        createRow(sheet, index, "размер", reportDataList, (reportData, cell) -> {
+            cell.setCellStyle(valuesStyle);
+            cell.setCellValue(reportData.getArraySize());
+        });
+    }
+
 
     private void createTable(Sheet sheet, String tableName, List<SortingReportData> reportDataList) {
         int rowPosition = nextTablePosition.getOrDefault(sheet, 0);
-        nextTablePosition.put(sheet, rowPosition + 6);
-        createTableNameHeader(tableName, sheet, rowPosition + 1);
+        createTableNameHeader(tableName, sheet, reportDataList.size(), rowPosition++);
+        createArrSizeRow(sheet, reportDataList, rowPosition++);
+        createExchangeRow(sheet, reportDataList, rowPosition++);
+        createComparisonsRow(sheet, reportDataList, rowPosition++);
+        nextTablePosition.put(sheet, rowPosition + 1);
     }
 
     public void addReportData(String sheetName, String testCase, SortingReportData sortingReportData) {
