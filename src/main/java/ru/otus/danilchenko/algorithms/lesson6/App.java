@@ -9,9 +9,7 @@ import ru.otus.danilchenko.algorithms.test.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class App implements AutoCloseable {
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
@@ -19,9 +17,11 @@ public class App implements AutoCloseable {
     private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
+    private final static int MAX_CASES = 5;
 
 
     private class TestWorkFlow {
+
         private final Test.TestRunnerParameters parameters;
         private final int size;
         private final Integer[] arr;
@@ -29,7 +29,6 @@ public class App implements AutoCloseable {
         private final ISort<Integer> sort;
         private final String name;
         private final Metric metric;
-
 
         public TestWorkFlow(String name, Test.TestRunnerParameters parameters, Metric metric, ISort<Integer> sort) {
             Objects.requireNonNull(name);
@@ -111,89 +110,54 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void shiftedInsertionSortTest(Test.TestRunnerParameters parameters) {
+        final var name = "Shifted insertion sort";
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShiftedInsertionSort<>(comparator, swapper));
+        testFlow.run();
+    }
+
+    private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
+        final List<Test> tests = new ArrayList<>();
+        for (var runner : runners) {
+            tests.addAll(List.of(
+                    new Test(runner.getKey() + " random",
+                            RANDOM_TESTS,
+                            0, MAX_CASES,
+                            runner.getValue()
+                    ),
+                    new Test(runner.getKey() + " digits",
+                            DIGITS_TESTS,
+                            0, MAX_CASES,
+                            runner.getValue()
+                    ),
+                    new Test(runner.getKey() + " sorted",
+                            SORTED_TESTS,
+                            0, MAX_CASES,
+                            runner.getValue()
+                    ),
+                    new Test(runner.getKey() + " revers",
+                            REVERS_TESTS,
+                            0, MAX_CASES,
+                            runner.getValue()
+                    )
+            ));
+        }
+        return tests;
+    }
+
     private void run(String[] args) {
-        final var tests = List.of(
-                new Test("Bubble sort random",
-                        RANDOM_TESTS,
-                        0, 5,
-                        this::bubbleSortTest
-                ),
-                new Test("Bubble sort digits",
-                        DIGITS_TESTS,
-                        0, 5,
-                        this::bubbleSortTest
-                ),
-                new Test("Bubble sort sorted",
-                        SORTED_TESTS,
-                        0, 5,
-                        this::bubbleSortTest
-                ),
-                new Test("Bubble sort revers",
-                        REVERS_TESTS,
-                        0, 5,
-                        this::bubbleSortTest
-                ),
-                new Test("Insertion sort random",
-                        RANDOM_TESTS,
-                        0, 5,
-                        this::insertionSortTest
-                ),
-                new Test("Insertion sort digits",
-                        DIGITS_TESTS,
-                        0, 5,
-                        this::insertionSortTest
-                ),
-                new Test("Insertion sort sorted",
-                        SORTED_TESTS,
-                        0, 5,
-                        this::insertionSortTest
-                ),
-                new Test("Insertion sort revers",
-                        REVERS_TESTS,
-                        0, 5,
-                        this::insertionSortTest
-                ),
-                new Test("Shell sort random",
-                        RANDOM_TESTS,
-                        0, 5,
-                        this::shellSortTest
-                ),
-                new Test("Shell sort digits",
-                        DIGITS_TESTS,
-                        0, 5,
-                        this::shellSortTest
-                ),
-                new Test("Shell sort sorted",
-                        SORTED_TESTS,
-                        0, 5,
-                        this::shellSortTest
-                ),
-                new Test("Shell sort revers",
-                        REVERS_TESTS,
-                        0, 5,
-                        this::shellSortTest
-                ),
-                new Test("Optimized bubble sort random",
-                        RANDOM_TESTS,
-                        0, 5,
-                        this::optimizedBubbleSortTest
-                ),
-                new Test("Optimized bubble sort digits",
-                        DIGITS_TESTS,
-                        0, 5,
-                        this::optimizedBubbleSortTest
-                ),
-                new Test("Optimized bubble sort sorted",
-                        SORTED_TESTS,
-                        0, 5,
-                        this::optimizedBubbleSortTest
-                ),
-                new Test("Optimized bubble sort revers",
-                        REVERS_TESTS,
-                        0, 5,
-                        this::optimizedBubbleSortTest
-                )
-        );
+        final var tests = prepareTests(List.of(
+                new AbstractMap.SimpleEntry<>("Bubble sort", this::bubbleSortTest),
+                new AbstractMap.SimpleEntry<>("Insertion sort", this::insertionSortTest),
+                new AbstractMap.SimpleEntry<>("Shell sort", this::shellSortTest),
+                new AbstractMap.SimpleEntry<>("Optimized bubble sort", this::optimizedBubbleSortTest),
+                new AbstractMap.SimpleEntry<>("Shifted insertion sort", this::shiftedInsertionSortTest)
+
+        ));
         for (var test : tests) {
             test.run();
         }

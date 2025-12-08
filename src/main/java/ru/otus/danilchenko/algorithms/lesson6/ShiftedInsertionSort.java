@@ -26,6 +26,6 @@ public class ShiftedInsertionSort<T> implements ISort<T> {
                 break;
             }
         }
-        return null;
+        return arr;
     }
 }
