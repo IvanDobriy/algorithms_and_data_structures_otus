@@ -101,6 +101,16 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void optimizedBubbleSortTest(Test.TestRunnerParameters parameters) {
+        final var name = "Optimized bubble sort";
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new OptimizedBubbleSort<>(comparator, swapper));
+        testFlow.run();
+    }
+
     private void run(String[] args) {
         final var tests = List.of(
                 new Test("Bubble sort random",
@@ -162,6 +172,26 @@ public class App implements AutoCloseable {
                         REVERS_TESTS,
                         0, 5,
                         this::shellSortTest
+                ),
+                new Test("Optimized bubble sort random",
+                        RANDOM_TESTS,
+                        0, 5,
+                        this::optimizedBubbleSortTest
+                ),
+                new Test("Optimized bubble sort digits",
+                        DIGITS_TESTS,
+                        0, 5,
+                        this::optimizedBubbleSortTest
+                ),
+                new Test("Optimized bubble sort sorted",
+                        SORTED_TESTS,
+                        0, 5,
+                        this::optimizedBubbleSortTest
+                ),
+                new Test("Optimized bubble sort revers",
+                        REVERS_TESTS,
+                        0, 5,
+                        this::optimizedBubbleSortTest
                 )
         );
         for (var test : tests) {
