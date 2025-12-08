@@ -1,6 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
 import ru.otus.danilchenko.algorithms.lesson6.metrics.CompareWithMetic;
+import ru.otus.danilchenko.algorithms.lesson6.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.lesson6.metrics.Metric;
 import ru.otus.danilchenko.algorithms.lesson6.metrics.SwapWithMetrics;
 import ru.otus.danilchenko.algorithms.lesson6.report.SimpleSortingReport;
@@ -58,7 +59,7 @@ public class App implements AutoCloseable {
         private void prepareReport() {
             final var metricResult = metric.getMetrics();
             final var compareMetrics = metricResult.getOrDefault(CompareWithMetic.TAG, 0);
-            final var exchangeMetrics = metricResult.getOrDefault(SwapWithMetrics.TAG, 0);
+            final var exchangeMetrics = metricResult.getOrDefault(ExchangeMetrics.TAG, 0);
             report.addReportData(name, parameters.getCasePath().toString(),
                     new SortingReportData(size, compareMetrics, exchangeMetrics));
         }
@@ -115,8 +116,8 @@ public class App implements AutoCloseable {
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
-        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShiftedInsertionSort<>(comparator, swapper));
+        final var exchangeMetric = new ExchangeMetrics(metric);
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShiftedInsertionSort<>(comparator, exchangeMetric));
         testFlow.run();
     }
 
@@ -151,13 +152,13 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-                new AbstractMap.SimpleEntry<>("Bubble sort", this::bubbleSortTest),
-                new AbstractMap.SimpleEntry<>("Insertion sort", this::insertionSortTest),
-                new AbstractMap.SimpleEntry<>("Shell sort", this::shellSortTest),
-                new AbstractMap.SimpleEntry<>("Optimized bubble sort", this::optimizedBubbleSortTest),
+//                new AbstractMap.SimpleEntry<>("Bubble sort", this::bubbleSortTest),
+//                new AbstractMap.SimpleEntry<>("Insertion sort", this::insertionSortTest),
+//                new AbstractMap.SimpleEntry<>("Shell sort", this::shellSortTest),
+//                new AbstractMap.SimpleEntry<>("Optimized bubble sort", this::optimizedBubbleSortTest),
                 new AbstractMap.SimpleEntry<>("Shifted insertion sort", this::shiftedInsertionSortTest)
-
         ));
+
         for (var test : tests) {
             test.run();
         }

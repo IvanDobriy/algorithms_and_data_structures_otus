@@ -1,30 +1,33 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
+import ru.otus.danilchenko.algorithms.lesson6.metrics.IExchangeCounter;
+
 import java.util.Objects;
 
 public class ShiftedInsertionSort<T> implements ISort<T> {
     private final IComparator<T> comparator;
-    private final ISwap<T> swapper;
+    private final IExchangeCounter exchangeCounter;
 
 
-    public ShiftedInsertionSort(IComparator<T> comparator, ISwap<T> swapper) {
+    public ShiftedInsertionSort(IComparator<T> comparator, IExchangeCounter exchangeCounter) {
         Objects.requireNonNull(comparator);
-        Objects.requireNonNull(swapper);
+        Objects.requireNonNull(exchangeCounter);
         this.comparator = comparator;
-        this.swapper = swapper;
+        this.exchangeCounter = exchangeCounter;
     }
 
     @Override
     public T[] sort(T[] arr) {
         Objects.requireNonNull(arr);
-        for(int i = 1; i < arr.length; i++){
-            for(int j = i -1; j >=0; j--){
-                if(comparator.compare(arr[j], arr[j + 1]) > 0){
-                    swapper.swap(arr, j, j + 1);
-                    continue;
+        int j;
+        for (int i = 1; i < arr.length; i++) {
+            for (j = i - 1; j >= 0; j--) {
+                exchangeCounter.count(1);
+                if (comparator.compare(arr[j], arr[i]) < 0) {
+                    exchangeCounter.count(1);
                 }
-                break;
             }
+
         }
         return arr;
     }
