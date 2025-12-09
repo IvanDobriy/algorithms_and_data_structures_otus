@@ -134,13 +134,13 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
-    private void frankShellSortTest(Test.TestRunnerParameters parameters) {
+    private void frankAndLazarusShellSortTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new FrankShellSort<>(comparator, swapper));
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new FrankAndLazarusShellSort<>(comparator, swapper));
         testFlow.run();
     }
 
@@ -186,7 +186,7 @@ public class App implements AutoCloseable {
 //                new AbstractMap.SimpleEntry<>("4 Shifted insertion sort", this::shiftedInsertionSortTest),
 //                new AbstractMap.SimpleEntry<>("5 Binary search insertion sort", this::binarySearchInsertionSort),
 //                new AbstractMap.SimpleEntry<>("6 Shell sort", this::shellSortTest),
-                new AbstractMap.SimpleEntry<>("7 Frank and Lazarus shell sort", this::frankShellSortTest)
+                new AbstractMap.SimpleEntry<>("7 Frank and Lazarus shell sort", this::frankAndLazarusShellSortTest)
         ));
 
         for (var test : tests) {

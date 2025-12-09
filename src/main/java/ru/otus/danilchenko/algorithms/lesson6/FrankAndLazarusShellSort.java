@@ -4,11 +4,11 @@ import ru.otus.danilchenko.algorithms.lesson3.Pow;
 
 import java.util.Objects;
 
-public class FrankShellSort<T> implements ISort<T> {
+public class FrankAndLazarusShellSort<T> implements ISort<T> {
     private final IComparator<T> comparator;
     private final ISwap<T> swapper;
 
-    public FrankShellSort(IComparator<T> comparator, ISwap<T> swapper) {
+    public FrankAndLazarusShellSort(IComparator<T> comparator, ISwap<T> swapper) {
         Objects.requireNonNull(comparator);
         Objects.requireNonNull(swapper);
         this.comparator = comparator;
