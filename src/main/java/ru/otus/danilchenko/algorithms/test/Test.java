@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class Test {
     private final String testName;
+    private final String caseName;
     private final TestRunner testRunner;
     private final Path testCasesPath;
     private final int initialCaseNumber;
@@ -22,12 +23,24 @@ public class Test {
         private final String[] expectedData;
         private final PrintStream out;
         private final Path casePath;
+        private final String testName;
 
-        public TestRunnerParameters(String[] inputData, String[] expectedData, PrintStream out, Path casePath) {
+        public TestRunnerParameters(String[] inputData, String[] expectedData, PrintStream out, Path casePath, String testName) {
+            Objects.requireNonNull(inputData);
+            Objects.requireNonNull(expectedData);
+            Objects.requireNonNull(out);
+            Objects.requireNonNull(casePath);
+            Objects.requireNonNull(testName);
+
             this.inputData = inputData;
             this.expectedData = expectedData;
             this.out = out;
             this.casePath = casePath;
+            this.testName = testName;
+        }
+
+        public String getTestName() {
+            return testName;
         }
 
         public String[] getInputData() {
@@ -76,11 +89,13 @@ public class Test {
         return Files.exists(testCasesPath) && Files.isRegularFile(testCasesPath);
     }
 
-    public Test(String testName, Path testCasesPath, int initialCaseNumber, int numberOfCases, TestRunner testRunner) {
+    public Test(String testName, String caseName, Path testCasesPath, int initialCaseNumber, int numberOfCases, TestRunner testRunner) {
         Objects.requireNonNull(testName);
+        Objects.requireNonNull(caseName);
         Objects.requireNonNull(testRunner);
         Objects.requireNonNull(testCasesPath);
         this.testName = testName;
+        this.caseName = caseName;
         this.testRunner = testRunner;
         this.testCasesPath = testCasesPath;
         this.initialCaseNumber = initialCaseNumber;
@@ -91,7 +106,7 @@ public class Test {
     public void run() {
         Path inputTestCasePath;
         Path outputTestCasePath;
-        out.println(String.format("############################## Test: %s ##############################", testName));
+        out.println(String.format("############################## Test: %s %s ##############################", testName, caseName));
         for (int caseNumber = initialCaseNumber; caseNumber < numberOfCases; caseNumber++) {
             long beforeExecutingTestTimeStamp = System.nanoTime();
             try {
@@ -101,7 +116,7 @@ public class Test {
                     return;
                 }
                 out.println(String.format("======================= test case: %s ====================", caseNumber));
-                testRunner.run(new TestRunnerParameters(getTestCaseData(inputTestCasePath), getTestCaseData(outputTestCasePath), out, testCasesPath));
+                testRunner.run(new TestRunnerParameters(getTestCaseData(inputTestCasePath), getTestCaseData(outputTestCasePath), out, testCasesPath, testName));
             } catch (Throwable e) {
                 out.println(String.format("Unexpected exception: %s, stack trace: %s", e.getMessage(), Arrays.toString(e.getStackTrace())));
             } finally {

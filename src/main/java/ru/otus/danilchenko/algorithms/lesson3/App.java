@@ -176,91 +176,91 @@ public class App {
 
     public static void main(String[] args) {
         final var tests = List.of(new Test(
-                        "Simple iteration pow test",
+                        "Simple iteration pow test", "",
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, 9,
                         App::simpleIterationPowTest
                 )
                 , new Test(
-                        "Iteration pow test",
+                        "Iteration pow test", "",
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, 9,
                         App::iterationPowTest
                 )
                 , new Test(
-                        "Two pow test",
+                        "Two pow test", "",
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, Integer.MAX_VALUE,
                         App::twoPowTest
                 ),
                 new Test(
-                        "Bin pow test",
+                        "Bin pow test", "",
                         Paths.get("./test_cases/lesson3/3.Power"),
                         0, Integer.MAX_VALUE,
                         App::binPowTest
                 ),
                 new Test(
-                        "Fibonacci simple recursion test",
+                        "Fibonacci simple recursion test", "",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 7,
                         App::simpleFibonacciRecursionTest
                 ),
                 new Test(
-                        "Fibonacci iteration test",
+                        "Fibonacci iteration test", "",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 11,
                         App::iterationFibonacciRecursionTest
                 ),
                 new Test(
-                        "Fibonacci golden ratio test",
+                        "Fibonacci golden ratio test", "",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 12,
                         App::goldenRatioFibonacciRecursionTest
                 ),
                 new Test(
-                        "Fibonacci matrix test",
+                        "Fibonacci matrix test", "",
                         Paths.get("./test_cases/lesson3/4.Fibo"),
                         0, 11,
                         App::matrixFibonacciTest
                 ),
                 new Test(
-                        "Prime numbers counting by enumerating divisors test",
+                        "Prime numbers counting by enumerating divisors test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEnumeratingDivisorsTest
                 ),
                 new Test(
-                        "Prime numbers counting by enumerating only odd divisors test",
+                        "Prime numbers counting by enumerating only odd divisors test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEnumeratingOnlyOddDivisors
                 ),
                 new Test(
-                        "Prime numbers counting by enumerating to its square root test",
+                        "Prime numbers counting by enumerating to its square root test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEnumeratingToItsSquareRoot
                 ),
                 new Test(
-                        "Prime numbers counting by eratosthenes sieve test",
+                        "Prime numbers counting by eratosthenes sieve test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEratosthenesSieve
                 ),
                 new Test(
-                        "Prime numbers counting by eratosthenes sieve with bitmap test",
+                        "Prime numbers counting by eratosthenes sieve with bitmap test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEratosthenesSieveBitmap
                 ),
                 new Test(
-                        "Prime numbers counting by eratosthenes sieve with bitmap test",
+                        "Prime numbers counting by eratosthenes sieve with bitmap test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEratosthenesSieveBitmap
                 ),
                 new Test(
-                        "Prime numbers counting by eratosthenes sieve with odd bitmap test",
+                        "Prime numbers counting by eratosthenes sieve with odd bitmap test", "",
                         Paths.get("./test_cases/lesson3/5.Primes"),
                         0, 10,
                         App::countPrimeNumbersByEratosthenesSieveOddBitmap

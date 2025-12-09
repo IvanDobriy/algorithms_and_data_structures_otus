@@ -30,12 +30,12 @@ public class App {
 
     public static void main(String[] args) {
         final var tests = List.of(new Test(
-                        "Tickets",
+                        "Tickets", "",
                         Paths.get("./test_cases/lesson2/1.Tickets"),
                         0, Integer.MAX_VALUE,
                         App::ticketsTest
                 ), new Test(
-                        "Strings",
+                        "Strings", "",
                         Paths.get("./test_cases/lesson2/0.String"),
                         0, Integer.MAX_VALUE,
                         App::stringTest

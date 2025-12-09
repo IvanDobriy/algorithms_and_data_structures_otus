@@ -71,7 +71,7 @@ public class App implements AutoCloseable {
     }
 
     private void bubbleSortTest(Test.TestRunnerParameters parameters) {
-        final var name = "Bubble sort";
+        final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
@@ -82,7 +82,7 @@ public class App implements AutoCloseable {
 
 
     private void insertionSortTest(Test.TestRunnerParameters parameters) {
-        final var name = "Insertion sort";
+        final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
@@ -92,7 +92,7 @@ public class App implements AutoCloseable {
     }
 
     private void shellSortTest(Test.TestRunnerParameters parameters) {
-        final var name = "Shell sort";
+        final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
@@ -102,7 +102,7 @@ public class App implements AutoCloseable {
     }
 
     private void optimizedBubbleSortTest(Test.TestRunnerParameters parameters) {
-        final var name = "Optimized bubble sort";
+        final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
@@ -112,7 +112,7 @@ public class App implements AutoCloseable {
     }
 
     private void shiftedInsertionSortTest(Test.TestRunnerParameters parameters) {
-        final var name = "Shifted insertion sort";
+        final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
@@ -122,7 +122,7 @@ public class App implements AutoCloseable {
     }
 
     private void binarySearchInsertionSort(Test.TestRunnerParameters parameters) {
-        final var name = "Binary search insertion sort";
+        final var name = parameters.getTestName();
         final var metric = new Metric(name);
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
@@ -136,22 +136,26 @@ public class App implements AutoCloseable {
         final List<Test> tests = new ArrayList<>();
         for (var runner : runners) {
             tests.addAll(List.of(
-                    new Test(runner.getKey() + " random",
+                    new Test(runner.getKey(),
+                            "random",
                             RANDOM_TESTS,
                             0, MAX_CASES,
                             runner.getValue()
                     ),
-                    new Test(runner.getKey() + " digits",
+                    new Test(runner.getKey(),
+                            "digits",
                             DIGITS_TESTS,
                             0, MAX_CASES,
                             runner.getValue()
                     ),
-                    new Test(runner.getKey() + " sorted",
+                    new Test(runner.getKey(),
+                            "sorted",
                             SORTED_TESTS,
                             0, MAX_CASES,
                             runner.getValue()
                     ),
-                    new Test(runner.getKey() + " revers",
+                    new Test(runner.getKey(),
+                            "revers",
                             REVERS_TESTS,
                             0, MAX_CASES,
                             runner.getValue()
@@ -163,12 +167,12 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-//                new AbstractMap.SimpleEntry<>("Bubble sort", this::bubbleSortTest),
-//                new AbstractMap.SimpleEntry<>("Insertion sort", this::insertionSortTest),
-//                new AbstractMap.SimpleEntry<>("Shell sort", this::shellSortTest),
-//                new AbstractMap.SimpleEntry<>("Optimized bubble sort", this::optimizedBubbleSortTest),
-//                new AbstractMap.SimpleEntry<>("Shifted insertion sort", this::shiftedInsertionSortTest),
-                new AbstractMap.SimpleEntry<>("Binary search insertion sort", this::binarySearchInsertionSort)
+                new AbstractMap.SimpleEntry<>("1 Bubble sort", this::bubbleSortTest),
+                new AbstractMap.SimpleEntry<>("2 Optimized bubble sort", this::optimizedBubbleSortTest),
+                new AbstractMap.SimpleEntry<>("3 Insertion sort", this::insertionSortTest),
+                new AbstractMap.SimpleEntry<>("4 Shifted insertion sort", this::shiftedInsertionSortTest),
+                new AbstractMap.SimpleEntry<>("5 Binary search insertion sort", this::binarySearchInsertionSort),
+                new AbstractMap.SimpleEntry<>("6 Shell sort", this::shellSortTest)
         ));
 
         for (var test : tests) {
