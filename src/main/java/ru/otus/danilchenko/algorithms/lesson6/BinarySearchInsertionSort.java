@@ -18,9 +18,7 @@ public class BinarySearchInsertionSort<T> implements ISort<T> {
         this.indexComparator = indexComparator;
     }
 
-    private int binarySearch(T[] arr, T key) {
-        int left = 0;
-        int right = arr.length - 1;
+    private int binarySearch(T[] arr, int left, int right, T key) {
         int mid = -1;
         while (indexComparator.compare(left, right) <= 0) {
             mid = (left + right) / 2;
@@ -42,7 +40,7 @@ public class BinarySearchInsertionSort<T> implements ISort<T> {
         T tmp;
         for (int i = 1; i < arr.length; i++) {
             tmp = arr[i];
-            int pos = binarySearch(arr, tmp);
+            int pos = binarySearch(arr, 0, i - 1, tmp);
             for (int j = i - 1; j >= pos; j--) {
                 exchangeCounter.count(1);
                 arr[j + 1] = arr[j];
