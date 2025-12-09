@@ -22,7 +22,7 @@ public class SimpleSortingReport implements AutoCloseable {
     private final CellStyle valuesStyle;
     private final XSSFFont font;
     private final Map<Sheet, Integer> nextTablePosition;
-    private final static int COLUMN_SIZE = 4000;
+    private final static int COLUMN_SIZE = 10000;
 
 
     private void prepareHeaderCellStyle() {
