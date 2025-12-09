@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Metric implements IMetriс {
     private final String name;
-    private final Map<String, Integer> metrics;
+    private final Map<String, Long> metrics;
 
     public Metric(String name) {
         Objects.requireNonNull(name);
@@ -16,12 +16,12 @@ public class Metric implements IMetriс {
 
     @Override
     public void consider(String tag, int count) {
-        Integer metricValue = metrics.getOrDefault(tag, 0);
+        Long metricValue = metrics.getOrDefault(tag, 0L);
         metricValue += count;
         metrics.put(tag, metricValue);
     }
 
-    public Map<String, Integer> getMetrics() {
+    public Map<String, Long> getMetrics() {
         return Map.copyOf(metrics);
     }
 

@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+
+
 public class App implements AutoCloseable {
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
@@ -58,8 +60,8 @@ public class App implements AutoCloseable {
 
         private void prepareReport() {
             final var metricResult = metric.getMetrics();
-            final var compareMetrics = metricResult.getOrDefault(CompareWithMetic.TAG, 0);
-            final var exchangeMetrics = metricResult.getOrDefault(ExchangeMetrics.TAG, 0);
+            final var compareMetrics = metricResult.getOrDefault(CompareWithMetic.TAG, 0L);
+            final var exchangeMetrics = metricResult.getOrDefault(ExchangeMetrics.TAG, 0L);
             report.addReportData(name, parameters.getCasePath().toString(),
                     new SortingReportData(size, compareMetrics, exchangeMetrics));
         }

@@ -2,10 +2,10 @@ package ru.otus.danilchenko.algorithms.lesson6.report;
 
 public class SortingReportData {
     private final int arraySize;
-    private final int numberOfComparisons;
-    private final int numberOfExchanges;
+    private final long numberOfComparisons;
+    private final long numberOfExchanges;
 
-    public SortingReportData(int arraySize, int numberOfComparisons, int numberOfExchanges) {
+    public SortingReportData(int arraySize, long numberOfComparisons, long numberOfExchanges) {
         this.arraySize = arraySize;
         this.numberOfComparisons = numberOfComparisons;
         this.numberOfExchanges = numberOfExchanges;
@@ -15,11 +15,11 @@ public class SortingReportData {
         return arraySize;
     }
 
-    public int getNumberOfComparisons() {
+    public long getNumberOfComparisons() {
         return numberOfComparisons;
     }
 
-    public int getNumberOfExchanges() {
+    public long getNumberOfExchanges() {
         return numberOfExchanges;
     }
 
