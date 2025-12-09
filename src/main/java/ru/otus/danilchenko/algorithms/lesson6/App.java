@@ -134,6 +134,17 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void frankShellSortTest(Test.TestRunnerParameters parameters) {
+        final var name = parameters.getTestName();
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new FrankShellSort<>(comparator, swapper));
+        testFlow.run();
+    }
+
+
     private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
         final List<Test> tests = new ArrayList<>();
         for (var runner : runners) {
@@ -169,12 +180,13 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-                new AbstractMap.SimpleEntry<>("1 Bubble sort", this::bubbleSortTest),
-                new AbstractMap.SimpleEntry<>("2 Optimized bubble sort", this::optimizedBubbleSortTest),
-                new AbstractMap.SimpleEntry<>("3 Insertion sort", this::insertionSortTest),
-                new AbstractMap.SimpleEntry<>("4 Shifted insertion sort", this::shiftedInsertionSortTest),
-                new AbstractMap.SimpleEntry<>("5 Binary search insertion sort", this::binarySearchInsertionSort),
-                new AbstractMap.SimpleEntry<>("6 Shell sort", this::shellSortTest)
+//                new AbstractMap.SimpleEntry<>("1 Bubble sort", this::bubbleSortTest),
+//                new AbstractMap.SimpleEntry<>("2 Optimized bubble sort", this::optimizedBubbleSortTest),
+//                new AbstractMap.SimpleEntry<>("3 Insertion sort", this::insertionSortTest),
+//                new AbstractMap.SimpleEntry<>("4 Shifted insertion sort", this::shiftedInsertionSortTest),
+//                new AbstractMap.SimpleEntry<>("5 Binary search insertion sort", this::binarySearchInsertionSort),
+//                new AbstractMap.SimpleEntry<>("6 Shell sort", this::shellSortTest),
+                new AbstractMap.SimpleEntry<>("7 Frank and Lazarus shell sort", this::frankShellSortTest)
         ));
 
         for (var test : tests) {
