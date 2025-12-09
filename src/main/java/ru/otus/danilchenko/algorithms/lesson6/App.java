@@ -121,6 +121,17 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void binarySearchInsertionSort(Test.TestRunnerParameters parameters) {
+        final var name = "Binary search insertion sort";
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var indexComparator = new CompareWithMetic<Integer>(utils::compare, metric);
+        final var exchangeMetric = new ExchangeMetrics(metric);
+        final var testFlow = new TestWorkFlow(name, parameters, metric, new BinarySearchInsertionSort<>(comparator, indexComparator, exchangeMetric));
+        testFlow.run();
+    }
+
     private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
         final List<Test> tests = new ArrayList<>();
         for (var runner : runners) {
@@ -156,7 +167,8 @@ public class App implements AutoCloseable {
 //                new AbstractMap.SimpleEntry<>("Insertion sort", this::insertionSortTest),
 //                new AbstractMap.SimpleEntry<>("Shell sort", this::shellSortTest),
 //                new AbstractMap.SimpleEntry<>("Optimized bubble sort", this::optimizedBubbleSortTest),
-                new AbstractMap.SimpleEntry<>("Shifted insertion sort", this::shiftedInsertionSortTest)
+//                new AbstractMap.SimpleEntry<>("Shifted insertion sort", this::shiftedInsertionSortTest),
+                new AbstractMap.SimpleEntry<>("Binary search insertion sort", this::binarySearchInsertionSort)
         ));
 
         for (var test : tests) {
