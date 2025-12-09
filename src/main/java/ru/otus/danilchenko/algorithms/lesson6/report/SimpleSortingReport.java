@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class SimpleSortingReport implements AutoCloseable {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -21,7 +22,7 @@ public class SimpleSortingReport implements AutoCloseable {
     private final CellStyle valuesStyle;
     private final XSSFFont font;
     private final Map<Sheet, Integer> nextTablePosition;
-    private final static  int COLUMN_SIZE = 4000;
+    private final static int COLUMN_SIZE = 4000;
 
 
     private void prepareHeaderCellStyle() {
@@ -162,11 +163,13 @@ public class SimpleSortingReport implements AutoCloseable {
     }
 
     public void build() {
-        for (var sheetData : reports.entrySet()) {
+        final var sortedReports = reports.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList());
+        for (var sheetData : sortedReports) {
             //prepare sheet
             logger.info(String.format("Sheet name: %s", sheetData.getKey()));
             Sheet sheet = createSheet(sheetData.getKey());
-            for (var table : sheetData.getValue().entrySet()) {
+            final var sortedTables = sheetData.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList());
+            for (var table : sortedTables) {
                 logger.info(String.format("Table name: %s", table.getKey()));
                 createTable(sheet, table.getKey(), table.getValue());
             }

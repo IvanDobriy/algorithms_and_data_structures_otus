@@ -20,14 +20,20 @@ public class ShiftedInsertionSort<T> implements ISort<T> {
     public T[] sort(T[] arr) {
         Objects.requireNonNull(arr);
         int j;
+        T tmp;
         for (int i = 1; i < arr.length; i++) {
+            exchangeCounter.count(1);
+            tmp = arr[i];
             for (j = i - 1; j >= 0; j--) {
-                exchangeCounter.count(1);
-                if (comparator.compare(arr[j], arr[i]) < 0) {
+                if (comparator.compare(arr[j], tmp) > 0) {
                     exchangeCounter.count(1);
+                    arr[j + 1] = arr[j];
+                    continue;
                 }
+                break;
             }
-
+            exchangeCounter.count(1);
+            arr[j + 1] = tmp;
         }
         return arr;
     }
