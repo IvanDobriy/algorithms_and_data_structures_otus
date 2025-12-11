@@ -5,15 +5,15 @@ import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.metrics.SwapWithMetrics;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
-import ru.otus.danilchenko.algorithms.report.SortingReportData;
-import ru.otus.danilchenko.algorithms.sort.ISort;
 import ru.otus.danilchenko.algorithms.sort.Utils;
+import ru.otus.danilchenko.algorithms.test.SortingTestWorkFlow;
 import ru.otus.danilchenko.algorithms.test.Test;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class App implements AutoCloseable {
@@ -22,57 +22,8 @@ public class App implements AutoCloseable {
     private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
-    private final static int MAX_CASES = 5;
+    private final static int MAX_CASES = 4;
 
-
-    private class TestWorkFlow {
-
-        private final Test.TestRunnerParameters parameters;
-        private final int size;
-        private final Integer[] arr;
-        private final Integer[] expected;
-        private final ISort<Integer> sort;
-        private final String name;
-        private final Metric metric;
-
-        public TestWorkFlow(String name, Test.TestRunnerParameters parameters, Metric metric, ISort<Integer> sort) {
-            Objects.requireNonNull(name);
-            Objects.requireNonNull(parameters);
-            Objects.requireNonNull(sort);
-            Objects.requireNonNull(metric);
-
-            this.metric = metric;
-            this.name = name;
-            this.sort = sort;
-            this.parameters = parameters;
-            size = Integer.parseInt(parameters.getInputData()[0]);
-            arr = Arrays.stream(parameters.getInputData()[1].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-            expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
-        }
-
-        private void executeTest() {
-            final var result = sort.sort(arr);
-            if (!Arrays.deepEquals(expected, result)) {
-                parameters.getOut().println(String.format("Test err"));
-                return;
-            }
-            parameters.getOut().println("Test ok");
-
-        }
-
-        private void prepareReport() {
-            final var metricResult = metric.getMetrics();
-            final var compareMetrics = metricResult.getOrDefault(CompareWithMetic.TAG, 0L);
-            final var exchangeMetrics = metricResult.getOrDefault(ExchangeMetrics.TAG, 0L);
-            report.addReportData(name, parameters.getCasePath().toString(),
-                    new SortingReportData(size, compareMetrics, exchangeMetrics));
-        }
-
-        public void run() {
-            executeTest();
-            prepareReport();
-        }
-    }
 
     private void bubbleSortTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
@@ -80,7 +31,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new BubbleSort<>(comparator, swapper));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new BubbleSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
@@ -91,7 +42,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new InsertionSort<>(comparator, swapper));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new InsertionSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
@@ -101,7 +52,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShellSort<>(comparator, swapper));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new ShellSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
@@ -111,7 +62,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new OptimizedBubbleSort<>(comparator, swapper));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new OptimizedBubbleSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
@@ -121,7 +72,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var exchangeMetric = new ExchangeMetrics(metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new ShiftedInsertionSort<>(comparator, exchangeMetric));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new ShiftedInsertionSort<>(comparator, exchangeMetric), report);
         testFlow.run();
     }
 
@@ -132,7 +83,7 @@ public class App implements AutoCloseable {
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var indexComparator = new CompareWithMetic<Integer>(utils::compare, metric);
         final var exchangeMetric = new ExchangeMetrics(metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new BinarySearchInsertionSort<>(comparator, indexComparator, exchangeMetric));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new BinarySearchInsertionSort<>(comparator, indexComparator, exchangeMetric), report);
         testFlow.run();
     }
 
@@ -142,7 +93,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new FrankAndLazarusShellSort<>(comparator, swapper));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new FrankAndLazarusShellSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
@@ -152,7 +103,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new TestWorkFlow(name, parameters, metric, new KnuthShellSort<>(comparator, swapper));
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new KnuthShellSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
