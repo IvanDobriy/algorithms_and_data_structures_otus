@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson6.report;
+package ru.otus.danilchenko.algorithms.report;
 
 public class SortingReportData {
     private final int arraySize;

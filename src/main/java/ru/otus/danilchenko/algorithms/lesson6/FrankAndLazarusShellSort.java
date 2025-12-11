@@ -1,6 +1,9 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
 import ru.otus.danilchenko.algorithms.lesson3.Pow;
+import ru.otus.danilchenko.algorithms.sort.IComparator;
+import ru.otus.danilchenko.algorithms.sort.ISort;
+import ru.otus.danilchenko.algorithms.sort.ISwap;
 
 import java.util.Objects;
 

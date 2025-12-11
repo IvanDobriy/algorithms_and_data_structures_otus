@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson6;
+package ru.otus.danilchenko.algorithms.sort;
 
 public class Utils {
     public <T> void swap(T[] arr, int pos1, int pos2) {

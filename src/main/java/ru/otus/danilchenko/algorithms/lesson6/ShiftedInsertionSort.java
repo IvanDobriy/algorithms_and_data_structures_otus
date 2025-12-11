@@ -1,6 +1,8 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
-import ru.otus.danilchenko.algorithms.lesson6.metrics.IExchangeCounter;
+import ru.otus.danilchenko.algorithms.metrics.IExchangeCounter;
+import ru.otus.danilchenko.algorithms.sort.IComparator;
+import ru.otus.danilchenko.algorithms.sort.ISort;
 
 import java.util.Objects;
 

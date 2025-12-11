@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson6.metrics;
+package ru.otus.danilchenko.algorithms.metrics;
 
 public interface IExchangeCounter {
     void count(int value);

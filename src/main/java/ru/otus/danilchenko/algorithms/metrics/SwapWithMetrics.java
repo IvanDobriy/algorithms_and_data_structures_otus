@@ -1,6 +1,6 @@
-package ru.otus.danilchenko.algorithms.lesson6.metrics;
+package ru.otus.danilchenko.algorithms.metrics;
 
-import ru.otus.danilchenko.algorithms.lesson6.ISwap;
+import ru.otus.danilchenko.algorithms.sort.ISwap;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson6.report;
+package ru.otus.danilchenko.algorithms.report;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;

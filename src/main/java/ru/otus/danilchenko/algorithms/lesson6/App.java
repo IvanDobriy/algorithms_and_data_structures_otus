@@ -1,11 +1,13 @@
 package ru.otus.danilchenko.algorithms.lesson6;
 
-import ru.otus.danilchenko.algorithms.lesson6.metrics.CompareWithMetic;
-import ru.otus.danilchenko.algorithms.lesson6.metrics.ExchangeMetrics;
-import ru.otus.danilchenko.algorithms.lesson6.metrics.Metric;
-import ru.otus.danilchenko.algorithms.lesson6.metrics.SwapWithMetrics;
-import ru.otus.danilchenko.algorithms.lesson6.report.SimpleSortingReport;
-import ru.otus.danilchenko.algorithms.lesson6.report.SortingReportData;
+import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
+import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
+import ru.otus.danilchenko.algorithms.metrics.Metric;
+import ru.otus.danilchenko.algorithms.metrics.SwapWithMetrics;
+import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
+import ru.otus.danilchenko.algorithms.report.SortingReportData;
+import ru.otus.danilchenko.algorithms.sort.ISort;
+import ru.otus.danilchenko.algorithms.sort.Utils;
 import ru.otus.danilchenko.algorithms.test.Test;
 
 import java.nio.file.Path;

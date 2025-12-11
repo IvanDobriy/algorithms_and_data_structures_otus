@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson6;
+package ru.otus.danilchenko.algorithms.sort;
 
 public interface ISort<T> {
     T[] sort(T[] arr);
