@@ -86,4 +86,13 @@ public class App implements AutoCloseable {
             report.close();
         }
     }
+
+
+    public static void main(String[] args) {
+        try (var app = new App()) {
+            app.run(args);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
