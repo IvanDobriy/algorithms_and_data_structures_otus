@@ -63,7 +63,7 @@ public class App implements AutoCloseable {
         final var utils = new Utils();
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new KnuthShellSort<>(comparator, swapper), report);
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new SelectionSort<>(comparator, swapper), report);
         testFlow.run();
     }
 
