@@ -76,10 +76,21 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void shakerSortTest(Test.TestRunnerParameters parameters) {
+        final var name = parameters.getTestName();
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new ShakerSort<>(comparator, swapper), report);
+        testFlow.run();
+    }
+
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
                 new AbstractMap.SimpleEntry<>("1 Selection sort", this::selectionSortTest),
-                new AbstractMap.SimpleEntry<>("2 Heap sort", this::heapSortTest)
+                new AbstractMap.SimpleEntry<>("2 Heap sort", this::heapSortTest),
+                new AbstractMap.SimpleEntry<>("3 Shaker sort", this::shakerSortTest)
         ));
 
         for (var test : tests) {
