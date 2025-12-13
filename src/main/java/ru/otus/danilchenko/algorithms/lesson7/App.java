@@ -1,6 +1,5 @@
 package ru.otus.danilchenko.algorithms.lesson7;
 
-import ru.otus.danilchenko.algorithms.lesson6.KnuthShellSort;
 import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.metrics.SwapWithMetrics;
@@ -67,9 +66,20 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void heapSortTest(Test.TestRunnerParameters parameters) {
+        final var name = parameters.getTestName();
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new HeapSort<>(comparator, swapper), report);
+        testFlow.run();
+    }
+
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-                new AbstractMap.SimpleEntry<>("1 Selection sort", this::selectionSortTest)
+                new AbstractMap.SimpleEntry<>("1 Selection sort", this::selectionSortTest),
+                new AbstractMap.SimpleEntry<>("2 Heap sort", this::heapSortTest)
         ));
 
         for (var test : tests) {

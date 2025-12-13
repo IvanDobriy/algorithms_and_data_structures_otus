@@ -17,7 +17,6 @@ public class SelectionSort<T> implements ISort<T> {
         this.swapper = swapper;
     }
 
-
     @Override
     public T[] sort(T[] arr) {
         Objects.requireNonNull(arr);
