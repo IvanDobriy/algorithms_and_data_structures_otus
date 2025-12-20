@@ -2,6 +2,7 @@ package ru.otus.danilchenko.algorithms.lesson8;
 
 import ru.otus.danilchenko.algorithms.lesson7.SelectionSort;
 import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
+import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.metrics.SwapWithMetrics;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
@@ -31,6 +32,16 @@ public class App implements AutoCloseable {
         final var comparator = new CompareWithMetic<>(utils::compare, metric);
         final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
         final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new QuickSort<>(comparator, swapper), report);
+        testFlow.run();
+    }
+
+    private void mergeSortTest(Test.TestRunnerParameters parameters) {
+        final var name = parameters.getTestName();
+        final var metric = new Metric(name);
+        final var utils = new Utils();
+        final var comparator = new CompareWithMetic<>(utils::compare, metric);
+        final var exchangeCounter = new ExchangeMetrics(metric);
+        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new MergeSort<>(comparator, exchangeCounter), report);
         testFlow.run();
     }
 
@@ -69,7 +80,11 @@ public class App implements AutoCloseable {
     }
 
     private void run(String[] args) {
-        final var tests = prepareTests(List.of(new AbstractMap.SimpleEntry<>("1 Quick sort", this::quickSortTest)));
+        final var tests = prepareTests(List.of(
+                new AbstractMap.SimpleEntry<>("1 Quick sort", this::quickSortTest),
+                new AbstractMap.SimpleEntry<>("2 Merge sort", this::mergeSortTest)
+
+        ));
         for (var test : tests) {
             test.run();
         }
