@@ -7,35 +7,35 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class App {
-    private static void stringTest(String[] inputData, String[] expectedData, PrintStream out) {
-        int length = Integer.parseInt(expectedData[0]);
-        String string = inputData[0];
+    private static void stringTest(Test.TestRunnerParameters parameters) {
+        int length = Integer.parseInt(parameters.getExpectedData()[0]);
+        String string = parameters.getInputData()[0];
         if (string.length() != length) {
-            out.println(String.format("Failed test, expected: %d actualL %d", length, string.length()));
+            parameters.getOut().println(String.format("Failed test, expected: %d actualL %d", length, string.length()));
         } else {
-            out.println("Test is ok");
+            parameters.getOut().println("Test is ok");
         }
     }
 
-    private static void ticketsTest(String[] inputData, String[] expectedData, PrintStream out) {
-        int nValue = Integer.parseInt(inputData[0]);
-        long expected = Long.parseLong(expectedData[0]);
+    private static void ticketsTest(Test.TestRunnerParameters parameters) {
+        int nValue = Integer.parseInt(parameters.getInputData()[0]);
+        long expected = Long.parseLong(parameters.getExpectedData()[0]);
         long result = TicketsCounter.count(nValue);
         if (result != expected) {
-            out.println(String.format("Failed test, expected: %d actualL %d", expected, result));
+            parameters.getOut().println(String.format("Failed test, expected: %d actualL %d", expected, result));
         } else {
-            out.println(String.format("Test ok, expected: %d, result: %d", expected, result));
+            parameters.getOut().println(String.format("Test ok, expected: %d, result: %d", expected, result));
         }
     }
 
     public static void main(String[] args) {
         final var tests = List.of(new Test(
-                        "Tickets",
+                        "Tickets", "",
                         Paths.get("./test_cases/lesson2/1.Tickets"),
                         0, Integer.MAX_VALUE,
                         App::ticketsTest
                 ), new Test(
-                        "Strings",
+                        "Strings", "",
                         Paths.get("./test_cases/lesson2/0.String"),
                         0, Integer.MAX_VALUE,
                         App::stringTest
