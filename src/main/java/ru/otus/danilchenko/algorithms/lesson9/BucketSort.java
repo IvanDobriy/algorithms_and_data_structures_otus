@@ -26,10 +26,10 @@ public class BucketSort<T> implements ISort<T> {
 
     private T getMaxElement(T[] arr) {
         T max = null;
-        for (int i = 0; i < arr.length; i++) {
-            if (comparator.compare(max, arr[i]) < 0) {
+        for (T value : arr) {
+            if (comparator.compare(max, value) < 0) {
                 exchangeCounter.count(1);
-                max = arr[i];
+                max = value;
             }
         }
         return max;
