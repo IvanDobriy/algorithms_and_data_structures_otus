@@ -25,8 +25,10 @@ public class BucketSort<T> implements ISort<T> {
     }
 
     private T getMaxElement(T[] arr) {
-        T max = null;
-        for (T value : arr) {
+        T max = arr[0];
+        T value;
+        for (int i = 1; i < arr.length; i++) {
+            value = arr[i];
             if (comparator.compare(max, value) < 0) {
                 exchangeCounter.count(1);
                 max = value;
@@ -35,9 +37,9 @@ public class BucketSort<T> implements ISort<T> {
         return max;
     }
 
-    private int countIndex(T value, int maxIndex, int arrSize) {
+    private int countIndex(T value, int maxAmount, int arrSize) {
         long amount = amounter.getAmount(value);
-        return (int) ((amount * arrSize) / (maxIndex + 1));
+        return (int) ((amount * arrSize) / (maxAmount + 1));
     }
 
 
@@ -56,17 +58,18 @@ public class BucketSort<T> implements ISort<T> {
     public T[] sort(T[] arr) {
         Objects.requireNonNull(arr);
         T max = getMaxElement(arr);
-        int maxIndex = countIndex(max, amounter.getAmount(max), arr.length);
+        int maxAmount = amounter.getAmount(max);
+        int maxIndex = countIndex(max, maxAmount, arr.length);
         IArray<Node> bucket = new SingleArray<>(maxIndex + 1);
         for (T element : arr) {
-            int index = countIndex(element, maxIndex, arr.length);
+            int index = countIndex(element, maxAmount, arr.length);
             Node node = bucket.get(index);
             if (node == null) {
-                bucket.add(new Node(element, null), index);
+                bucket.set(new Node(element, null), index);
                 continue;
             }
             if (comparator.compare(element, node.value) <= 0) {
-                bucket.add(new Node(element, node), index);
+                bucket.set(new Node(element, node), index);
                 continue;
             }
             while (node.next != null) {

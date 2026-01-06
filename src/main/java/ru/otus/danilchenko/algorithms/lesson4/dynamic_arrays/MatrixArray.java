@@ -20,6 +20,11 @@ public class MatrixArray<T> implements IArray<T> {
     }
 
     @Override
+    public void set(T item, int index) {
+        container.set(calculateRowIndex(index), calculateColumnIndex(index), item);
+    }
+
+    @Override
     public void add(T item, int index) {
         if (index < 0) {
             throw new IllegalArgumentException("index must be positive");
