@@ -1,5 +1,6 @@
 package ru.otus.danilchenko.algorithms.lesson9;
 
+import ru.otus.danilchenko.algorithms.lesson3.Pow;
 import ru.otus.danilchenko.algorithms.lesson8.QuickSort;
 import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
 import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
@@ -20,7 +21,7 @@ import java.util.concurrent.Exchanger;
 public class App implements AutoCloseable {
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./generated");
-    private final static int MAX_CASES = 1;
+    private final static int MAX_CASES = 10;
 
     private void bucketSortTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
@@ -49,6 +50,7 @@ public class App implements AutoCloseable {
         }
         return tests;
     }
+
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
                 new AbstractMap.SimpleEntry<>("1 bucket sort", this::bucketSortTest)
@@ -68,9 +70,17 @@ public class App implements AutoCloseable {
     }
 
 
-    public static void main(String[] args) {
+    private static void generateRandom() {
         final RandomGenerator generator = new RandomGenerator();
-        generator.generate(10, Paths.get("./generated/test.0.in"), Paths.get("./generated/test.0.out"));
+        for (int i = 0; i < 9; i++) {
+            generator.generate((int) Pow.bin(10, i),
+                    Paths.get(String.format("./generated/test.%d.in", i)),
+                    Paths.get(String.format("./generated/test.%d.out", i)));
+        }
+    }
+
+    public static void main(String[] args) {
+//        generateRandom();
         try (var app = new App()) {
             app.run(args);
         } catch (Exception e) {

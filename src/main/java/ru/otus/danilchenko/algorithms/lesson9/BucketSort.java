@@ -44,8 +44,8 @@ public class BucketSort<T> implements ISort<T> {
 
 
     private class Node {
-        private  T value;
-        private  Node next;
+        private T value;
+        private Node next;
 
         public Node(T value, Node next) {
             this.value = value;
@@ -59,40 +59,48 @@ public class BucketSort<T> implements ISort<T> {
         Objects.requireNonNull(arr);
         T max = getMaxElement(arr);
         int maxAmount = amounter.getAmount(max);
-        int maxIndex = countIndex(max, maxAmount, arr.length);
-        IArray<Node> bucket = new SingleArray<>(maxIndex + 1);
+        int bucketSize = countIndex(max, maxAmount, arr.length) + 1;
+        IArray<Node> bucket = new SingleArray<>(bucketSize);
         for (T element : arr) {
             int index = countIndex(element, maxAmount, arr.length);
             Node node = bucket.get(index);
             if (node == null) {
+                exchangeCounter.count(1);
                 bucket.set(new Node(element, null), index);
                 continue;
             }
-            if (comparator.compare(element, node.value) <= 0) {
-                bucket.set(new Node(element, node), index);
-                continue;
-            }
+            Node prev = node;
             while (node.next != null) {
                 if (comparator.compare(element, node.value) <= 0) {
                     exchangeCounter.count(1);
-                    node = node.next;
-                    continue;
+                    break;
                 }
-                break;
+                prev = node;
+                node = node.next;
             }
             exchangeCounter.count(1);
-            if (node.next == null) {
-                node.next = new Node(element, null);
+            if (prev == node) {
+                if(comparator.compare(element, node.value) <= 0){
+                    bucket.set(new Node(element, node), index);
+                    continue;
+                }
+                node.next = new Node(element,  node.next);
                 continue;
             }
-            Node nextNode = node.next;
-            node.next = new Node(element, nextNode);
+            if(node.next == null){
+                if(comparator.compare(element, node.value) > 0){
+                    node.next = new Node(element,  node.next);
+                    continue;
+                }
+            }
+            prev.next = new Node(element, node);
         }
         Node el;
         int j = 0;
-        for(int i = 0 ; i < bucket.size(); i++){
+        for (int i = 0; i < bucket.size(); i++) {
             el = bucket.get(i);
-            while (el != null){
+            while (el != null) {
+                exchangeCounter.count(2);
                 arr[j++] = el.value;
                 el = el.next;
             }
