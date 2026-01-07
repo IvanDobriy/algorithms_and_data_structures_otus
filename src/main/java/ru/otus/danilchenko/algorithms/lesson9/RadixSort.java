@@ -62,21 +62,25 @@ public class RadixSort<T> implements ISort<T> {
         for (int i = 0; i <= maxPlace; i++) {
             int[] counter = new int[10];
             for (int j = 0; j < arr.length; j++) {
+                exchangeCounter.count(4);
                 el = first.get(j);
                 amount = amounter.getAmount(el);
                 index = (amount / divider) % 10;
                 counter[index]++;
             }
             for (int j = 1; j < counter.length; j++) {
+                exchangeCounter.count(1);
                 counter[j] += counter[j - 1];
             }
             for (int j = arr.length - 1; j >= 0; j--) {
+                exchangeCounter.count(5);
                 el = first.get(j);
                 amount = amounter.getAmount(el);
                 index = (amount / divider) % 10;
                 counter[index]--;
                 second.set(el, counter[index]);
             }
+            exchangeCounter.count(3);
             SingleArray<T> tmp = first;
             first = second;
             second = tmp;
