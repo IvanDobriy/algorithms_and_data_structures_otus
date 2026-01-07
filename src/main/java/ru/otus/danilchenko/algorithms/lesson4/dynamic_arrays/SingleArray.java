@@ -1,10 +1,17 @@
 package ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays;
 
+import java.util.Objects;
+
 public class SingleArray<T> implements IArray<T> {
     private T[] container;
 
     public SingleArray(int size) {
         container = ArrayUtils.createArray(size);
+    }
+
+    public SingleArray(T[] arr){
+        Objects.requireNonNull(arr);
+        container = arr;
     }
 
     @Override
