@@ -77,8 +77,8 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-//                new AbstractMap.SimpleEntry<>("1 bucket sort", this::bucketSortTest),
-//                new AbstractMap.SimpleEntry<>("2 counting sort", this::countingSortTest),
+                new AbstractMap.SimpleEntry<>("1 bucket sort", this::bucketSortTest),
+                new AbstractMap.SimpleEntry<>("2 counting sort", this::countingSortTest),
                 new AbstractMap.SimpleEntry<>("3 radix sort", this::radixSortTest)
         ));
         for (var test : tests) {
