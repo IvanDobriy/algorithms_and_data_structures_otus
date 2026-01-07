@@ -57,6 +57,9 @@ public class BucketSort<T> implements ISort<T> {
     @Override
     public T[] sort(T[] arr) {
         Objects.requireNonNull(arr);
+        if(arr.length == 0){
+            return arr;
+        }
         T max = getMaxElement(arr);
         int maxAmount = amounter.getAmount(max);
         int bucketSize = countIndex(max, maxAmount, arr.length) + 1;
