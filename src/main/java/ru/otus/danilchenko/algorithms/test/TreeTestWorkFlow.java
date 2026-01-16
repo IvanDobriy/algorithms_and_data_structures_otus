@@ -87,7 +87,7 @@ public class TreeTestWorkFlow {
         final var metrics = List.of(
                 new AbstractMap.SimpleEntry<>(" insert", insertMetric),
                 new AbstractMap.SimpleEntry<>(" delete", deleteMetric),
-                new AbstractMap.SimpleEntry<>(" remover", removeMetric)
+                new AbstractMap.SimpleEntry<>(" remove", removeMetric)
         );
 
         for (var m : metrics) {
