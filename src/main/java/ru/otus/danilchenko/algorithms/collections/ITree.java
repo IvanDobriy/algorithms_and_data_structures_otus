@@ -1,5 +1,7 @@
 package ru.otus.danilchenko.algorithms.collections;
 
+import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
+
 public interface ITree<T> {
     void insert(T value);
 
@@ -7,5 +9,5 @@ public interface ITree<T> {
 
     void remove(T value);
 
-    T[] toArray();
+    SingleArray<T> toArray();
 }
