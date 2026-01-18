@@ -197,12 +197,13 @@ public class BinarySearchTree<T> implements ITree<T> {
         Node minParent = current.right;
         Node minNode = minParent.left;
         if (minNode == null) {
-            exchangeCounter.count(1);
             if (current == root) {
+                exchangeCounter.count(2);
                 minParent.left = root.left;
                 root = minParent;
                 return;
             }
+            exchangeCounter.count(1);
             parent.right = minParent;
             return;
         }
@@ -213,15 +214,19 @@ public class BinarySearchTree<T> implements ITree<T> {
         }
 
 
-        exchangeCounter.count(2);
+
         if (current == root) {
+            exchangeCounter.count(2);
             minParent.left = root.left;
             root = minParent;
         } else if (comparator.compare(parent.left.key, value) == 0) {
+            exchangeCounter.count(1);
             parent.left = minNode;
         } else {
+            exchangeCounter.count(1);
             parent.right = minNode;
         }
+        exchangeCounter.count(1);
         minParent.left = minNode.right;
     }
 
