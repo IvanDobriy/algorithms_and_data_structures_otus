@@ -2,12 +2,14 @@ package ru.otus.danilchenko.algorithms.lesson10;
 
 import ru.otus.danilchenko.algorithms.lesson8.QuickSort;
 import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
+import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.metrics.SwapWithMetrics;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
 import ru.otus.danilchenko.algorithms.sort.Utils;
 import ru.otus.danilchenko.algorithms.test.SortingTestWorkFlow;
 import ru.otus.danilchenko.algorithms.test.Test;
+import ru.otus.danilchenko.algorithms.test.TreeTestWorkFlow;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,15 +24,30 @@ public class App implements AutoCloseable {
     private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
-    private final static int MAX_CASES = 5;
+    private final static int MAX_CASES = 3;
 
     private void treeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
-        final var metric = new Metric(name);
+        final var insertMetric = new Metric(name);
+        final var removeMetric = new Metric(name);
+        final var searchMetric = new Metric(name);
         final var utils = new Utils();
-        final var comparator = new CompareWithMetic<>(utils::compare, metric);
-        final var swapper = new SwapWithMetrics<Integer>(utils::swap, metric);
-        final var testFlow = new SortingTestWorkFlow(name, parameters, metric, new QuickSort<>(comparator, swapper), report);
+        final var testFlow = new TreeTestWorkFlow(
+                name,
+                parameters,
+                insertMetric,
+                removeMetric,
+                searchMetric,
+                new BinarySearchTree<>(
+                        new CompareWithMetic<>(utils::compare, insertMetric),
+                        new ExchangeMetrics(insertMetric),
+                        new CompareWithMetic<>(utils::compare, removeMetric),
+                        new ExchangeMetrics(removeMetric),
+                        new CompareWithMetic<>(utils::compare, searchMetric),
+                        new ExchangeMetrics(searchMetric)
+                ),
+                report
+        );
         testFlow.run();
     }
 

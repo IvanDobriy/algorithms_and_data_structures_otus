@@ -20,7 +20,7 @@ public class TreeTestWorkFlow {
     private final ITree<Integer> tree;
     private final String name;
     private final Metric insertMetric;
-    private final Metric deleteMetric;
+    private final Metric searchMetric;
     private final Metric removeMetric;
     private final SimpleSortingReport report;
 
@@ -28,7 +28,7 @@ public class TreeTestWorkFlow {
             String name,
             Test.TestRunnerParameters parameters,
             Metric insertMetric,
-            Metric deleteMetric,
+            Metric searchMetric,
             Metric removeMetric,
             ITree<Integer> tree,
             SimpleSortingReport report
@@ -37,12 +37,12 @@ public class TreeTestWorkFlow {
         Objects.requireNonNull(parameters);
         Objects.requireNonNull(tree);
         Objects.requireNonNull(insertMetric);
-        Objects.requireNonNull(deleteMetric);
+        Objects.requireNonNull(searchMetric);
         Objects.requireNonNull(removeMetric);
         Objects.requireNonNull(report);
 
         this.insertMetric = insertMetric;
-        this.deleteMetric = deleteMetric;
+        this.searchMetric = searchMetric;
         this.removeMetric = removeMetric;
 
         this.name = name;
@@ -68,16 +68,20 @@ public class TreeTestWorkFlow {
             parameters.getOut().println(String.format("Test err, element not found"));
         }
 
-        for (var el : treeContentAfterRemove) {
+
+        for (int i = 0; i < treeContentAfterRemove.size(); i++) {
+            var el = treeContentAfterRemove.get(i);
             if (el.equals(arr[0])) {
                 parameters.getOut().println(String.format("Test err, found removed element"));
                 return;
             }
         }
 
-        if (!Arrays.deepEquals(expected, treeContent)) {
-            parameters.getOut().println(String.format("Test err"));
-            return;
+        for (int i = 0; i < treeContent.size(); i++) {
+            if (!expected[i].equals(treeContent.get(i))) {
+                parameters.getOut().println(String.format("Test err"));
+                return;
+            }
         }
         parameters.getOut().println("Test ok");
 
@@ -86,7 +90,7 @@ public class TreeTestWorkFlow {
     private void prepareReport() {
         final var metrics = List.of(
                 new AbstractMap.SimpleEntry<>(" insert", insertMetric),
-                new AbstractMap.SimpleEntry<>(" delete", deleteMetric),
+                new AbstractMap.SimpleEntry<>(" search", searchMetric),
                 new AbstractMap.SimpleEntry<>(" remove", removeMetric)
         );
 
