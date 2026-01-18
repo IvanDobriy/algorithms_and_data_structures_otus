@@ -1,13 +1,10 @@
 package ru.otus.danilchenko.algorithms.lesson10;
 
-import ru.otus.danilchenko.algorithms.lesson8.QuickSort;
 import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
 import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
-import ru.otus.danilchenko.algorithms.metrics.SwapWithMetrics;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
 import ru.otus.danilchenko.algorithms.sort.Utils;
-import ru.otus.danilchenko.algorithms.test.SortingTestWorkFlow;
 import ru.otus.danilchenko.algorithms.test.Test;
 import ru.otus.danilchenko.algorithms.test.TreeTestWorkFlow;
 
@@ -21,7 +18,7 @@ public class App implements AutoCloseable {
 
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
-//    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
+    //    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
     private final static int MAX_CASES = 6;
