@@ -198,6 +198,11 @@ public class BinarySearchTree<T> implements ITree<T> {
         Node minNode = minParent.left;
         if (minNode == null) {
             exchangeCounter.count(1);
+            if (current == root) {
+                minParent.left = root.left;
+                root = minParent;
+                return;
+            }
             parent.right = minParent;
             return;
         }
@@ -209,7 +214,10 @@ public class BinarySearchTree<T> implements ITree<T> {
 
 
         exchangeCounter.count(2);
-        if (comparator.compare(parent.left.key, value) == 0) {
+        if (current == root) {
+            minParent.left = root.left;
+            root = minParent;
+        } else if (comparator.compare(parent.left.key, value) == 0) {
             parent.left = minNode;
         } else {
             parent.right = minNode;
@@ -233,12 +241,13 @@ public class BinarySearchTree<T> implements ITree<T> {
             result.add(stackNode.value.key, result.size());
             while (current.right == null) {
                 stackNode = stackNode.previous;
-                if(stackNode == null){
+                if (stackNode == null) {
                     break;
                 }
-                result.add(stackNode.value.key, result.size());
+                current = stackNode.value;
+                result.add(current.key, result.size());
             }
-            if(stackNode == null){
+            if (stackNode == null) {
                 continue;
             }
             stackNode = new StackNode(current.right, stackNode.previous);
