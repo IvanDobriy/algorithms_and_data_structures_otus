@@ -21,10 +21,10 @@ public class App implements AutoCloseable {
 
     private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
-    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
+//    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
-    private final static int MAX_CASES = 3;
+    private final static int MAX_CASES = 6;
 
     private void treeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
@@ -62,12 +62,12 @@ public class App implements AutoCloseable {
                             0, MAX_CASES,
                             runner.getValue()
                     ),
-                    new Test(runner.getKey(),
-                            "digits",
-                            DIGITS_TESTS,
-                            0, MAX_CASES,
-                            runner.getValue()
-                    ),
+//                    new Test(runner.getKey(),
+//                            "digits",
+//                            DIGITS_TESTS,
+//                            0, MAX_CASES,
+//                            runner.getValue()
+//                    ),
                     new Test(runner.getKey(),
                             "sorted",
                             SORTED_TESTS,
