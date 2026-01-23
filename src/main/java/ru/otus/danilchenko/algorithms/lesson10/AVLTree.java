@@ -142,19 +142,18 @@ public class AVLTree<T> implements ITree<T> {
             return;
         }
         var minParent = result.node.right;
-        var minNode = result.node.left;
+        var minNode = minParent.left;
         if (minNode == null) {
             if (result.parent == null) {
                 minParent.left = root.left;
                 root = minParent;
                 return;
             }
+            minParent.left = result.node.left;
             if (result.parent.left == result.node) {
-                minParent.left = result.node.left;
                 result.parent.left = minParent;
                 return;
             }
-            minParent.left = result.node.left;
             result.parent.right = minParent;
             return;
         }
@@ -162,18 +161,15 @@ public class AVLTree<T> implements ITree<T> {
             minParent = minNode;
             minNode = minParent.left;
         }
-        if (minNode == null) {
-            if (result.parent == null) {
-                minNode.left = root.left;
-                root = minNode;
-                return;
-            }
-            if (result.parent.left == result.node) {
-                result.parent.left = minNode;
 
-            }
-
+        minParent.left = minNode.right;
+        minNode.right = result.node.right;
+        minNode.left = result.node.left;
+        if (result.parent.left == result.node) {
+            result.parent.left = minNode;
+            return;
         }
+        result.parent.right = minNode;
     }
 
     @Override
