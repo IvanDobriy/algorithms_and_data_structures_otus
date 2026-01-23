@@ -172,8 +172,23 @@ public class AVLTree<T> implements ITree<T> {
         result.parent.right = minNode;
     }
 
+    private void prepareSorted(SingleArray<T> arr, Node node) {
+        if(node == null){
+            return;
+        }
+        if (node.left != null) {
+            prepareSorted(arr, node.left);
+        }
+        arr.add(node.key, arr.size());
+        if (node.right != null) {
+            prepareSorted(arr, node.right);
+        }
+    }
+
     @Override
     public SingleArray<T> toArray() {
-        return null;
+        final SingleArray<T> result = new SingleArray<>(0);
+        prepareSorted(result, root);
+        return result;
     }
 }
