@@ -27,7 +27,84 @@ public class AVLTree<T> implements ITree<T> {
         Node(T key) {
             Objects.requireNonNull(key);
             this.key = key;
+            this.height = 0;
         }
+    }
+
+    private void updateHeight(Node node) {
+        if (node == null) {
+            return;
+        }
+        int left = node.left == null ? -1 : node.left.height;
+        int right = node.right == null ? -1 : node.right.height;
+        node.height = 1 + Math.max(left, right);
+    }
+
+    private Node minLeftRotate(Node a) {
+        final Node b = a.right;
+        a.right = b.left;
+        if (root == a) {
+            root = b;
+        }
+        updateHeight(a);
+        updateHeight(b);
+        return b;
+    }
+
+    private Node minRightRotate(Node a) {
+        final Node b = a.left;
+        a.left = b.right;
+        if (root == a) {
+            root = b;
+        }
+        updateHeight(a);
+        updateHeight(b);
+        return b;
+    }
+
+
+    private Node maxLeftRotate(Node a) {
+        a.right = minRightRotate(a.right);
+        a = minLeftRotate(a);
+        updateHeight(a);
+        return a;
+    }
+
+    private Node maxRightRotate(Node a) {
+        a.right = minLeftRotate(a.right);
+        a = minRightRotate(a);
+        updateHeight(a);
+        return a;
+    }
+
+    private Node balanceTree(Node node) {
+        if (node == null) {
+            return null;
+        }
+        int left = node.left == null ? -1 : node.left.height;
+        int right = node.right == null ? -1 : node.right.height;
+        int balance = left - right;
+        if (Math.abs(balance) < 2) {
+            return node;
+        }
+        if (balance > 1) {
+            Node b = node.left;
+            left = b.left == null ? -1 : b.left.height;
+            right = b.right == null ? -1 : b.right.height;
+            balance = left - right;
+            if (balance >= 0) {
+                return minRightRotate(node);
+            }
+            return maxRightRotate(node);
+        }
+        Node b = node.right;
+        left = b.left == null ? -1 : b.left.height;
+        right = b.right == null ? -1 : b.right.height;
+        balance = left - right;
+        if (balance <= 0) {
+            return minLeftRotate(node);
+        }
+        return maxLeftRotate(node);
     }
 
     public AVLTree(IComparator<T> insertComparator,
@@ -173,7 +250,7 @@ public class AVLTree<T> implements ITree<T> {
     }
 
     private void prepareSorted(SingleArray<T> arr, Node node) {
-        if(node == null){
+        if (node == null) {
             return;
         }
         if (node.left != null) {
