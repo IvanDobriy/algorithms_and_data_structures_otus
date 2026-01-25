@@ -12,6 +12,8 @@ public class AVLTree<T> implements ITree<T> {
     private IExchangeCounter insertExchangeCounter;
     private IComparator<T> searchComparator;
     private IExchangeCounter searchExchangeCounter;
+    private IComparator<T> removeComparator;
+    private IExchangeCounter removeExchangeCounter;
 
 
     private Node root;
@@ -107,6 +109,27 @@ public class AVLTree<T> implements ITree<T> {
         return maxLeftRotate(node);
     }
 
+    private void rebalanceTree(Node node) {
+        do {
+            updateHeight(node);
+            if (node == null) {
+                break;
+            }
+            if (node.left != null) {
+                node.left = balanceTree(node.left);
+            }
+            if (node.right != null) {
+                node.right = balanceTree(node.right);
+            }
+            var result = search(node.key, removeComparator, removeExchangeCounter, null, null);
+            if (result == null) {
+                node = null;
+            } else {
+                node = result.parent;
+            }
+        } while (node != null);
+    }
+
     public AVLTree(IComparator<T> insertComparator,
                    IExchangeCounter insertExchangeCounter,
                    IComparator<T> searchComparator,
@@ -190,6 +213,7 @@ public class AVLTree<T> implements ITree<T> {
         return search(key, comparator, exchangeCounter, currentNode.right, currentNode);
     }
 
+
     @Override
     public void insert(T value) {
         insert(value, null);
@@ -209,13 +233,16 @@ public class AVLTree<T> implements ITree<T> {
         if (result.node.right == null) {
             if (result.parent == null) {
                 root = result.node.left;
+                rebalanceTree(root);
                 return;
             }
             if (result.parent.left == result.node) {
                 result.parent.left = result.node.left;
+                rebalanceTree(result.parent);
                 return;
             }
             result.parent.right = result.node.left;
+            rebalanceTree(result.parent);
             return;
         }
         var minParent = result.node.right;
@@ -224,14 +251,17 @@ public class AVLTree<T> implements ITree<T> {
             if (result.parent == null) {
                 minParent.left = root.left;
                 root = minParent;
+                rebalanceTree(minParent);
                 return;
             }
             minParent.left = result.node.left;
             if (result.parent.left == result.node) {
                 result.parent.left = minParent;
+                rebalanceTree(minParent);
                 return;
             }
             result.parent.right = minParent;
+            rebalanceTree(minParent);
             return;
         }
         while (minNode.left != null) {
@@ -244,9 +274,11 @@ public class AVLTree<T> implements ITree<T> {
         minNode.left = result.node.left;
         if (result.parent.left == result.node) {
             result.parent.left = minNode;
+            rebalanceTree(minParent);
             return;
         }
         result.parent.right = minNode;
+        rebalanceTree(minParent);
     }
 
     private void prepareSorted(SingleArray<T> arr, Node node) {
