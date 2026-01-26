@@ -48,6 +48,31 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void avlTreeTest(Test.TestRunnerParameters parameters){
+        final var name = parameters.getTestName();
+        final var insertMetric = new Metric(name);
+        final var removeMetric = new Metric(name);
+        final var searchMetric = new Metric(name);
+        final var utils = new Utils();
+        final var testFlow = new TreeTestWorkFlow(
+                name,
+                parameters,
+                insertMetric,
+                removeMetric,
+                searchMetric,
+                new AVLTree<>(
+                        new CompareWithMetic<>(utils::compare, insertMetric),
+                        new ExchangeMetrics(insertMetric),
+                        new CompareWithMetic<>(utils::compare, removeMetric),
+                        new ExchangeMetrics(removeMetric),
+                        new CompareWithMetic<>(utils::compare, searchMetric),
+                        new ExchangeMetrics(searchMetric)
+                ),
+                report
+        );
+        testFlow.run();
+    }
+
 
     private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
         final List<Test> tests = new ArrayList<>();
@@ -85,7 +110,8 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-                new AbstractMap.SimpleEntry<>("1 tree test", this::treeTest)
+//                new AbstractMap.SimpleEntry<>("1 tree test", this::treeTest),
+                new AbstractMap.SimpleEntry<>("2 avl tree", this::avlTreeTest)
         ));
         for (var test : tests) {
             test.run();

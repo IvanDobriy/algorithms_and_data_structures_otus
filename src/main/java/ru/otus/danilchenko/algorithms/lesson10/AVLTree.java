@@ -45,6 +45,7 @@ public class AVLTree<T> implements ITree<T> {
     private Node minLeftRotate(Node a) {
         final Node b = a.right;
         a.right = b.left;
+        b.left = a;
         if (root == a) {
             root = b;
         }
@@ -56,6 +57,7 @@ public class AVLTree<T> implements ITree<T> {
     private Node minRightRotate(Node a) {
         final Node b = a.left;
         a.left = b.right;
+        b.right = a;
         if (root == a) {
             root = b;
         }
@@ -133,13 +135,19 @@ public class AVLTree<T> implements ITree<T> {
     public AVLTree(IComparator<T> insertComparator,
                    IExchangeCounter insertExchangeCounter,
                    IComparator<T> searchComparator,
-                   IExchangeCounter searchExchangeCounter
+                   IExchangeCounter searchExchangeCounter,
+                   IComparator<T> removeComparator,
+                   IExchangeCounter removeExchangeCounter
     ) {
         Objects.requireNonNull(insertComparator);
-
         Objects.requireNonNull(insertExchangeCounter);
+
         Objects.requireNonNull(searchComparator);
         Objects.requireNonNull(searchExchangeCounter);
+
+        Objects.requireNonNull(removeComparator);
+        Objects.requireNonNull(removeExchangeCounter);
+
 
         this.root = null;
         this.insertComparator = insertComparator;
@@ -147,8 +155,18 @@ public class AVLTree<T> implements ITree<T> {
 
         this.searchComparator = searchComparator;
         this.searchExchangeCounter = searchExchangeCounter;
+
+        this.removeComparator = removeComparator;
+        this.removeExchangeCounter = removeExchangeCounter;
     }
 
+    private void rebalanceTreeAfterInsert(Node node) {
+        updateHeight(node.left);
+        updateHeight(node.right);
+        node.left = balanceTree(node.left);
+        node.right = balanceTree(node.right);
+        updateHeight(node);
+    }
 
     private void insert(T key, Node currentNode) {
         if (root == null) {
@@ -164,18 +182,21 @@ public class AVLTree<T> implements ITree<T> {
             insertExchangeCounter.count(1);
             if (currentNode.left == null) {
                 currentNode.left = new Node(key);
+//                rebalanceTreeAfterInsert(currentNode);
                 return;
             }
             insert(key, currentNode.left);
+            rebalanceTreeAfterInsert(currentNode);
             return;
         }
         insertExchangeCounter.count(1);
         if (currentNode.right == null) {
             currentNode.right = new Node(key);
+//            rebalanceTreeAfterInsert(currentNode);
             return;
         }
         insert(key, currentNode.right);
-
+        rebalanceTreeAfterInsert(currentNode);
     }
 
     private class SearchResult {
@@ -272,6 +293,14 @@ public class AVLTree<T> implements ITree<T> {
         minParent.left = minNode.right;
         minNode.right = result.node.right;
         minNode.left = result.node.left;
+
+        if (result.parent == null) {
+            minNode.left = root.left;
+            root = minNode;
+            rebalanceTree(minParent);
+            return;
+        }
+
         if (result.parent.left == result.node) {
             result.parent.left = minNode;
             rebalanceTree(minParent);
