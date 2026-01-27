@@ -163,12 +163,13 @@ public class AVLTree<T> implements ITree<T> {
     private void rebalanceTreeAfterInsert(Node node) {
         updateHeight(node.left);
         updateHeight(node.right);
-        if(node == root){
-            root = balanceTree(node);
-        }
         node.left = balanceTree(node.left);
         node.right = balanceTree(node.right);
         updateHeight(node);
+        if(node == root){//todo как то сомнительно))
+            root = balanceTree(root);
+            updateHeight(root);
+        }
     }
 
     private void insert(T key, Node currentNode) {
