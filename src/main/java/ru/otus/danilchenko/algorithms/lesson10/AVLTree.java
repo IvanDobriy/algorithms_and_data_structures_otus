@@ -163,6 +163,9 @@ public class AVLTree<T> implements ITree<T> {
     private void rebalanceTreeAfterInsert(Node node) {
         updateHeight(node.left);
         updateHeight(node.right);
+        if(node == root){
+            root = balanceTree(node);
+        }
         node.left = balanceTree(node.left);
         node.right = balanceTree(node.right);
         updateHeight(node);
@@ -182,7 +185,6 @@ public class AVLTree<T> implements ITree<T> {
             insertExchangeCounter.count(1);
             if (currentNode.left == null) {
                 currentNode.left = new Node(key);
-//                rebalanceTreeAfterInsert(currentNode);
                 return;
             }
             insert(key, currentNode.left);
@@ -192,7 +194,6 @@ public class AVLTree<T> implements ITree<T> {
         insertExchangeCounter.count(1);
         if (currentNode.right == null) {
             currentNode.right = new Node(key);
-//            rebalanceTreeAfterInsert(currentNode);
             return;
         }
         insert(key, currentNode.right);
