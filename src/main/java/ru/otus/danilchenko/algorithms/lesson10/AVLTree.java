@@ -75,7 +75,7 @@ public class AVLTree<T> implements ITree<T> {
     }
 
     private Node maxRightRotate(Node a) {
-        a.right = minLeftRotate(a.right);
+        a.left = minLeftRotate(a.left);
         a = minRightRotate(a);
         updateHeight(a);
         return a;
@@ -123,6 +123,9 @@ public class AVLTree<T> implements ITree<T> {
             if (node.right != null) {
                 node.right = balanceTree(node.right);
             }
+            if (node == root) {
+                root = balanceTree(root);
+            }
             var result = search(node.key, removeComparator, removeExchangeCounter, null, null);
             if (result == null) {
                 node = null;
@@ -166,7 +169,7 @@ public class AVLTree<T> implements ITree<T> {
         node.left = balanceTree(node.left);
         node.right = balanceTree(node.right);
         updateHeight(node);
-        if(node == root){//todo как то сомнительно))
+        if (node == root) {//todo как то сомнительно))
             root = balanceTree(root);
             updateHeight(root);
         }
