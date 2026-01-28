@@ -46,9 +46,9 @@ public class AVLTree<T> implements ITree<T> {
         final Node b = a.right;
         a.right = b.left;
         b.left = a;
-        if (root == a) {
-            root = b;
-        }
+//        if (root == a) {
+//            root = b;
+//        }
         updateHeight(a);
         updateHeight(b);
         return b;
@@ -58,9 +58,9 @@ public class AVLTree<T> implements ITree<T> {
         final Node b = a.left;
         a.left = b.right;
         b.right = a;
-        if (root == a) {
-            root = b;
-        }
+//        if (root == a) {
+//            root = b;
+//        }
         updateHeight(a);
         updateHeight(b);
         return b;
