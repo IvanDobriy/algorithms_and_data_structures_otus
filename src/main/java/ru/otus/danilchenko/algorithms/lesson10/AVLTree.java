@@ -8,14 +8,7 @@ import ru.otus.danilchenko.algorithms.sort.IComparator;
 import java.util.Objects;
 
 public class AVLTree<T> implements ITree<T> {
-    private IComparator<T> insertComparator;
-    private IExchangeCounter insertExchangeCounter;
-    private IComparator<T> searchComparator;
-    private IExchangeCounter searchExchangeCounter;
-    private IComparator<T> removeComparator;
-    private IExchangeCounter removeExchangeCounter;
-
-
+    private IComparator<T> comparator;
     private Node root;
 
     private class Node {
@@ -46,9 +39,6 @@ public class AVLTree<T> implements ITree<T> {
         final Node b = a.right;
         a.right = b.left;
         b.left = a;
-//        if (root == a) {
-//            root = b;
-//        }
         updateHeight(a);
         updateHeight(b);
         return b;
@@ -58,9 +48,6 @@ public class AVLTree<T> implements ITree<T> {
         final Node b = a.left;
         a.left = b.right;
         b.right = a;
-//        if (root == a) {
-//            root = b;
-//        }
         updateHeight(a);
         updateHeight(b);
         return b;
@@ -126,7 +113,7 @@ public class AVLTree<T> implements ITree<T> {
             if (node == root) {
                 root = balanceTree(root);
             }
-            var result = search(node.key, removeComparator, removeExchangeCounter, null, null);
+            var result = search(node.key, null, null);
             if (result == null) {
                 node = null;
             } else {
@@ -135,32 +122,10 @@ public class AVLTree<T> implements ITree<T> {
         } while (node != null);
     }
 
-    public AVLTree(IComparator<T> insertComparator,
-                   IExchangeCounter insertExchangeCounter,
-                   IComparator<T> searchComparator,
-                   IExchangeCounter searchExchangeCounter,
-                   IComparator<T> removeComparator,
-                   IExchangeCounter removeExchangeCounter
-    ) {
-        Objects.requireNonNull(insertComparator);
-        Objects.requireNonNull(insertExchangeCounter);
-
-        Objects.requireNonNull(searchComparator);
-        Objects.requireNonNull(searchExchangeCounter);
-
-        Objects.requireNonNull(removeComparator);
-        Objects.requireNonNull(removeExchangeCounter);
-
-
+    public AVLTree(IComparator<T> comparator) {
+        Objects.requireNonNull(comparator);
+        this.comparator = comparator;
         this.root = null;
-        this.insertComparator = insertComparator;
-        this.insertExchangeCounter = insertExchangeCounter;
-
-        this.searchComparator = searchComparator;
-        this.searchExchangeCounter = searchExchangeCounter;
-
-        this.removeComparator = removeComparator;
-        this.removeExchangeCounter = removeExchangeCounter;
     }
 
     private void rebalanceTreeAfterInsert(Node node) {
@@ -177,16 +142,13 @@ public class AVLTree<T> implements ITree<T> {
 
     private void insert(T key, Node currentNode) {
         if (root == null) {
-            insertExchangeCounter.count(1);
             root = new Node(key);
             return;
         }
         if (currentNode == null) {
-            insertExchangeCounter.count(1);
             currentNode = root;
         }
-        if (insertComparator.compare(key, currentNode.key) < 0) {
-            insertExchangeCounter.count(1);
+        if (comparator.compare(key, currentNode.key) < 0) {
             if (currentNode.left == null) {
                 currentNode.left = new Node(key);
                 return;
@@ -195,7 +157,6 @@ public class AVLTree<T> implements ITree<T> {
             rebalanceTreeAfterInsert(currentNode);
             return;
         }
-        insertExchangeCounter.count(1);
         if (currentNode.right == null) {
             currentNode.right = new Node(key);
             return;
@@ -216,12 +177,11 @@ public class AVLTree<T> implements ITree<T> {
     }
 
 
-    private SearchResult search(T key, IComparator<T> comparator, IExchangeCounter exchangeCounter, Node currentNode, Node previousNode) {
+    private SearchResult search(T key, Node currentNode, Node previousNode) {
         if (root == null) {
             return null;
         }
         if (currentNode == null) {
-            exchangeCounter.count(1);
             currentNode = root;
         }
         if (comparator.compare(key, currentNode.key) == 0) {
@@ -231,12 +191,12 @@ public class AVLTree<T> implements ITree<T> {
             if (currentNode.left == null) {
                 return null;
             }
-            return search(key, comparator, exchangeCounter, currentNode.left, currentNode);
+            return search(key, currentNode.left, currentNode);
         }
         if (currentNode.right == null) {
             return null;
         }
-        return search(key, comparator, exchangeCounter, currentNode.right, currentNode);
+        return search(key, currentNode.right, currentNode);
     }
 
 
@@ -247,12 +207,12 @@ public class AVLTree<T> implements ITree<T> {
 
     @Override
     public boolean search(T value) {
-        return search(value, searchComparator, searchExchangeCounter, null, null) != null;
+        return search(value, null, null) != null;
     }
 
     @Override
     public void remove(T value) {
-        SearchResult result = search(value, searchComparator, searchExchangeCounter, null, null);
+        SearchResult result = search(value,  null, null);
         if (result == null) {
             return;
         }

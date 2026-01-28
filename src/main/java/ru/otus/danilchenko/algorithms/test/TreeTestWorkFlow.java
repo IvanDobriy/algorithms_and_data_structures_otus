@@ -19,31 +19,23 @@ public class TreeTestWorkFlow {
     private final Integer[] expected;
     private final ITree<Integer> tree;
     private final String name;
-    private final Metric insertMetric;
-    private final Metric searchMetric;
-    private final Metric removeMetric;
+    private final Metric metric;
     private final SimpleSortingReport report;
 
     public TreeTestWorkFlow(
             String name,
             Test.TestRunnerParameters parameters,
-            Metric insertMetric,
-            Metric searchMetric,
-            Metric removeMetric,
+            Metric metric,
             ITree<Integer> tree,
             SimpleSortingReport report
     ) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(parameters);
         Objects.requireNonNull(tree);
-        Objects.requireNonNull(insertMetric);
-        Objects.requireNonNull(searchMetric);
-        Objects.requireNonNull(removeMetric);
+        Objects.requireNonNull(metric);
         Objects.requireNonNull(report);
 
-        this.insertMetric = insertMetric;
-        this.searchMetric = searchMetric;
-        this.removeMetric = removeMetric;
+        this.metric = metric;
 
         this.name = name;
         this.tree = tree;
@@ -88,20 +80,7 @@ public class TreeTestWorkFlow {
     }
 
     private void prepareReport() {
-        final var metrics = List.of(
-                new AbstractMap.SimpleEntry<>(" insert", insertMetric),
-                new AbstractMap.SimpleEntry<>(" search", searchMetric),
-                new AbstractMap.SimpleEntry<>(" remove", removeMetric)
-        );
-
-        for (var m : metrics) {
-            var report = m.getValue().getMetrics();
-            var compareMetrics = report.getOrDefault(CompareWithMetic.TAG, 0L);
-            var exchangeMetrics = report.getOrDefault(ExchangeMetrics.TAG, 0L);
-
-            this.report.addReportData(name, parameters.getCasePath().toString() + m.getKey(),
-                    new SortingReportData(size, compareMetrics, exchangeMetrics));
-        }
+        this.report.addReportData(name, parameters.getCasePath(),  new SortingReportData(size, compareMetrics, exchangeMetrics));
     }
 
     public void run() {

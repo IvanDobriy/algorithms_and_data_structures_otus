@@ -1,7 +1,5 @@
 package ru.otus.danilchenko.algorithms.lesson10;
 
-import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
-import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
 import ru.otus.danilchenko.algorithms.sort.Utils;
@@ -25,48 +23,30 @@ public class App implements AutoCloseable {
 
     private void treeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
-        final var insertMetric = new Metric(name);
-        final var removeMetric = new Metric(name);
-        final var searchMetric = new Metric(name);
+        final var metric = new Metric(name);
         final var utils = new Utils();
         final var testFlow = new TreeTestWorkFlow(
                 name,
                 parameters,
-                insertMetric,
-                removeMetric,
-                searchMetric,
+                metric,
                 new BinarySearchTree<>(
-                        new CompareWithMetic<>(utils::compare, insertMetric),
-                        new ExchangeMetrics(insertMetric),
-                        new CompareWithMetic<>(utils::compare, removeMetric),
-                        new ExchangeMetrics(removeMetric),
-                        new CompareWithMetic<>(utils::compare, searchMetric),
-                        new ExchangeMetrics(searchMetric)
+                        utils::compare
                 ),
                 report
         );
         testFlow.run();
     }
 
-    private void avlTreeTest(Test.TestRunnerParameters parameters){
+    private void avlTreeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
-        final var insertMetric = new Metric(name);
-        final var removeMetric = new Metric(name);
-        final var searchMetric = new Metric(name);
+        final var metric = new Metric(name);
         final var utils = new Utils();
         final var testFlow = new TreeTestWorkFlow(
                 name,
                 parameters,
-                insertMetric,
-                removeMetric,
-                searchMetric,
+                metric,
                 new AVLTree<>(
-                        new CompareWithMetic<>(utils::compare, insertMetric),
-                        new ExchangeMetrics(insertMetric),
-                        new CompareWithMetic<>(utils::compare, removeMetric),
-                        new ExchangeMetrics(removeMetric),
-                        new CompareWithMetic<>(utils::compare, searchMetric),
-                        new ExchangeMetrics(searchMetric)
+                        utils::compare
                 ),
                 report
         );

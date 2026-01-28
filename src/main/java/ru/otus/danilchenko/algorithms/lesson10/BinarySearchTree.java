@@ -2,22 +2,13 @@ package ru.otus.danilchenko.algorithms.lesson10;
 
 import ru.otus.danilchenko.algorithms.collections.ITree;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
-import ru.otus.danilchenko.algorithms.metrics.IExchangeCounter;
 import ru.otus.danilchenko.algorithms.sort.IComparator;
 
 import java.util.Objects;
 
 public class BinarySearchTree<T> implements ITree<T> {
 
-    private IComparator<T> insertComparator;
-    private IExchangeCounter insertExchangeCounter;
-
-    private IComparator<T> searchComparator;
-    private IExchangeCounter searchExchangeCounter;
-
-    private IComparator<T> removeComparator;
-    private IExchangeCounter removeExchangeCouter;
-
+    private IComparator<T> comparator;
 
     private Node root;
 
@@ -43,40 +34,23 @@ public class BinarySearchTree<T> implements ITree<T> {
     }
 
     public BinarySearchTree(
-            IComparator<T> insertComparator,
-            IExchangeCounter insertExchangeCounter,
-            IComparator<T> removeComparator,
-            IExchangeCounter removeExchangeCouter,
-            IComparator<T> searchComparator,
-            IExchangeCounter searchExchangeCounter
+            IComparator<T> comparator
     ) {
-        Objects.requireNonNull(insertComparator);
-        Objects.requireNonNull(insertExchangeCounter);
-        Objects.requireNonNull(removeComparator);
-        Objects.requireNonNull(removeExchangeCouter);
-        Objects.requireNonNull(searchComparator);
-        Objects.requireNonNull(searchExchangeCounter);
-        this.insertComparator = insertComparator;
-        this.insertExchangeCounter = insertExchangeCounter;
-        this.removeComparator = removeComparator;
-        this.removeExchangeCouter = removeExchangeCouter;
-        this.searchComparator = searchComparator;
-        this.searchExchangeCounter = searchExchangeCounter;
+        Objects.requireNonNull(comparator);
+        this.comparator = comparator;
         root = null;
     }
 
     @Override
     public void insert(T value) {
         Objects.requireNonNull(value);
-        final var comparator = insertComparator;
-        final var exchangeCounter = insertExchangeCounter;
+        final var comparator = this.comparator;
         if (root == null) {
             root = new Node(value);
             return;
         }
         Node current = root;
         do {
-            exchangeCounter.count(1);
             if (comparator.compare(value, current.key) < 0) {
                 if (current.left == null) {
                     current.left = new Node(value);
@@ -96,8 +70,6 @@ public class BinarySearchTree<T> implements ITree<T> {
     @Override
     public boolean search(T value) {
         Objects.requireNonNull(value);
-        final var comparator = searchComparator;
-        final var exchangeCounter = searchExchangeCounter;
         if (root == null) {
             return false;
         }
@@ -111,14 +83,12 @@ public class BinarySearchTree<T> implements ITree<T> {
                 if (current.left == null) {
                     return false;
                 }
-                exchangeCounter.count(1);
                 current = current.left;
                 continue;
             }
             if (current.right == null) {
                 return false;
             }
-            exchangeCounter.count(1);
             current = current.right;
         } while (true);
     }
@@ -126,9 +96,6 @@ public class BinarySearchTree<T> implements ITree<T> {
 
     private Node findParent(T value) {
         Objects.requireNonNull(value);
-
-        final var comparator = removeComparator;
-        final var exchangeCounter = removeExchangeCouter;
 
         if (root == null) {
             return null;
@@ -143,7 +110,6 @@ public class BinarySearchTree<T> implements ITree<T> {
                 if (current.left == null) {
                     return null;
                 }
-                exchangeCounter.count(2);
                 previous = current;
                 current = current.left;
                 continue;
@@ -151,7 +117,6 @@ public class BinarySearchTree<T> implements ITree<T> {
             if (current.right == null) {
                 return null;
             }
-            exchangeCounter.count(2);
             previous = current;
             current = current.right;
         } while (true);
@@ -161,9 +126,6 @@ public class BinarySearchTree<T> implements ITree<T> {
     public void remove(T value) {
         Objects.requireNonNull(value);
 
-        final var comparator = removeComparator;
-        final var exchangeCounter = removeExchangeCouter;
-
         if (root == null) {
             return;
         }
@@ -172,7 +134,6 @@ public class BinarySearchTree<T> implements ITree<T> {
         Node current = null;
 
 
-        exchangeCounter.count(1);
         if (parent == null) {
             current = root;
         } else if (parent.left != null && comparator.compare(parent.left.key, value) == 0) {
@@ -185,7 +146,6 @@ public class BinarySearchTree<T> implements ITree<T> {
             return;
         }
         if (current.right == null) {
-            exchangeCounter.count(1);
             if (current == root) {
                 root = current.left;
                 return;
@@ -202,15 +162,13 @@ public class BinarySearchTree<T> implements ITree<T> {
         Node minNode = minParent.left;
         if (minNode == null) {
             if (current == root) {
-                exchangeCounter.count(2);
                 minParent.left = root.left;
                 root = minParent;
                 return;
             }
-            exchangeCounter.count(1);
             if (parent.left == current) {
                 minParent.left = current.left;
-                parent.left  = minParent;
+                parent.left = minParent;
                 return;
             }
             minParent.left = current.left;
@@ -219,24 +177,19 @@ public class BinarySearchTree<T> implements ITree<T> {
         }
 
         while (minNode.left != null) {
-            exchangeCounter.count(2);
             minParent = minNode;
             minNode = minNode.left;
         }
 
 
         if (current == root) {
-            exchangeCounter.count(2);
             minParent.left = root.left;
             root = minParent;
         } else if (comparator.compare(parent.left.key, value) == 0) {
-            exchangeCounter.count(1);
             parent.left = minNode;
         } else {
-            exchangeCounter.count(1);
             parent.right = minNode;
         }
-        exchangeCounter.count(1);
         minNode.left = current.left;
         minParent.left = minNode.right;
     }
