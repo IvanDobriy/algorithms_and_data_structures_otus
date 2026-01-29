@@ -105,7 +105,7 @@ public class TreeTestWorkFlow {
     }
 
     private void prepareReport() {
-        this.report.addReportData(name, parameters.getCasePath().toString(), new TreeReportData(insertTime, removeTime, searchTime));
+        this.report.addReportData(name, parameters.getCasePath().toString(), new TreeReportData(arr.length, insertTime, removeTime, searchTime));
     }
 
     public void run() {

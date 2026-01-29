@@ -104,30 +104,38 @@ public class TreeReport implements AutoCloseable {
         }
     }
 
+
+    private void createArrSizeRow(Sheet sheet, List<TreeReportData> reportDataList, int index) {
+        createRow(sheet, index, "Размер: ", reportDataList, (reportData, cell) -> {
+            cell.setCellStyle(valuesStyle);
+            cell.setCellValue(reportData.getArrSize());
+        });
+    }
     private void createInsertExecutionTimeRow(Sheet sheet, List<TreeReportData> reportDataList, int index) {
-        createRow(sheet, index, ": ", reportDataList, (reportData, cell) -> {
+        createRow(sheet, index, "Вставка, мс: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
             cell.setCellValue(reportData.getInsertExecutionTime());
         });
     }
 
     private void createRemoveExecutionTimeRow(Sheet sheet, List<TreeReportData> reportDataList, int index) {
-        createRow(sheet, index, ": ", reportDataList, (reportData, cell) -> {
+        createRow(sheet, index, "Удаление, мс: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
             cell.setCellValue(reportData.getRemoveExecutionTime());
         });
     }
 
     private void createSearchExecutionTimeRow(Sheet sheet, List<TreeReportData> reportDataList, int index) {
-        createRow(sheet, index, ": ", reportDataList, (reportData, cell) -> {
+        createRow(sheet, index, "Поиск, мс: ", reportDataList, (reportData, cell) -> {
             cell.setCellStyle(valuesStyle);
-            cell.setCellValue(reportData.getRemoveExecutionTime());
+            cell.setCellValue(reportData.getSearchExecutionTime());
         });
     }
 
     private void createTable(Sheet sheet, String tableName, List<TreeReportData> reportDataList) {
         int rowPosition = nextTablePosition.getOrDefault(sheet, 0);
         createTableNameHeader(tableName, sheet, reportDataList.size(), rowPosition++);
+        createArrSizeRow(sheet, reportDataList, rowPosition++);
         createInsertExecutionTimeRow(sheet, reportDataList, rowPosition++);
         createRemoveExecutionTimeRow(sheet, reportDataList, rowPosition++);
         createSearchExecutionTimeRow(sheet, reportDataList, rowPosition++);

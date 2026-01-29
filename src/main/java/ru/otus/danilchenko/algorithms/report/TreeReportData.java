@@ -1,11 +1,13 @@
 package ru.otus.danilchenko.algorithms.report;
 
 public class TreeReportData {
+    private final int arrSize;
     private final long insertExecutionTime;
     private final long removeExecutionTime;
     private final long searchExecutionTime;
 
-    public TreeReportData(long insertExecutionTime, long removeExecutionTime, long searchExecutionTime) {
+    public TreeReportData(int arrSize, long insertExecutionTime, long removeExecutionTime, long searchExecutionTime) {
+        this.arrSize = arrSize;
         this.insertExecutionTime = insertExecutionTime;
         this.removeExecutionTime = removeExecutionTime;
         this.searchExecutionTime = searchExecutionTime;
@@ -23,10 +25,15 @@ public class TreeReportData {
         return searchExecutionTime;
     }
 
+    public int getArrSize() {
+        return arrSize;
+    }
+
     @Override
     public String toString() {
         return "TreeReportData{" +
-                "insertExecutionTime=" + insertExecutionTime +
+                "arrSize=" + arrSize +
+                ", insertExecutionTime=" + insertExecutionTime +
                 ", removeExecutionTime=" + removeExecutionTime +
                 ", searchExecutionTime=" + searchExecutionTime +
                 '}';
