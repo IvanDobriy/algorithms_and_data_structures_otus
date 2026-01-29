@@ -2,6 +2,7 @@ package ru.otus.danilchenko.algorithms.lesson10;
 
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
+import ru.otus.danilchenko.algorithms.report.TreeReport;
 import ru.otus.danilchenko.algorithms.sort.Utils;
 import ru.otus.danilchenko.algorithms.test.Test;
 import ru.otus.danilchenko.algorithms.test.TreeTestWorkFlow;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class App implements AutoCloseable {
 
-    private final SimpleSortingReport report = new SimpleSortingReport(Path.of("./reports/simpleReport.xls"));
+    private final TreeReport report = new TreeReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
     //    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
@@ -23,12 +24,10 @@ public class App implements AutoCloseable {
 
     private void treeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
-        final var metric = new Metric(name);
         final var utils = new Utils();
         final var testFlow = new TreeTestWorkFlow(
                 name,
                 parameters,
-                metric,
                 new BinarySearchTree<>(
                         utils::compare
                 ),
@@ -39,12 +38,10 @@ public class App implements AutoCloseable {
 
     private void avlTreeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
-        final var metric = new Metric(name);
         final var utils = new Utils();
         final var testFlow = new TreeTestWorkFlow(
                 name,
                 parameters,
-                metric,
                 new AVLTree<>(
                         utils::compare
                 ),

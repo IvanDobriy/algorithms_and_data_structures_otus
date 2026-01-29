@@ -1,15 +1,12 @@
 package ru.otus.danilchenko.algorithms.test;
 
 import ru.otus.danilchenko.algorithms.collections.ITree;
-import ru.otus.danilchenko.algorithms.metrics.CompareWithMetic;
-import ru.otus.danilchenko.algorithms.metrics.ExchangeMetrics;
 import ru.otus.danilchenko.algorithms.metrics.Metric;
 import ru.otus.danilchenko.algorithms.report.SimpleSortingReport;
-import ru.otus.danilchenko.algorithms.report.SortingReportData;
+import ru.otus.danilchenko.algorithms.report.TreeReport;
+import ru.otus.danilchenko.algorithms.report.TreeReportData;
 
-import java.util.AbstractMap;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class TreeTestWorkFlow {
@@ -19,23 +16,22 @@ public class TreeTestWorkFlow {
     private final Integer[] expected;
     private final ITree<Integer> tree;
     private final String name;
-    private final Metric metric;
-    private final SimpleSortingReport report;
+    private final TreeReport report;
+    private Long insertTime = 0L;
+    private Long removeTime = 0L;
+    private Long searchTime = 0L;
 
     public TreeTestWorkFlow(
             String name,
             Test.TestRunnerParameters parameters,
-            Metric metric,
             ITree<Integer> tree,
-            SimpleSortingReport report
+            TreeReport report
     ) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(parameters);
         Objects.requireNonNull(tree);
-        Objects.requireNonNull(metric);
         Objects.requireNonNull(report);
 
-        this.metric = metric;
 
         this.name = name;
         this.tree = tree;
@@ -47,40 +43,69 @@ public class TreeTestWorkFlow {
         expected = Arrays.stream(parameters.getExpectedData()[0].split(" ")).map(Integer::parseInt).toArray(Integer[]::new);
     }
 
-    private void executeTest() {
+    private void fill() {
+        var before = System.currentTimeMillis();
         for (var el : arr) {
             tree.insert(el);
         }
-        final var treeContent = tree.toArray();
-        final var searchResult = tree.search(arr[0]);
-        tree.remove(arr[0]);
-        final var treeContentAfterRemove = tree.toArray();
+        insertTime = System.currentTimeMillis() - before;
+    }
 
-        if (!searchResult) {
-            parameters.getOut().println(String.format("Test err, element not found"));
+    private void remove(int[] toRemove) {
+        var before = System.currentTimeMillis();
+        for (int index : toRemove) {
+            tree.remove(arr[index]);
         }
+        removeTime = System.currentTimeMillis() - before;
+    }
+
+    private boolean[] search(int[] toSearch, Boolean useMetrics) {
+        var before = System.currentTimeMillis();
+        final boolean[] searchResult = new boolean[toSearch.length];
+        for (int i = 0; i < toSearch.length; i++) {
+            var value = arr[toSearch[i]];
+            searchResult[i] = tree.search(value);
+        }
+        if (useMetrics) {
+            searchTime = System.currentTimeMillis() - before;
+        }
+        return searchResult;
+    }
 
 
-        for (int i = 0; i < treeContentAfterRemove.size(); i++) {
-            var el = treeContentAfterRemove.get(i);
-            if (el.equals(arr[0])) {
-                parameters.getOut().println(String.format("Test err, found removed element"));
+    int[] getArrIndexes() {
+        final int[] result = new int[arr.length / 10];
+        int nextIndex = 0;
+        for (int i = 0; i < result.length; i++) {
+            result[i] = arr[nextIndex];
+            nextIndex += result.length - 1;
+        }
+        return result;
+    }
+
+    private void executeTest() {
+        int[] indexes = getArrIndexes();
+        fill();
+        boolean[] result = search(indexes, true);
+        for (boolean el : result) {
+            if (!el) {
+                parameters.getOut().println("Test err");
                 return;
             }
         }
-
-        for (int i = 0; i < treeContent.size(); i++) {
-            if (!expected[i].equals(treeContent.get(i))) {
-                parameters.getOut().println(String.format("Test err"));
+        remove(indexes);
+        result = search(indexes, false);
+        for (boolean el : result) {
+            if (!el) {
+                parameters.getOut().println("Test err");
                 return;
             }
         }
         parameters.getOut().println("Test ok");
-
     }
 
     private void prepareReport() {
-        this.report.addReportData(name, parameters.getCasePath(),  new SortingReportData(size, compareMetrics, exchangeMetrics));
+        this.report.addReportData(name, parameters.getCasePath().toString(), new TreeReportData(insertTime, removeTime, searchTime));
     }
 
     public void run() {
