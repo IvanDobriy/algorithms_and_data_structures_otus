@@ -152,6 +152,10 @@ public class TreeReport implements AutoCloseable {
         namesStyle = workbook.createCellStyle();
         valuesStyle = workbook.createCellStyle();
         font = ((XSSFWorkbook) workbook).createFont();
+        prepareCellFont();
+        prepareHeaderCellStyle();
+        prepareNamesCellStyle();
+        prepareValuesCellStyle();
     }
 
     public void addReportData(String sheetName, String testCase, TreeReportData treeReportData) {
