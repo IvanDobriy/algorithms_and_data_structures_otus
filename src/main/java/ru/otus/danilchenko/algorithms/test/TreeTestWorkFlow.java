@@ -79,6 +79,9 @@ public class TreeTestWorkFlow {
         for (int i = 0; i < result.length; i++) {
             result[i] = arr[nextIndex];
             nextIndex += result.length - 1;
+            if(nextIndex >= arr.length){
+                nextIndex = arr.length -1;
+            }
         }
         return result;
     }
