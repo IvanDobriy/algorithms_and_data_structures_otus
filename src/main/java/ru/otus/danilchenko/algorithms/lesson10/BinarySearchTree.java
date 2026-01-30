@@ -185,7 +185,7 @@ public class BinarySearchTree<T> implements ITree<T> {
         if (current == root) {
             minParent.left = root.left;
             root = minParent;
-        } else if (comparator.compare(parent.left.key, value) == 0) {
+        } else if (parent.left == current) {
             parent.left = minNode;
         } else {
             parent.right = minNode;

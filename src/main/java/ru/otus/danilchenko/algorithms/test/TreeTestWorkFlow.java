@@ -99,7 +99,7 @@ public class TreeTestWorkFlow {
         remove(indexes);
         result = search(indexes, false);
         for (boolean el : result) {
-            if (!el) {
+            if (el) {
                 parameters.getOut().println("Test err");
                 return;
             }
