@@ -87,7 +87,7 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-//                new AbstractMap.SimpleEntry<>("1 tree test", this::treeTest),
+                new AbstractMap.SimpleEntry<>("1 tree test", this::treeTest),
                 new AbstractMap.SimpleEntry<>("2 avl tree", this::avlTreeTest)
         ));
         for (var test : tests) {
