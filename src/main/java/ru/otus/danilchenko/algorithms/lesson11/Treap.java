@@ -45,14 +45,7 @@ public class Treap<T> implements ITree<T> {
                 result.leftPart = new Node(this.key, this.power, left, result.leftPart);
                 return;
             }
-            if (comparator.compare(key, this.key) < 0) {
-                if (left != null) {
-                    left.split(key, result, needExcludeKey);
-                }
-                result.rightPart = new Node(this.key, this.power, result.rightPart, right);
-                return;
-            }
-            if (needExcludeKey) {
+            if (needExcludeKey && comparator.compare(key, this.key) == 0) {
                 return;
             }
             if (left != null) {
