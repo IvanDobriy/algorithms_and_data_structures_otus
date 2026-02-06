@@ -1,0 +1,162 @@
+package ru.otus.danilchenko.algorithms.lesson11;
+
+import ru.otus.danilchenko.algorithms.collections.ITree;
+import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
+import ru.otus.danilchenko.algorithms.sort.IComparator;
+
+import java.util.Objects;
+import java.util.Random;
+
+public class Treap<T> implements ITree<T> {
+    private Random random = new Random();
+    private IComparator<T> comparator;
+    private Node internalTree;
+
+    public Treap(IComparator<T> comparator) {
+        Objects.requireNonNull(comparator);
+        this.comparator = comparator;
+    }
+
+
+    private class SplitResult {
+        Node leftPart;
+        Node rightPart;
+    }
+
+    private class Node {
+        private T key;
+        private int power;
+        private Node left;
+        private Node right;
+
+        public Node(T key, int power, Node left, Node right) {
+            Objects.requireNonNull(key);
+            this.key = key;
+            this.power = power;
+            this.left = left;
+            this.right = right;
+        }
+
+        public void split(T key, SplitResult result, boolean needExcludeKey) {
+            if (comparator.compare(key, this.key) > 0) {
+                if (right != null) {
+                    right.split(key, result, needExcludeKey);
+                }
+                result.leftPart = new Node(this.key, this.power, left, result.leftPart);
+                return;
+            }
+            if (comparator.compare(key, this.key) < 0) {
+                if (left != null) {
+                    left.split(key, result, needExcludeKey);
+                }
+                result.rightPart = new Node(this.key, this.power, result.rightPart, right);
+                return;
+            }
+            if (needExcludeKey) {
+                return;
+            }
+            if (left != null) {
+                left.split(key, result, false);
+            }
+            result.rightPart = new Node(this.key, this.power, result.rightPart, right);
+        }
+
+        public Node merge(Node rightPart) {
+            if (rightPart == null) {
+                return this;
+            }
+            if (power > rightPart.power) {
+                if (right == null) {
+                    return new Node(key, power, left, rightPart);
+                }
+                final var newRightPart = right.merge(rightPart);
+                return new Node(key, power, left, newRightPart);
+            }
+            final var newLeftPart = this.merge(rightPart.left);
+            return new Node(rightPart.key, rightPart.power, newLeftPart, rightPart.right);
+        }
+
+        public Node search(T value) {
+            if (comparator.compare(value, this.key) == 0) {
+                return this;
+            }
+            if (comparator.compare(value, this.key) > 0) {
+                if (this.right == null) {
+                    return null;
+                }
+                return this.right.search(value);
+            }
+            if (this.left == null) {
+                return null;
+            }
+            return this.left.search(value);
+        }
+
+        public void toArray(SingleArray<T> result) {
+            Objects.requireNonNull(result);
+            if (left != null) {
+                left.toArray(result);
+            }
+            result.add(key, result.size());
+            if (right != null) {
+                right.toArray(result);
+            }
+        }
+    }
+
+    @Override
+    public void insert(T value) {
+        Objects.requireNonNull(value);
+        var node = new Node(value, random.nextInt() % 100, null, null);
+        if (internalTree == null) {
+            internalTree = node;
+            return;
+        }
+
+        final SplitResult splitResult = new SplitResult();
+        internalTree.split(value, splitResult, false);
+        Node mergeResult = null;
+        if (splitResult.leftPart != null) {
+            mergeResult = splitResult.leftPart.merge(node);
+        }
+
+        if (mergeResult != null) {
+            mergeResult.merge(splitResult.rightPart);
+        } else {
+            mergeResult = splitResult.rightPart;
+        }
+        internalTree = mergeResult;
+    }
+
+    @Override
+    public boolean search(T value) {
+        if (internalTree == null) {
+            return false;
+        }
+        return internalTree.search(value) != null;
+    }
+
+    @Override
+    public void remove(T value) {
+        Objects.requireNonNull(value);
+        if (internalTree == null) {
+            return;
+        }
+        final SplitResult splitResult = new SplitResult();
+        internalTree.split(value, splitResult, true);
+        if (splitResult.leftPart != null) {
+            internalTree = splitResult.leftPart.merge(splitResult.rightPart);
+            return;
+        }
+        internalTree = splitResult.rightPart;
+    }
+
+    @Override
+    public SingleArray<T> toArray() {
+        final SingleArray<T> result = new SingleArray<>(0);
+        if (internalTree != null) {
+            internalTree.toArray(result);
+        }
+        return result;
+    }
+}

@@ -1,5 +1,7 @@
-package ru.otus.danilchenko.algorithms.lesson10;
+package ru.otus.danilchenko.algorithms.lesson11;
 
+import ru.otus.danilchenko.algorithms.lesson10.AVLTree;
+import ru.otus.danilchenko.algorithms.lesson10.BinarySearchTree;
 import ru.otus.danilchenko.algorithms.report.TreeReport;
 import ru.otus.danilchenko.algorithms.sort.Utils;
 import ru.otus.danilchenko.algorithms.test.Test;
@@ -15,7 +17,6 @@ public class App implements AutoCloseable {
 
     private final TreeReport report = new TreeReport(Path.of("./reports/simpleReport.xls"));
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
-    //    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
     private final static int MAX_CASES = 6;
@@ -59,12 +60,6 @@ public class App implements AutoCloseable {
                             0, MAX_CASES,
                             runner.getValue()
                     ),
-//                    new Test(runner.getKey(),
-//                            "digits",
-//                            DIGITS_TESTS,
-//                            0, MAX_CASES,
-//                            runner.getValue()
-//                    ),
                     new Test(runner.getKey(),
                             "sorted",
                             SORTED_TESTS,
