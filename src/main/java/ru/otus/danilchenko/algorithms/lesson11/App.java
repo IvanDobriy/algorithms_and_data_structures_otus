@@ -1,7 +1,5 @@
 package ru.otus.danilchenko.algorithms.lesson11;
 
-import ru.otus.danilchenko.algorithms.lesson10.AVLTree;
-import ru.otus.danilchenko.algorithms.lesson10.BinarySearchTree;
 import ru.otus.danilchenko.algorithms.report.TreeReport;
 import ru.otus.danilchenko.algorithms.sort.Utils;
 import ru.otus.danilchenko.algorithms.test.Test;
@@ -21,13 +19,13 @@ public class App implements AutoCloseable {
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
     private final static int MAX_CASES = 6;
 
-    private void treeTest(Test.TestRunnerParameters parameters) {
+    private void treapTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
         final var utils = new Utils();
         final var testFlow = new TreeTestWorkFlow(
                 name,
                 parameters,
-                new BinarySearchTree<>(
+                new Treap<>(
                         utils::compare
                 ),
                 report
@@ -35,19 +33,6 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
-    private void avlTreeTest(Test.TestRunnerParameters parameters) {
-        final var name = parameters.getTestName();
-        final var utils = new Utils();
-        final var testFlow = new TreeTestWorkFlow(
-                name,
-                parameters,
-                new AVLTree<>(
-                        utils::compare
-                ),
-                report
-        );
-        testFlow.run();
-    }
 
 
     private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
@@ -80,8 +65,7 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-                new AbstractMap.SimpleEntry<>("1 tree test", this::treeTest),
-                new AbstractMap.SimpleEntry<>("2 avl tree", this::avlTreeTest)
+                new AbstractMap.SimpleEntry<>("1 tree test", this::treapTest)
         ));
         for (var test : tests) {
             test.run();

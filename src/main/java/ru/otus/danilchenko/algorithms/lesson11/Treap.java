@@ -37,19 +37,32 @@ public class Treap<T> implements ITree<T> {
             this.right = right;
         }
 
-        public void split(T key, SplitResult result, boolean needExcludeKey) {
-            if (comparator.compare(key, this.key) > 0) {
+        public T max() {
+            var node = this;
+            while (node.right != null) {
+                node = node.right;
+            }
+            return node.key;
+        }
+
+        public void split(T key, SplitResult result, boolean eqToLeft) {
+            boolean compResult;
+            if (eqToLeft) {
+                compResult = comparator.compare(key, this.key) >= 0;
+            } else {
+                compResult = comparator.compare(key, this.key) > 0;
+            }
+
+            if (compResult) {
                 if (right != null) {
-                    right.split(key, result, needExcludeKey);
+                    right.split(key, result, eqToLeft);
                 }
                 result.leftPart = new Node(this.key, this.power, left, result.leftPart);
                 return;
             }
-            if (needExcludeKey && comparator.compare(key, this.key) == 0) {
-                return;
-            }
+
             if (left != null) {
-                left.split(key, result, false);
+                left.split(key, result, eqToLeft);
             }
             result.rightPart = new Node(this.key, this.power, result.rightPart, right);
         }
@@ -108,17 +121,12 @@ public class Treap<T> implements ITree<T> {
 
         final SplitResult splitResult = new SplitResult();
         internalTree.split(value, splitResult, false);
-        Node mergeResult = null;
+        Node mergeResult = node;
         if (splitResult.leftPart != null) {
-            mergeResult = splitResult.leftPart.merge(node);
+            mergeResult = splitResult.leftPart.merge(mergeResult);
         }
-
-        if (mergeResult != null) {
-            mergeResult.merge(splitResult.rightPart);
-        } else {
-            mergeResult = splitResult.rightPart;
-        }
-        internalTree = mergeResult;
+        internalTree = mergeResult.merge(splitResult.rightPart);
+        ;
     }
 
     @Override
@@ -135,13 +143,17 @@ public class Treap<T> implements ITree<T> {
         if (internalTree == null) {
             return;
         }
-        final SplitResult splitResult = new SplitResult();
-        internalTree.split(value, splitResult, true);
-        if (splitResult.leftPart != null) {
-            internalTree = splitResult.leftPart.merge(splitResult.rightPart);
+        final SplitResult splitResult1 = new SplitResult();
+        internalTree.split(value, splitResult1, false);
+        final SplitResult splitResult2  = new SplitResult();
+        if(splitResult1.rightPart != null){
+            splitResult1.rightPart.split(value, splitResult2, true);
+        }
+        if (splitResult1.leftPart != null) {
+            internalTree = splitResult1.leftPart.merge(splitResult2.rightPart);
             return;
         }
-        internalTree = splitResult.rightPart;
+        internalTree = splitResult2.rightPart;
     }
 
     @Override
