@@ -26,13 +26,26 @@ public class App implements AutoCloseable {
                 name,
                 parameters,
                 new Treap<>(
-                        utils::compare
+                        new TreapTool<>(utils::compare)
                 ),
                 report
         );
         testFlow.run();
     }
 
+    private void optimalTreapTest(Test.TestRunnerParameters parameters){
+        final var name = parameters.getTestName();
+        final var utils = new Utils();
+        final var testFlow = new TreeTestWorkFlow(
+                name,
+                parameters,
+                new OptimalTreap<>(
+                        new TreapTool<>(utils::compare)
+                ),
+                report
+        );
+        testFlow.run();
+    }
 
 
     private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
@@ -65,7 +78,8 @@ public class App implements AutoCloseable {
 
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-                new AbstractMap.SimpleEntry<>("1 tree test", this::treapTest)
+//                new AbstractMap.SimpleEntry<>("1 treap test", this::treapTest),
+                new AbstractMap.SimpleEntry<>("2 optimal treap", this::optimalTreapTest)
         ));
         for (var test : tests) {
             test.run();

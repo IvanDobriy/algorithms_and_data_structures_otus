@@ -6,11 +6,11 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 import java.util.Objects;
 import java.util.Random;
 
-public class Treap<T> implements ITree<T> {
-    private final TreapTool<T> tool;
+public class OptimalTreap<T> implements ITree<T> {
     private final Random random = new Random();
+    private final TreapTool<T> tool;
 
-    public Treap(TreapTool<T> tool) {
+    public OptimalTreap(TreapTool<T> tool) {
         Objects.requireNonNull(tool);
         this.tool = tool;
     }
@@ -22,7 +22,7 @@ public class Treap<T> implements ITree<T> {
 
     @Override
     public boolean search(T value) {
-        return tool.search(value);
+        return tool.optimalTreeSearch(value) != null;
     }
 
     @Override
