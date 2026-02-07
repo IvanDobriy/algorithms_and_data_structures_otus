@@ -29,10 +29,6 @@ public class SplayTree<T> implements ITree<T> {
         }
 
         public void insert(T value) {
-            if (root == null) {
-                root = new Node(value, null, null);
-                return;
-            }
             if (comparator.compare(value, key) > 0) {
                 if (this.right != null) {
                     this.right.insert(value);
@@ -47,13 +43,11 @@ public class SplayTree<T> implements ITree<T> {
         }
 
         public void remove(T value, Node parent) {
-            if (parent == null) {
-                return;
-            }
-
             if (comparator.compare(value, key) == 0) {
                 if (right == null) {
-                    if (parent.left == this) {
+                    if (parent == null) {
+                        root = left;
+                    } else if (parent.left == this) {
                         parent.left = left;
                     } else {
                         parent.right = left;
@@ -63,7 +57,9 @@ public class SplayTree<T> implements ITree<T> {
                 Node minParent = right;
                 Node min = right.left;
                 if (min.left == null) {
-                    if (parent.left == this) {
+                    if (parent == null) {
+                        root = minParent;
+                    } else if (parent.left == this) {
                         parent.left = minParent;
                     } else {
                         parent.right = minParent;
@@ -75,33 +71,54 @@ public class SplayTree<T> implements ITree<T> {
                     minParent = min;
                     min = min.left;
                 }
-                if (parent.left == this) {
+                if (parent == null) {
+                    root = min;
+                } else if (parent.left == this) {
                     parent.left = min;
                 } else {
                     parent.right = min;
                 }
+                min.right = right;
                 min.left = left;
                 minParent.left = min.right;
             }
         }
+
+        public Node search(T value) {
+            if (comparator.compare(value, key) == 0) {
+                return this;
+            }
+            if (comparator.compare(value, key) > 0) {
+                return right.search(value);
+            }
+            return left.search(value);
+        }
+
     }
 
 
     @Override
     public void insert(T value) {
         if (root == null) {
-            root = new Node();
+            root = new Node(value, null, null);
         }
+        root.insert(value);
     }
 
     @Override
     public boolean search(T value) {
-        return false;
+        if (root == null) {
+            return false;
+        }
+        return root.search(value) != null;
     }
 
     @Override
     public void remove(T value) {
-
+        if (root == null) {
+            return;
+        }
+        root.remove(value, null);
     }
 
     @Override
