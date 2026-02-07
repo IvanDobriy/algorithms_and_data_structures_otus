@@ -94,6 +94,15 @@ public class SplayTree<T> implements ITree<T> {
             return left.search(value);
         }
 
+        public void toArray(SingleArray<T> result) {
+            if (left != null) {
+                left.toArray(result);
+            }
+            result.add(this.key, result.size());
+            if (right != null) {
+                right.toArray(result);
+            }
+        }
     }
 
 
@@ -123,6 +132,10 @@ public class SplayTree<T> implements ITree<T> {
 
     @Override
     public SingleArray<T> toArray() {
-        return null;
+        final SingleArray<T> result = new SingleArray<>(0);
+        if (root != null) {
+            root.toArray(result);
+        }
+        return result;
     }
 }
