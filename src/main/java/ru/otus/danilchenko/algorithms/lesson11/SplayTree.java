@@ -28,18 +28,24 @@ public class SplayTree<T> implements ITree<T> {
             this.right = right;
         }
 
-        public void insert(T value) {
+        static class InsertResult {
+            Node insertedNode;
+        }
+
+        public void insert(T value, InsertResult insertResult) {
             if (comparator.compare(value, key) > 0) {
                 if (this.right != null) {
-                    this.right.insert(value);
+                    this.right.insert(value, insertResult);
                 }
                 this.right = new Node(value, null, null);
+                insertResult.insertedNode = this.right;
                 return;
             }
             if (this.left != null) {
-                this.left.insert(value);
+                this.left.insert(value, insertResult);
             }
             this.left = new Node(value, null, null);
+            insertResult.insertedNode = this.left;
         }
 
         public void remove(T value, Node parent) {
@@ -84,6 +90,22 @@ public class SplayTree<T> implements ITree<T> {
             }
         }
 
+        public Node minLeftRotate() {
+            Node a = this;
+            Node b = a.right;
+            a.right = b.left;
+            b.left = a;
+            return b;
+        }
+
+        public Node minRightRotate() {
+            Node a = this;
+            Node b = a.left;
+            a.left = b.right;
+            b.right = a;
+            return b;
+        }
+
         public Node search(T value) {
             if (comparator.compare(value, key) == 0) {
                 return this;
@@ -103,6 +125,24 @@ public class SplayTree<T> implements ITree<T> {
                 right.toArray(result);
             }
         }
+
+        public Node getParent() {
+            if (this == root) {
+                return null;
+            }
+            var previous = root;
+            do {
+                if (previous.left == this || previous.right == this) {
+                    break;
+                }
+                if (comparator.compare(key, previous.key) > 0) {
+                    previous = previous.right;
+                } else {
+                    previous = previous.left;
+                }
+            } while (previous != null);
+            return previous;
+        }
     }
 
 
@@ -111,7 +151,33 @@ public class SplayTree<T> implements ITree<T> {
         if (root == null) {
             root = new Node(value, null, null);
         }
-        root.insert(value);
+        final Node.InsertResult insertResult = new Node.InsertResult();
+        root.insert(value, insertResult);
+        Node current = insertResult.insertedNode;
+        Node parent = current.getParent();
+        while (parent != null) {
+            Node grand = parent.getParent();
+            if (parent.left == current) {
+                Node node = parent.minLeftRotate();
+                if (grand != null) {
+                    if (grand.left == parent) {
+                        grand.left = node;
+                    } else {
+                        grand.right = node;
+                    }
+                }
+            } else {
+                Node node = parent.minRightRotate();
+                if (grand != null) {
+                    if (grand.left == parent) {
+                        grand.left = node;
+                    } else {
+                        grand.right = node;
+                    }
+                }
+            }
+            parent = grand;
+        }
     }
 
     @Override
