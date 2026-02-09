@@ -16,6 +16,10 @@ public class SplayTree<T> implements ITree<T> {
         this.comparator = comparator;
     }
 
+    private class InsertResult {
+        Node insertedNode;
+    }
+
     private class Node {
         private T key;
         private Node left;
@@ -28,9 +32,6 @@ public class SplayTree<T> implements ITree<T> {
             this.right = right;
         }
 
-        static class InsertResult {
-            Node insertedNode;
-        }
 
         public void insert(T value, InsertResult insertResult) {
             if (comparator.compare(value, key) > 0) {
@@ -151,7 +152,7 @@ public class SplayTree<T> implements ITree<T> {
         if (root == null) {
             root = new Node(value, null, null);
         }
-        final Node.InsertResult insertResult = new Node.InsertResult();
+        final InsertResult insertResult = new InsertResult();
         root.insert(value, insertResult);
         Node current = insertResult.insertedNode;
         Node parent = current.getParent();
