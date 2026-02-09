@@ -17,7 +17,7 @@ public class App implements AutoCloseable {
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
-    private final static int MAX_CASES = 6;
+    private final static int MAX_CASES = Integer.MAX_VALUE;
 
     private void treapTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();
@@ -47,6 +47,19 @@ public class App implements AutoCloseable {
         testFlow.run();
     }
 
+    private void splayTreeTest(Test.TestRunnerParameters parameters){
+        final var name = parameters.getTestName();
+        final var utils = new Utils();
+        final var testFlow = new TreeTestWorkFlow(
+                name,
+                parameters,
+                new OptimalTreap<>(
+                        new TreapTool<>(utils::compare)
+                ),
+                report
+        );
+        testFlow.run();
+    }
 
     private List<Test> prepareTests(List<AbstractMap.SimpleEntry<String, Test.TestRunner>> runners) {
         final List<Test> tests = new ArrayList<>();
@@ -75,11 +88,11 @@ public class App implements AutoCloseable {
         return tests;
     }
 
-
     private void run(String[] args) {
         final var tests = prepareTests(List.of(
-//                new AbstractMap.SimpleEntry<>("1 treap test", this::treapTest),
-                new AbstractMap.SimpleEntry<>("2 optimal treap", this::optimalTreapTest)
+                new AbstractMap.SimpleEntry<>("1 treap test", this::treapTest),
+                new AbstractMap.SimpleEntry<>("2 optimal treap", this::optimalTreapTest),
+                new AbstractMap.SimpleEntry<>("3 splay tree", this::splayTreeTest)
         ));
         for (var test : tests) {
             test.run();
