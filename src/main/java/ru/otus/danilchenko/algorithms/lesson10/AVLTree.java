@@ -275,6 +275,15 @@ public class AVLTree<T> implements ITree<T> {
         rebalanceTree(minParent);
     }
 
+    @Override
+    public T searchWithValue(T key) {
+        var result = search(key, null, null);
+        if(result == null){
+            return null;
+        }
+        return result.node.key;
+    }
+
     private void prepareSorted(SingleArray<T> arr, Node node) {
         if (node == null) {
             return;

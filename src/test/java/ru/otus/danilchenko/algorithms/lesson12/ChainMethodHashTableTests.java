@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.otus.danilchenko.algorithms.sort.IComparator;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -24,15 +25,36 @@ public class ChainMethodHashTableTests {
 
     private IHashTable<String, String> hashTable;
 
-    @BeforeEach
-    void beforeEach() {
+
+    @ParameterizedTest
+    @MethodSource("dataProvider")
+    void positiveListChainTest(List<Entry<String, String>> data) {
         final var stringHasher = new StringHasher(new Crc16(0xffff, 0xa001));
-        hashTable = new ChainMethodHashTable<>(stringHasher, 1);
+        hashTable = new ListChainMethodHashTable<>(stringHasher, 1);
+
+        for (final var el : data) {
+            hashTable.insert(el.key, el.value);
+        }
+        Assertions.assertEquals(3, hashTable.size());
+        for (final var el : data) {
+            final var result = hashTable.find(el.key);
+            Assertions.assertEquals(result, el.value);
+        }
+        for (final var el : data) {
+            hashTable.remove(el.key);
+        }
+        Assertions.assertEquals(0, hashTable.size());
+        for (final var el : data) {
+            final var result = hashTable.find(el.key);
+            Assertions.assertNull(result);
+        }
     }
 
     @ParameterizedTest
     @MethodSource("dataProvider")
-    void positiveTest(List<Entry<String, String>> data) {
+    void positiveTreeChainTest(List<Entry<String, String>> data) {
+        final var stringHasher = new StringHasher(new Crc16(0xffff, 0xa001));
+        hashTable = new TreeChainMethodHashTable<>(stringHasher, String::compareTo, 1);
         for (final var el : data) {
             hashTable.insert(el.key, el.value);
         }

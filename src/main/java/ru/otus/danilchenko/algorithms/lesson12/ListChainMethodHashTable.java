@@ -6,7 +6,7 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 import java.util.Objects;
 
-public class ChainMethodHashTable<K, V> implements IHashTable<K, V> {
+public class ListChainMethodHashTable<K, V> implements IHashTable<K, V> {
     private class Entry {
         K key;
         V value;
@@ -24,7 +24,7 @@ public class ChainMethodHashTable<K, V> implements IHashTable<K, V> {
     private int size;
     private int factor;
 
-    public ChainMethodHashTable(IHasher<K> hasher, int size) {
+    public ListChainMethodHashTable(IHasher<K> hasher, int size) {
         Objects.requireNonNull(hasher);
         this.hasher = hasher;
         this.content = new MatrixArray<>(size);
@@ -32,19 +32,19 @@ public class ChainMethodHashTable<K, V> implements IHashTable<K, V> {
         this.factor = 0;
     }
 
-    private void rehache(){
-        final int alfa = size /factor;
+    private void rehache() {
+        final int alfa = size / factor;
         IArray<IArray<Entry>> oldContent = content;
-        if(alfa > 2){
-            content = new MatrixArray<>(size *2);
+        if (alfa > 2) {
+            content = new MatrixArray<>(size * 2);
             size = 0;
             factor = 0;
             IArray<Entry> list;
             Entry entry;
-            for(int i = 0; i < oldContent.size(); i++){
+            for (int i = 0; i < oldContent.size(); i++) {
                 list = oldContent.get(i);
-                if(list != null){
-                    for(int j = 0; j < list.size(); j++){
+                if (list != null) {
+                    for (int j = 0; j < list.size(); j++) {
                         entry = list.get(j);
                         insert(entry.key, entry.value);
                     }

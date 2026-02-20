@@ -198,6 +198,18 @@ public class SplayTree<T> implements ITree<T> {
     }
 
     @Override
+    public T searchWithValue(T key) {
+        if(root == null){
+            return null;
+        }
+        var result = root.search(key);
+        if(result == null){
+            return null;
+        }
+        return result.key;
+    }
+
+    @Override
     public SingleArray<T> toArray() {
         final SingleArray<T> result = new SingleArray<>(0);
         if (root != null) {
