@@ -13,6 +13,11 @@ public class ArrayListWrapper<T> implements IArray<T> {
     }
 
     @Override
+    public void set(T item, int index) {
+       list.set(index, item);
+    }
+
+    @Override
     public void add(T item, int index) {
         list.add(index, item);
     }

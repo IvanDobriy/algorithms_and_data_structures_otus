@@ -10,7 +10,7 @@ public class BitOnesCalculatorsTests {
     void positiveTest() {
         final long value = -2260560722335367168L;
         final long expected = 8;
-        final long result = BitOnesCalculators.simpleCalculation(value);
+        final long result = (long)BitOnesCalculators.simpleCalculation(value);
         Assertions.assertEquals(expected, result);
     }
 }
