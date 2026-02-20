@@ -46,6 +46,30 @@ public class TreeChainMethodHashTable<K, V> implements IHashTable<K, V> {
         return (int) (hash % content.size());
     }
 
+
+    private void rehache() {
+        final int alfa = size / factor;
+        IArray<ITree<Entry>> oldContent = content;
+        if (alfa > 2) {
+            content = new MatrixArray<>(size * 2);
+            size = 0;
+            factor = 0;
+            ITree<Entry> tree;
+            IArray<Entry> arr;
+            Entry entry;
+            for (int i = 0; i < oldContent.size(); i++) {
+                tree = oldContent.get(i);
+                if (tree != null) {
+                    arr = tree.toArray();
+                    for (int j = 0; j < arr.size(); j++) {
+                        entry = arr.get(j);
+                        insert(entry.key, entry.value);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void insert(K key, V value) {
         Objects.requireNonNull(key);
@@ -59,6 +83,7 @@ public class TreeChainMethodHashTable<K, V> implements IHashTable<K, V> {
         tree.insert(new Entry(key, value));
         content.set(tree, position);
         size++;
+        rehache();
     }
 
     @Override
