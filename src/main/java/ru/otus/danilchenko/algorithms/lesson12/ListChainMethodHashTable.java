@@ -36,7 +36,7 @@ public class ListChainMethodHashTable<K, V> implements IHashTable<K, V> {
         final int alfa = size / factor;
         IArray<IArray<Entry>> oldContent = content;
         if (alfa > 2) {
-            content = new MatrixArray<>(size * 2);
+            content = new MatrixArray<>(content.size() * 2);
             size = 0;
             factor = 0;
             IArray<Entry> list;

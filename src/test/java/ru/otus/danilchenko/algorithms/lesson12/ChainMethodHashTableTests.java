@@ -1,11 +1,9 @@
 package ru.otus.danilchenko.algorithms.lesson12;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.otus.danilchenko.algorithms.sort.IComparator;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -55,6 +53,29 @@ public class ChainMethodHashTableTests {
     void positiveTreeChainTest(List<Entry<String, String>> data) {
         final var stringHasher = new StringHasher(new Crc16(0xffff, 0xa001));
         hashTable = new TreeChainMethodHashTable<>(stringHasher, String::compareTo, 1);
+        for (final var el : data) {
+            hashTable.insert(el.key, el.value);
+        }
+        Assertions.assertEquals(3, hashTable.size());
+        for (final var el : data) {
+            final var result = hashTable.find(el.key);
+            Assertions.assertEquals(result, el.value);
+        }
+        for (final var el : data) {
+            hashTable.remove(el.key);
+        }
+        Assertions.assertEquals(0, hashTable.size());
+        for (final var el : data) {
+            final var result = hashTable.find(el.key);
+            Assertions.assertNull(result);
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("dataProvider")
+    void positiveOpenAddressHashTable(List<Entry<String, String>> data) {
+        final var stringHasher = new StringHasher(new Crc16(0xffff, 0xa001));
+        hashTable = new OpenAddressHashTable<>(stringHasher, 2, 1);
         for (final var el : data) {
             hashTable.insert(el.key, el.value);
         }

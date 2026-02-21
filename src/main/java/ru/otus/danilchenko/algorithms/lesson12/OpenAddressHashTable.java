@@ -22,14 +22,21 @@ public class OpenAddressHashTable<K, V> implements IHashTable<K, V> {
     private IArray<Boolean> isDeleted;
     private int step;
     private int probing;
+    private int size;
+    private int counter;
 
     public OpenAddressHashTable(IHasher<K> hasher, int size, int step) {
         Objects.requireNonNull(hasher);
         this.hasher = hasher;
         container = new MatrixArray<>(size);
         isDeleted = new VectorArray<>(size);
+        for (int i = 0; i < isDeleted.size(); i++) {
+            isDeleted.set(false, i);
+        }
         this.step = step;
         probing = 0;
+        this.size = 0;
+        this.counter = 0;
     }
 
     private int getHash(K key, int i) {
@@ -37,14 +44,42 @@ public class OpenAddressHashTable<K, V> implements IHashTable<K, V> {
     }
 
 
+    private void rehash() {
+        final double factor = (double) counter / container.size();
+        if (factor > 0.7) {
+            size = 0;
+            probing = 0;
+            IArray<Entry> oldContainer = container;
+            isDeleted = new VectorArray<>(isDeleted.size() * 2);
+            for (int i = 0; i < isDeleted.size(); i++) {
+                isDeleted.set(false, i);
+            }
+            container = new MatrixArray<>(oldContainer.size() * 2);
+            Entry data;
+            for (int i = 0; i < oldContainer.size(); i++) {
+                data = oldContainer.get(i);
+                if (data != null) {
+                    insert(data.key, data.value);
+                }
+            }
+        }
+    }
+
     @Override
     public void insert(K key, V value) {
         for (int i = 0; i < container.size(); i++) {
             int hash = getHash(key, i);
             probing++;
-            if (isDeleted.get(hash) || container.get(hash) == null) {
+            if (isDeleted.get(hash)) {
+                continue;
+            }
+            if (container.get(hash) == null) {
                 container.set(new Entry(key, value), hash);
                 isDeleted.set(false, i);
+                size++;
+                counter++;
+                rehash();
+                return;
             }
         }
     }
@@ -79,8 +114,9 @@ public class OpenAddressHashTable<K, V> implements IHashTable<K, V> {
             int hash = getHash(key, i);
             result = container.get(hash);
             if (result != null && result.key.equals(key)) {
-                container.set(null, i);
-                isDeleted.set(true, i);
+                container.set(null, hash);
+                isDeleted.set(true, hash);
+                size--;
                 break;
             }
         }
@@ -88,6 +124,6 @@ public class OpenAddressHashTable<K, V> implements IHashTable<K, V> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 }
