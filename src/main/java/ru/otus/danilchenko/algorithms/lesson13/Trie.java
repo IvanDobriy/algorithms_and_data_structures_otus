@@ -60,7 +60,7 @@ class Trie {
         }
         Node node = root;
         for (int i = 0; i < word.length(); i++) {
-            node = root.getNext(i, word);
+            node = node.getNext(i, word);
             if (node == null) {
                 return false;
             }
@@ -74,7 +74,7 @@ class Trie {
         }
         Node node = root;
         for (int i = 0; i < prefix.length(); i++) {
-            node = root.getNext(i, prefix);
+            node = node.getNext(i, prefix);
             if (node == null) {
                 return false;
             }
