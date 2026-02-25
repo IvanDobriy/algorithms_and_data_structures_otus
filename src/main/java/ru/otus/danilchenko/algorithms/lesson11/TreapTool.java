@@ -153,6 +153,9 @@ public class TreapTool<T> {
     }
 
     public T searchWithValue(T key) {
+        if(internalTree == null){
+            return null;
+        }
         var result = internalTree.search(key);
         if (result == null) {
             return null;
