@@ -30,7 +30,12 @@ public class TrieTable<K, V> implements IHashTable<String, V> {
         Node insert(int index, String word, V value) {
             Node node = new Node();
             node.key = word.charAt(index);
-            tree.insert(node);
+            Node sr = tree.searchWithValue(node);
+            if(sr == null){
+                tree.insert(node);
+            }else {
+                node = sr;
+            }
             if (index == word.length() - 1) {
                 node.value = value;
             }
@@ -79,7 +84,18 @@ public class TrieTable<K, V> implements IHashTable<String, V> {
 
     @Override
     public void remove(String key) {
-
+        if (root == null) {
+            return;
+        }
+        Node node = root;
+        for (int i = 0; i < key.length(); i++) {
+            node = node.getNext(i, key);
+            if (node == null) {
+                return;
+            }
+        }
+        node.value = null;
+        size--;
     }
 
     @Override
