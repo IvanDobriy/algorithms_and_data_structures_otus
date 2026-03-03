@@ -5,13 +5,13 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 public class App {
 
     public static void main(String[] args) {
-        final var vertexs = new SingleArray<Vertex<Integer>>(10);
+        final var vertexs = new SingleArray<Vertex<Integer>>(0);
         for(int i = 0; i < 7; i++) {
             vertexs.add(new Vertex<>(i, i + 1), vertexs.size());
 
         }
         int index = 0;
-        final var edges = new SingleArray<Edge<Integer>>(10 * 9 /2);
+        final var edges = new SingleArray<Edge<Integer>>(0);
         edges.add(new Edge<>(vertexs.get(0), vertexs.get(3)), index++);
         edges.add(new Edge<>(vertexs.get(0), vertexs.get(4)), index++);
         edges.add(new Edge<>(vertexs.get(1), vertexs.get(3)), index++);
