@@ -1,17 +1,16 @@
 package ru.otus.danilchenko.algorithms.lesson14;
 
+import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency.AdjacencyMatrix;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.Edge;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.SetPerformance;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.Vertex;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class App {
-
-    public static void main(String[] args) {
+    private void setPerformance() {
         final var vertexs = new SingleArray<Vertex<Integer>>(0);
-        for(int i = 0; i < 7; i++) {
+        for (int i = 0; i < 7; i++) {
             vertexs.add(new Vertex<>(i, i + 1), vertexs.size());
-
         }
         int index = 0;
         final var edges = new SingleArray<Edge<Integer>>(0);
@@ -27,4 +26,21 @@ public class App {
         final var setPerformance = new SetPerformance<Integer>(vertexs, edges);
     }
 
+    private void adjacencyMatrix() {
+        final var adjacency = new AdjacencyMatrix(7);
+        adjacency.set(0, 3);
+        adjacency.set(0, 4);
+        adjacency.set(1, 3);
+        adjacency.set(1, 4);
+        adjacency.set(1, 5);
+        adjacency.set(2, 4);
+        adjacency.set(2, 5);
+        adjacency.set(2, 6);
+        var a = 1;
+    }
+
+    public static void main(String[] args) {
+        var app = new App();
+        app.adjacencyMatrix();
+    }
 }
