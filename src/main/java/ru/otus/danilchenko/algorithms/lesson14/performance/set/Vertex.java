@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson14;
+package ru.otus.danilchenko.algorithms.lesson14.performance.set;
 
 import java.util.Objects;
 

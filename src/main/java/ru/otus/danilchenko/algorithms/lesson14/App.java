@@ -1,5 +1,8 @@
 package ru.otus.danilchenko.algorithms.lesson14;
 
+import ru.otus.danilchenko.algorithms.lesson14.performance.set.Edge;
+import ru.otus.danilchenko.algorithms.lesson14.performance.set.SetPerformance;
+import ru.otus.danilchenko.algorithms.lesson14.performance.set.Vertex;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class App {
