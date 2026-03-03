@@ -24,7 +24,7 @@ public class IncidenceMatrix {
         container = new SingleArray<>(edgeSize * vertexSize);
     }
 
-    private int check(int vertex, int edge){
+    private void check(int vertex, int edge){
         if(vertex < 0 || vertex > vertexSize){
             throw new IllegalArgumentException(String.format("illegal vertex value: %d", vertex));
         }
