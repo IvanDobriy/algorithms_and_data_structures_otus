@@ -2,9 +2,11 @@ package ru.otus.danilchenko.algorithms.lesson14;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency.AdjacencyMatrix;
 import ru.otus.danilchenko.algorithms.lesson14.performance.incidence.IncidenceMatrix;
+import ru.otus.danilchenko.algorithms.lesson14.performance.list.ListOfEdges;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.Edge;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.SetPerformance;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.Vertex;
+import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class App {
@@ -43,8 +45,22 @@ public class App {
         var a = 1;
     }
 
+    private void listOfEdges() {
+        IArray<Vertex<Integer>> vertexes = new SingleArray<>(7);
+        for(int i  = 0; i < vertexes.size(); i++){
+            vertexes.set(new Vertex<>(i, i+1), i);
+        }
+        final var edges = new ListOfEdges<Integer>(5);
+        edges.set(new Edge<>(0, vertexes.get(0), vertexes.get(3)));
+        edges.set(new Edge<>(1, vertexes.get(1), vertexes.get(3)));
+        edges.set(new Edge<>(2, vertexes.get(1), vertexes.get(5)));
+        edges.set(new Edge<>(3, vertexes.get(2), vertexes.get(4)));
+        edges.set(new Edge<>(4, vertexes.get(2), vertexes.get(6)));
+        var a = 2;
+    }
+
     public static void main(String[] args) {
         var app = new App();
-        app.setPerformance();
+        app.listOfEdges();
     }
 }
