@@ -9,23 +9,21 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class App {
     private void setPerformance() {
-        final var vertexs = new SingleArray<Vertex<Integer>>(0);
+        final var setPerformance = new SetPerformance<Integer>(7, 5);
         for (int i = 0; i < 7; i++) {
-            vertexs.add(new Vertex<>(i, i + 1), vertexs.size());
+            setPerformance.setVertex(new Vertex<>(i, i + 1));
         }
         int index = 0;
-        final var edges = new SingleArray<Edge<Integer>>(0);
-        edges.add(new Edge<>(vertexs.get(0), vertexs.get(3)), index++);
-        edges.add(new Edge<>(vertexs.get(1), vertexs.get(3)), index++);
-        edges.add(new Edge<>(vertexs.get(1), vertexs.get(5)), index++);
-        edges.add(new Edge<>(vertexs.get(2), vertexs.get(4)), index++);
-        edges.add(new Edge<>(vertexs.get(2), vertexs.get(6)), index++);
-
-        final var setPerformance = new SetPerformance<Integer>(vertexs, edges);
+        setPerformance.setEdge(new Edge<>(index++, setPerformance.getVertex(0), setPerformance.getVertex(3)));
+        setPerformance.setEdge(new Edge<>(index++, setPerformance.getVertex(1), setPerformance.getVertex(3)));
+        setPerformance.setEdge(new Edge<>(index++, setPerformance.getVertex(1), setPerformance.getVertex(5)));
+        setPerformance.setEdge(new Edge<>(index++, setPerformance.getVertex(2), setPerformance.getVertex(4)));
+        setPerformance.setEdge(new Edge<>(index++, setPerformance.getVertex(2), setPerformance.getVertex(6)));
+        var a = 1;
     }
 
     private void adjacencyMatrix() {
-        final var adjacency = new AdjacencyMatrix(7);
+        final var adjacency = new AdjacencyMatrix(7, false);
         adjacency.set(0, 3);
         adjacency.set(1, 3);
         adjacency.set(1, 5);
@@ -36,7 +34,7 @@ public class App {
 
 
     private void incidenceMatrix() {
-        final var incidence = new IncidenceMatrix(7, 5);
+        final var incidence = new IncidenceMatrix(7, 5, false);
         incidence.set(0, 0, 1);
         incidence.set(1, 1, 1);
         incidence.set(1, 2, 1);
@@ -47,6 +45,6 @@ public class App {
 
     public static void main(String[] args) {
         var app = new App();
-        app.incidenceMatrix();
+        app.setPerformance();
     }
 }
