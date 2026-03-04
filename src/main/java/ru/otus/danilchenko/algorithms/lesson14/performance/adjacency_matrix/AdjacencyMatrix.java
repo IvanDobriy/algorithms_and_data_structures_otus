@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson14.performance.adjacency;
+package ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_matrix;
 
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;

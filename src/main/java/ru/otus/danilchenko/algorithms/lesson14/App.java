@@ -1,6 +1,6 @@
 package ru.otus.danilchenko.algorithms.lesson14;
 
-import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency.AdjacencyMatrix;
+import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_matrix.AdjacencyMatrix;
 import ru.otus.danilchenko.algorithms.lesson14.performance.incidence.IncidenceMatrix;
 import ru.otus.danilchenko.algorithms.lesson14.performance.list.ListOfEdges;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.Edge;
