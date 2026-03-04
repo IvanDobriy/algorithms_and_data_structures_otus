@@ -1,6 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson14;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_matrix.AdjacencyMatrix;
+import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson14.performance.incidence.IncidenceMatrix;
 import ru.otus.danilchenko.algorithms.lesson14.performance.list.ListOfEdges;
 import ru.otus.danilchenko.algorithms.lesson14.performance.set.Edge;
@@ -59,8 +60,18 @@ public class App {
         var a = 2;
     }
 
+    private void adjacencyVector(){
+        final var vector = new AdjacencyVector(7, 2);
+        vector.set(0, 0, 3);
+        vector.set(1, 0, 3);
+        vector.set(1, 1,5);
+        vector.set(2, 0,  4);
+        vector.set(2, 1, 6);
+        var a = 2;
+    }
+
     public static void main(String[] args) {
         var app = new App();
-        app.listOfEdges();
+        app.adjacencyVector();
     }
 }
