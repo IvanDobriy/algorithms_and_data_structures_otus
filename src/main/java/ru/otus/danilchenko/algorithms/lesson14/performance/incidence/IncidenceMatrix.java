@@ -12,7 +12,7 @@ public class IncidenceMatrix {
         return vertex * edgeSize + edge;
     }
 
-    public IncidenceMatrix(int edgeSize, int vertexSize) {
+    public IncidenceMatrix( int vertexSize, int edgeSize) {
         if (edgeSize < 0) {
             throw new IllegalArgumentException("edgeSize < 0");
         }
