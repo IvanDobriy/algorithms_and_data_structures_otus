@@ -1,24 +1,23 @@
-package ru.otus.danilchenko.algorithms.lesson4.queue;
+package ru.otus.danilchenko.algorithms.lesson4.stack;
 
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
 
 import java.util.Objects;
 
-public class Queue<T> implements IQueue<T> {
-
-    private final IArray<T> array;
+public class ArrayStack<T> implements IStack<T> {
+    private IArray<T> array;
     private int index;
 
-    public Queue(IArray<T> array){
+    public ArrayStack(IArray<T> array) {
         Objects.requireNonNull(array);
         this.array = array;
         index = -1;
     }
 
     @Override
-    public void enqueue(T el) {
+    public void push(T el) {
         index += 1;
-        if(array.size() <= index){
+        if (array.size() <= index) {
             array.add(el, index);
             return;
         }
@@ -26,12 +25,11 @@ public class Queue<T> implements IQueue<T> {
     }
 
     @Override
-    public T dequeue() {
-        if(index < 0){
+    public T pop() {
+        if (index < 0) {
             return null;
         }
-        index--;
-        return array.remove(0);
+        return array.get(index--);
     }
 
     @Override
@@ -39,3 +37,4 @@ public class Queue<T> implements IQueue<T> {
         return index + 1;
     }
 }
+
