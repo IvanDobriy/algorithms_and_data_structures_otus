@@ -26,7 +26,7 @@ public class App {
     }
 
     private void adjacencyMatrix() {
-        final var adjacency = new AdjacencyMatrix(7, false);
+        final var adjacency = new AdjacencyMatrix(7);
         adjacency.set(0, 3);
         adjacency.set(1, 3);
         adjacency.set(1, 5);
