@@ -6,12 +6,10 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 public class AdjacencyMatrix {
     private IArray<Integer> container;
     private int vertexSize;
-    private boolean isOriented;
 
-    public AdjacencyMatrix(int vertexSize, boolean isOriented) {
+    public AdjacencyMatrix(int vertexSize) {
         container = new SingleArray<>(vertexSize * vertexSize);
         this.vertexSize = vertexSize;
-        this.isOriented = isOriented;
     }
 
     private int calcIndex(int row, int col) {
@@ -30,9 +28,6 @@ public class AdjacencyMatrix {
 
     private void check(int row, int col, int value) {
         check(row, col);
-        if (!isOriented && value < 0) {
-            throw new IllegalArgumentException(String.format("graph is unordered but value is negative:%d", value));
-        }
     }
 
     public void set(int row, int col, int value) {
