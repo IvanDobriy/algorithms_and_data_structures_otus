@@ -44,8 +44,15 @@ public class AdjacencyVector {
         check(first, pos);
         final Integer result = container.get(calcIndex(first, pos));
         if (result == null) {
-            return 0;
+            return -1;
         }
         return result;
+    }
+
+    public int getVertexSize(){
+        return vertexSize;
+    }
+    public int getMaxAdjacencyDegree(){
+        return maxAdjacencyDegree;
     }
 }
