@@ -10,6 +10,7 @@ public class DMPWithAdjacencyVector implements IDMP<Integer> {
     private final AdjacencyVector adjacencyVector;
     private final IArray<Integer> indegreeArray;
     private final boolean[] isVisited;
+    private IArray<IArray<Integer>> result;
 
 
     public DMPWithAdjacencyVector(AdjacencyVector adjacencyVector) {
@@ -17,14 +18,31 @@ public class DMPWithAdjacencyVector implements IDMP<Integer> {
         this.adjacencyVector = adjacencyVector;
         this.indegreeArray = new SingleArray<>(adjacencyVector.getVertexSize());
         this.isVisited = new boolean[adjacencyVector.getVertexSize()];
+        this.result = null;
+    }
+
+
+    private void addToResult(int vertex, int layerIndex) {
+        IArray<Integer> layer;
+        if (result.size() == layerIndex) {
+            layer = new SingleArray<>(0);
+            result.add(layer, layerIndex);
+        } else {
+            layer = result.get(layerIndex);
+        }
+        layer.add(vertex, layer.size());
     }
 
     @Override
     public IArray<IArray<Integer>> execute() {
-        final IArray<IArray<Integer>> result = new SingleArray<>(0);
+        if (result != null) {
+            return result;
+        }
+        result = new SingleArray<>(0);
         int sum = 0;
         Integer indegree;
         int vertex;
+        boolean isAny;
         for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
             for (int j = 0; j < adjacencyVector.getMaxAdjacencyDegree(); j++) {
                 vertex = adjacencyVector.get(i, j);
@@ -42,9 +60,9 @@ public class DMPWithAdjacencyVector implements IDMP<Integer> {
             }
         }
         int layerIndex = 0;
-        IArray<Integer> layer;
+        IArray<Integer> lastLayer;
         do {
-            layer = null;
+            isAny = false;
             for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
                 if (isVisited[i]) {
                     continue;
@@ -54,19 +72,17 @@ public class DMPWithAdjacencyVector implements IDMP<Integer> {
                     continue;
                 }
                 isVisited[i] = true;
-                if(result.size() == layerIndex){
-                    layer = new SingleArray<>(0);
-                    result.add(layer, layerIndex);
-                }else {
-                    layer = result.get(layerIndex);
-                }
-                layer.add(i, layer.size());
+
+                addToResult(i, layerIndex);
+                isAny = true;
             }
-            if(layer == null){
+
+            if (!isAny) {
                 return null;
             }
-            for(int i =0; i < layer.size();i++){
-                var layerVertex = layer.get(i);
+            lastLayer = result.get(result.size() -1);
+            for (int i = 0; i < lastLayer.size(); i++) {
+                var layerVertex = lastLayer.get(i);
                 for (int j = 0; j < adjacencyVector.getMaxAdjacencyDegree(); j++) {
                     vertex = adjacencyVector.get(layerVertex, j);
                     if (vertex < 0) {
@@ -86,15 +102,9 @@ public class DMPWithAdjacencyVector implements IDMP<Integer> {
             }
             layerIndex++;
         } while (sum > 0);
-        for(int i = 0; i < isVisited.length; i++){
-            if(!isVisited[i]){
-                if(result.size() == layerIndex){
-                    layer = new SingleArray<>(0);
-                    result.add(layer, layerIndex);
-                }else {
-                    layer = result.get(layerIndex);
-                }
-                layer.add(i, layer.size());
+        for (int i = 0; i < isVisited.length; i++) {
+            if (!isVisited[i]) {
+                addToResult(i, layerIndex);
             }
         }
         return result;
