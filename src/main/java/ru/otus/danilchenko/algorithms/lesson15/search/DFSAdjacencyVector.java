@@ -1,4 +1,4 @@
-package ru.otus.danilchenko.algorithms.lesson15.topological_sorting;
+package ru.otus.danilchenko.algorithms.lesson15.search;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
@@ -8,7 +8,7 @@ import ru.otus.danilchenko.algorithms.lesson4.stack.IStack;
 
 import java.util.Objects;
 
-public class DFCAdjacencyVector implements IDFS {
+public class DFSAdjacencyVector implements IDFS {
 
     private enum VertexState {
         NONE,
@@ -31,7 +31,7 @@ public class DFCAdjacencyVector implements IDFS {
     private final IStack<Edge> edges;
     private IArray<Integer> result;
 
-    public DFCAdjacencyVector(AdjacencyVector adjacencyVector) {
+    public DFSAdjacencyVector(AdjacencyVector adjacencyVector) {
         Objects.requireNonNull(adjacencyVector);
         this.adjacencyVector = adjacencyVector;
         states = new VertexState[adjacencyVector.getVertexSize()];

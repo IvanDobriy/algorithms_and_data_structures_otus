@@ -1,7 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson15;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
-import ru.otus.danilchenko.algorithms.lesson15.topological_sorting.DFCAdjacencyVector;
+import ru.otus.danilchenko.algorithms.lesson15.search.DFSAdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson15.topological_sorting.DMPWithAdjacencyVector;
 
 public class App {
@@ -23,7 +23,7 @@ public class App {
         var a = result;
     }
     private void dfc() {
-       final var dfc = new DFCAdjacencyVector(av);
+       final var dfc = new DFSAdjacencyVector(av);
        final var result = dfc.execute(0, 4);
        var a = result;
     }
