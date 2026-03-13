@@ -78,7 +78,8 @@ public class DMPWithAdjacencyVector implements IDMP<Integer> {
             }
 
             if (!isAny) {
-                return null;
+                result = null;
+                return result;
             }
             lastLayer = result.get(result.size() -1);
             for (int i = 0; i < lastLayer.size(); i++) {
