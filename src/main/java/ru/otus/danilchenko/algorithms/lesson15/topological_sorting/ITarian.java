@@ -1,4 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson15.topological_sorting;
 
-public class ITarian {
+import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
+
+public interface ITarian<T> {
+    IArray<T> execute();
 }

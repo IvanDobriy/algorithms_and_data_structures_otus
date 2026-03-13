@@ -3,6 +3,7 @@ package ru.otus.danilchenko.algorithms.lesson15;
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson15.search.DFSAdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson15.topological_sorting.DMPWithAdjacencyVector;
+import ru.otus.danilchenko.algorithms.lesson15.topological_sorting.TarianWithAdjacencyVector;
 
 public class App {
     private final AdjacencyVector av;
@@ -28,9 +29,15 @@ public class App {
        var a = result;
     }
 
+    private void tarian() {
+        final var tarian = new TarianWithAdjacencyVector(av);
+        final var result = tarian.execute();
+        var a = result;
+    }
+
 
     public static void main(String[] args) {
         final App app = new App();
-        app.dfc();
+        app.tarian();
     }
 }
