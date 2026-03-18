@@ -5,6 +5,7 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class AdjacencyVector {
     private IArray<Integer> container;
+    private IArray<Integer> weight;
 
     private final int vertexSize;
     private final int maxAdjacencyDegree;
@@ -40,11 +41,25 @@ public class AdjacencyVector {
         container.set(second, calcIndex(first, pos));
     }
 
+    public void set(int first, int pos, int second, int weight){
+        set(first, pos, second);
+        container.set(weight, calcIndex(first, pos));
+    }
+
     public int get(int first, int pos) {
         check(first, pos);
         final Integer result = container.get(calcIndex(first, pos));
         if (result == null) {
             return -1;
+        }
+        return result;
+    }
+
+    public int getWeight(int first, int pos){
+        check(first, pos);
+        final Integer result = weight.get(calcIndex(first, pos));
+        if(result == null){
+            return 0;
         }
         return result;
     }
