@@ -50,8 +50,21 @@ public class KrascalAdjacencyVector implements IKrascal {
         if (result != null) {
             return result;
         }
+        IArray<Edge> r = new SingleArray<>(0);
         IArray<Edge> sortedEdges = getSortedEdges();
-        
-        return null;
+        final UnionFind unionFind =  new UnionFind(adjacencyVector.getVertexSize());
+        for(int i = 0; i < sortedEdges.size(); i++){
+            Edge edge = sortedEdges.get(i);
+            int first = unionFind.find(edge.getFirst());
+            int second = unionFind.find(edge.getSecond());
+            if(first == second){
+                continue;
+            }
+            r.add(edge, r.size());
+            weight += edge.getWeight();
+            unionFind.union(first, second);
+        }
+        result = r;
+        return result;
     }
 }
