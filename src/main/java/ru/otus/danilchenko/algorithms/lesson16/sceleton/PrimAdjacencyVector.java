@@ -44,14 +44,14 @@ public class PrimAdjacencyVector implements IPrim {
         for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
             for (int j = 0; j < adjacencyVector.getMaxAdjacencyDegree(); j++) {
                 var v = adjacencyVector.get(i, j);
-                if (v <= i) {
+                if (v < 0) {
                     continue;
                 }
                 if (isHandled[v]) {
                     continue;
                 }
                 var w = adjacencyVector.getWeight(i, j);
-                if (min >= w) {
+                if (min <= w) {
                     continue;
                 }
                 min = w;
@@ -73,6 +73,7 @@ public class PrimAdjacencyVector implements IPrim {
         weight = 0;
         final IArray<Edge> r = new SingleArray<>(0);
         isHandled[0] = true;
+        max = countMax();
         for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
             Edge e = nextEdge();
             if (e == null) {
