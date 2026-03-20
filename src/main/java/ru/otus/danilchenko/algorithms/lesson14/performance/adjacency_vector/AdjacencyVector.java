@@ -14,6 +14,7 @@ public class AdjacencyVector {
         this.vertexSize = vertexSize;
         this.maxAdjacencyDegree = maxAdjacencyDegree;
         container = new SingleArray<>(vertexSize * maxAdjacencyDegree);
+        weight = new SingleArray<>(vertexSize * maxAdjacencyDegree);
     }
 
     private void check(int first, int pos) {
@@ -43,7 +44,7 @@ public class AdjacencyVector {
 
     public void set(int first, int pos, int second, int weight){
         set(first, pos, second);
-        container.set(weight, calcIndex(first, pos));
+        this.weight.set(weight, calcIndex(first, pos));
     }
 
     public int get(int first, int pos) {
