@@ -2,11 +2,14 @@ package ru.otus.danilchenko.algorithms.lesson16;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson16.sceleton.IKrascal;
+import ru.otus.danilchenko.algorithms.lesson16.sceleton.IPrim;
 import ru.otus.danilchenko.algorithms.lesson16.sceleton.KrascalAdjacencyVector;
+import ru.otus.danilchenko.algorithms.lesson16.sceleton.PrimAdjacencyVector;
 
 public class App {
-    void krascal(){
-        AdjacencyVector adjacencyVector = new AdjacencyVector(7, 4);
+    private final AdjacencyVector adjacencyVector;
+    App(){
+        adjacencyVector = new AdjacencyVector(7, 4);
         adjacencyVector.set(0, 0, 1 ,2);
         adjacencyVector.set(0, 1, 2 ,2);
         adjacencyVector.set(0, 2, 4 ,1);
@@ -26,14 +29,21 @@ public class App {
 
         adjacencyVector.set(5, 0,4,4);
         adjacencyVector.set(5, 1, 6, 2);
+    }
 
+    void krascal(){
         IKrascal krascal = new KrascalAdjacencyVector(adjacencyVector);
         var result  = krascal.execute();
+        var a = result;
+    }
+    void prim() {
+        IPrim prim = new PrimAdjacencyVector(adjacencyVector);
+        var result =  prim.execute();
         var a = result;
     }
 
     public static void main(String[] args) {
         App app = new App();
-        app.krascal();
+        app.prim();
     }
 }
