@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class DijkstraAdjacencyVector implements IDijkstra {
     private final AdjacencyVector adjacencyVector;
-    private IArray<IArray<Edge>> paths;
+    private IArray<Way> ways;
     private IComparator<Way> wayIComparator;
     private final int max;
 
@@ -27,7 +27,7 @@ public class DijkstraAdjacencyVector implements IDijkstra {
     public DijkstraAdjacencyVector(AdjacencyVector adjacencyVector) {
         Objects.requireNonNull(adjacencyVector);
         this.adjacencyVector = adjacencyVector;
-        paths = null;
+        ways = null;
         max = findMax();
         wayIComparator = (Way first, Way second) -> {
             return first.weight - second.weight;
@@ -71,37 +71,58 @@ public class DijkstraAdjacencyVector implements IDijkstra {
         return minIndex;
     }
 
+    private IArray<Edge> calcPath(int from, int to) {
+        IArray<Edge> r = new SingleArray<>(0);
+        int pos = to;
+        Way w;
+        do {
+            w = ways.get(pos);
+            if (w.from == pos) {
+                return null;
+            }
+            r.add(new Edge(w.from, pos, 0), r.size());
+            pos = w.from;
+        }while (w.from != from);
+        return r;
+    }
+
 
     @Override
     public IArray<Edge> execute(int from, int to) {
         check(from, to);
+        if (this.ways != null) {
+            return calcPath(from, to);
+        }
+
         IArray<Way> ways = new SingleArray<>(adjacencyVector.getVertexSize());
-        for(int i = 0; i < ways.size(); i++){
+        for (int i = 0; i < ways.size(); i++) {
             ways.set(new Way(i, max), i);
         }
         boolean[] visited = new boolean[adjacencyVector.getVertexSize()];
-        int min  = 0;
+        int min = 0;
         ways.set(new Way(min, 0), min);
         for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
             min = getMinIndex(ways, visited);
             visited[min] = true;
             for (int j = 0; j < adjacencyVector.getMaxAdjacencyDegree(); j++) {
-                if (visited[i]) {
-                    continue;
-                }
-                int av = adjacencyVector.get(i, j);
+                int av = adjacencyVector.get(min, j);
+
                 if (av < 0) {
                     continue;
                 }
-                int weight = ways.get(min).weight + adjacencyVector.getWeight(min, j);
 
-                if(weight < ways.get(j).weight){
-                    
+                if (visited[av]) {
+                    continue;
                 }
 
+                int weight = ways.get(min).weight + adjacencyVector.getWeight(min, j);
+
+                if (weight < ways.get(av).weight) {
+                    ways.set(new Way(min, weight), av);
+                }
             }
         }
-
-        return null;
+        this.ways = ways;
+        return calcPath(from, to);
     }
 }
