@@ -92,8 +92,24 @@ public class FWAAdjacencyVector implements IFWA {
         return result;
     }
 
+    private void check(int from, int to) {
+        if (from < 0) {
+            throw new IllegalArgumentException("from < 0");
+        }
+        if (to < 0) {
+            throw new IllegalArgumentException("to < 0");
+        }
+        if (from > adjacencyVector.getVertexSize()) {
+            throw new IllegalArgumentException("from > vertex size");
+        }
+        if (to > adjacencyVector.getVertexSize()) {
+            throw new IllegalArgumentException("to > vertex size");
+        }
+    }
+
     @Override
     public IArray<Edge> execute(int from, int to) {
+        check(from, to);
         for (int k = 0; k < adjacencyVector.getVertexSize(); k++) {
             for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
                 if (i == k) {

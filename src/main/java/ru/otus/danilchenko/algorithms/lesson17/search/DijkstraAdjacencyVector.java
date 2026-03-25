@@ -35,7 +35,18 @@ public class DijkstraAdjacencyVector implements IDijkstra {
     }
 
     private void check(int from, int to) {
-
+        if(from < 0){
+            throw  new IllegalArgumentException("from < 0");
+        }
+        if(to < 0){
+            throw new IllegalArgumentException("to < 0");
+        }
+        if(from > adjacencyVector.getVertexSize()){
+            throw new IllegalArgumentException("from > vertex size");
+        }
+        if(to > adjacencyVector.getVertexSize()){
+            throw  new IllegalArgumentException("to > vertex size");
+        }
     }
 
 
