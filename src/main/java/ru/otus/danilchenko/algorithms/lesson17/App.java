@@ -2,7 +2,9 @@ package ru.otus.danilchenko.algorithms.lesson17;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson17.search.DijkstraAdjacencyVector;
+import ru.otus.danilchenko.algorithms.lesson17.search.FWAAdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson17.search.IDijkstra;
+import ru.otus.danilchenko.algorithms.lesson17.search.IFWA;
 
 public class App {
 
@@ -38,6 +40,12 @@ public class App {
     private void dijkstra() {
         IDijkstra dijkstra = new DijkstraAdjacencyVector(adjacencyVector);
         var result = dijkstra.execute(0, 4);
+        var a = result;
+    }
+
+    private void fwa() {
+        IFWA fwa = new FWAAdjacencyVector(adjacencyVector);
+        var result  = fwa.execute(0, 4);
         var a = result;
     }
 

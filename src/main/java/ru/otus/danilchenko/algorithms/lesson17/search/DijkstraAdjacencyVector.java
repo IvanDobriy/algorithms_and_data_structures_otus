@@ -83,6 +83,11 @@ public class DijkstraAdjacencyVector implements IDijkstra {
             r.add(new Edge(w.from, pos, 0), r.size());
             pos = w.from;
         }while (w.from != from);
+        for (int i = 0; i < r.size() / 2; i++) {
+            var tmp = r.get(i);
+            r.set(r.get(r.size() - 1), i);
+            r.set(tmp, r.size() - 1);
+        }
         return r;
     }
 
