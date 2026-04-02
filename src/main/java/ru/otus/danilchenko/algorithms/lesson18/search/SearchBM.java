@@ -26,15 +26,14 @@ public class SearchBM implements ISearch {
                         break;
                     }
                     cnt++;
-                    if (cnt < i) {
-                        if ((k + cnt) == pattern.length()) {
-                            shift.set(k, i);
-                            break;
-                        }
-                        continue;
+                    if (cnt >= i) {
+                        shift.set(k, i);
+                        break;
                     }
-                    shift.set(k, i);
-                    break;
+                    if ((k + cnt) == pattern.length()) {
+                        shift.set(k, i);
+                        break;
+                    }
                 }
             }
         }
