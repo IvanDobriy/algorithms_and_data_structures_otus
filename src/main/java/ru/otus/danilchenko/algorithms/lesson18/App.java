@@ -1,5 +1,6 @@
 package ru.otus.danilchenko.algorithms.lesson18;
 
+import ru.otus.danilchenko.algorithms.lesson18.search.SearchBM;
 import ru.otus.danilchenko.algorithms.lesson18.search.SearchFullScan;
 import ru.otus.danilchenko.algorithms.lesson18.search.SearchFullScanPostfixShift;
 import ru.otus.danilchenko.algorithms.lesson18.search.SearchFullScanPrefixShift;
@@ -27,10 +28,15 @@ public class App {
     }
 
 
+    private int searchBM(String pattern){
+        final SearchBM search = new SearchBM(pattern);
+        return search.search(text);
+    }
+
 
     public static void main(String[] args) {
         App app = new App();
-        int pos = app.searchFullScanPostfix("world");
+        int pos = app.searchBM("world");
         int a = pos;
     }
 }
