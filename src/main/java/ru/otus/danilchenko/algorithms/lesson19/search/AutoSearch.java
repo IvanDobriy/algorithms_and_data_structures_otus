@@ -36,7 +36,7 @@ public class AutoSearch {
         delta = createDelta(ptrn, alphabet);
     }
 
-    public class CharHasher implements IHasher<Character> {
+    private class CharHasher implements IHasher<Character> {
         private final Crc16 crc;
 
         public CharHasher(Crc16 crc) {
