@@ -2,12 +2,14 @@ package ru.otus.danilchenko.algorithms.lesson19.search;
 
 import ru.otus.danilchenko.algorithms.collections.ITree;
 import ru.otus.danilchenko.algorithms.lesson10.BinarySearchTree;
-import ru.otus.danilchenko.algorithms.lesson12.*;
+import ru.otus.danilchenko.algorithms.lesson12.Crc16;
+import ru.otus.danilchenko.algorithms.lesson12.IHashTable;
+import ru.otus.danilchenko.algorithms.lesson12.IHasher;
+import ru.otus.danilchenko.algorithms.lesson12.OpenAddressHashTable;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 import ru.otus.danilchenko.algorithms.sort.IComparator;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class AutoSearch {
@@ -130,9 +132,9 @@ public class AutoSearch {
         int q = 0;
         for (int i = pos; i < text.length(); i++) {
             var el = alphaPos.find(text.charAt(i));
-            if(el == null){
+            if (el == null) {
                 q = 0;
-            }else{
+            } else {
                 q = delta.get(calcIndex(q, el));
             }
             if (q == patternLength) {
