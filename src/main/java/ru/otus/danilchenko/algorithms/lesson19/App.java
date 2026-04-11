@@ -1,6 +1,5 @@
 package ru.otus.danilchenko.algorithms.lesson19;
 
-import org.apache.commons.math3.analysis.function.Sin;
 import ru.otus.danilchenko.algorithms.lesson19.search.AhoCorasic;
 import ru.otus.danilchenko.algorithms.lesson19.search.AutoSearch;
 import ru.otus.danilchenko.algorithms.lesson19.search.KMP;
