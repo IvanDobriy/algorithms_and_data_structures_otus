@@ -31,7 +31,7 @@ public class App {
         adjacencyVector.set(5, 1, 6, 2);
     }
 
-    void krascal(){
+    void kruscal(){
         IKruscal kruscal = new KruscalAdjacencyVector(adjacencyVector);
         var result  = kruscal.execute();
         var a = result;
