@@ -1,7 +1,10 @@
 package ru.otus.danilchenko.algorithms.lesson19;
 
+import org.apache.commons.math3.analysis.function.Sin;
+import ru.otus.danilchenko.algorithms.lesson19.search.AhoCorasic;
 import ru.otus.danilchenko.algorithms.lesson19.search.AutoSearch;
 import ru.otus.danilchenko.algorithms.lesson19.search.KMP;
+import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class App {
     private final String text;
@@ -9,6 +12,7 @@ public class App {
     App() {
         text = "hello wworworld";
     }
+
     private void kmp() {
         final var kmp = new KMP("world");
         final var result = kmp.search(text);
@@ -21,8 +25,16 @@ public class App {
         final var a = result;
     }
 
-    public static void main(String[] args){
+    private void ahoCorasic() {
+        final var patterns = new SingleArray<String>(0);
+        patterns.add("world", patterns.size());
+        final var ac = new AhoCorasic(patterns);
+        final var result = ac.search(text);
+        final var a = result;
+    }
+
+    public static void main(String[] args) {
         final App app = new App();
-        app.autosearch();
+        app.ahoCorasic();
     }
 }
