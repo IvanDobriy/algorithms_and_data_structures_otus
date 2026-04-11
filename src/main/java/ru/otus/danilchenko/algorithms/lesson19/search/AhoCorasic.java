@@ -86,7 +86,7 @@ public class AhoCorasic {
                 child = node.child.find(c);
                 queue.enqueue(child);
                 suffix = node.suffixLink;
-                while (suffix != null && suffix.child.find(c) != null) {
+                while (suffix != null && suffix.child.find(c) == null) {
                     suffix = suffix.suffixLink;
                 }
                 if (suffix == null) {
