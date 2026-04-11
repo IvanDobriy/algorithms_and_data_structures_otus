@@ -10,14 +10,14 @@ import ru.otus.danilchenko.algorithms.sort.IComparator;
 
 import java.util.Objects;
 
-public class KrascalAdjacencyVector implements IKrascal {
+public class KruscalAdjacencyVector implements IKruscal {
     private final AdjacencyVector adjacencyVector;
     private final IComparator<Edge> comparator;
     private Integer weight;
     private IArray<Edge> result;
     private INSort<Edge> sorting;
 
-    public KrascalAdjacencyVector(AdjacencyVector adjacencyVector) {
+    public KruscalAdjacencyVector(AdjacencyVector adjacencyVector) {
         Objects.requireNonNull(adjacencyVector);
         this.adjacencyVector = adjacencyVector;
         this.comparator = (Edge e1, Edge e2) -> {

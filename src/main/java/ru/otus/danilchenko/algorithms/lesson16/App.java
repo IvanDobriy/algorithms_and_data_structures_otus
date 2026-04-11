@@ -1,9 +1,9 @@
 package ru.otus.danilchenko.algorithms.lesson16;
 
 import ru.otus.danilchenko.algorithms.lesson14.performance.adjacency_vector.AdjacencyVector;
-import ru.otus.danilchenko.algorithms.lesson16.sceleton.IKrascal;
+import ru.otus.danilchenko.algorithms.lesson16.sceleton.IKruscal;
 import ru.otus.danilchenko.algorithms.lesson16.sceleton.IPrim;
-import ru.otus.danilchenko.algorithms.lesson16.sceleton.KrascalAdjacencyVector;
+import ru.otus.danilchenko.algorithms.lesson16.sceleton.KruscalAdjacencyVector;
 import ru.otus.danilchenko.algorithms.lesson16.sceleton.PrimAdjacencyVector;
 
 public class App {
@@ -32,8 +32,8 @@ public class App {
     }
 
     void krascal(){
-        IKrascal krascal = new KrascalAdjacencyVector(adjacencyVector);
-        var result  = krascal.execute();
+        IKruscal kruscal = new KruscalAdjacencyVector(adjacencyVector);
+        var result  = kruscal.execute();
         var a = result;
     }
     void prim() {
