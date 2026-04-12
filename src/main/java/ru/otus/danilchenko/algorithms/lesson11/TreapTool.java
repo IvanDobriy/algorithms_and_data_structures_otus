@@ -152,6 +152,17 @@ public class TreapTool<T> {
         return internalTree.search(value) != null;
     }
 
+    public T searchWithValue(T key) {
+        if(internalTree == null){
+            return null;
+        }
+        var result = internalTree.search(key);
+        if (result == null) {
+            return null;
+        }
+        return result.key;
+    }
+
 
     public void remove(T value) {
         Objects.requireNonNull(value);

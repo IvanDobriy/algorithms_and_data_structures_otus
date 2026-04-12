@@ -9,5 +9,7 @@ public interface ITree<T> {
 
     void remove(T value);
 
+    T searchWithValue(T key);
+
     SingleArray<T> toArray();
 }

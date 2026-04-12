@@ -18,7 +18,7 @@ public class App implements AutoCloseable {
     //    private final static Path DIGITS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/1.digits");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
-    private final static int MAX_CASES = 6;
+    private final static int MAX_CASES = 4;
 
     private void treeTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();

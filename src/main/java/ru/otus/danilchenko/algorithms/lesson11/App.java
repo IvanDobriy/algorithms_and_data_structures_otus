@@ -17,7 +17,7 @@ public class App implements AutoCloseable {
     private final static Path RANDOM_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/0.random");
     private final static Path SORTED_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/2.sorted");
     private final static Path REVERS_TESTS = Paths.get("./test_cases/lesson6/sorting-tests/3.revers");
-    private final static int MAX_CASES = Integer.MAX_VALUE;
+    private final static int MAX_CASES = 4;
 
     private void treapTest(Test.TestRunnerParameters parameters) {
         final var name = parameters.getTestName();

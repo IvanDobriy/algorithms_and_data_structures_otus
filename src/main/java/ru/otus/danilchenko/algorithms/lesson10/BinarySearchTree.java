@@ -67,30 +67,10 @@ public class BinarySearchTree<T> implements ITree<T> {
         } while (true);
     }
 
+
     @Override
     public boolean search(T value) {
-        Objects.requireNonNull(value);
-        if (root == null) {
-            return false;
-        }
-        Node current = root;
-        do {
-            if (comparator.compare(value, current.key) == 0) {
-                return true;
-            }
-
-            if (comparator.compare(value, current.key) < 0) {
-                if (current.left == null) {
-                    return false;
-                }
-                current = current.left;
-                continue;
-            }
-            if (current.right == null) {
-                return false;
-            }
-            current = current.right;
-        } while (true);
+        return searchWithValue(value) != null;
     }
 
 
@@ -192,6 +172,31 @@ public class BinarySearchTree<T> implements ITree<T> {
         }
         minNode.left = current.left;
         minParent.left = minNode.right;
+    }
+
+    @Override
+    public T searchWithValue(T key) {
+        Objects.requireNonNull(key);
+        if (root == null) {
+            return null;
+        }
+        Node current = root;
+        do {
+            if (comparator.compare(key, current.key) == 0) {
+                return current.key;
+            }
+            if (comparator.compare(key, current.key) < 0) {
+                if (current.left == null) {
+                    return null;
+                }
+                current = current.left;
+                continue;
+            }
+            if (current.right == null) {
+                return null;
+            }
+            current = current.right;
+        } while (true);
     }
 
     @Override

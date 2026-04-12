@@ -31,6 +31,11 @@ public class Treap<T> implements ITree<T> {
     }
 
     @Override
+    public T searchWithValue(T key) {
+        return tool.searchWithValue(key) ;
+    }
+
+    @Override
     public SingleArray<T> toArray() {
         return tool.toArray();
     }
