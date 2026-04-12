@@ -29,7 +29,7 @@ public class PrimAdjacencyVector implements IPrim {
                 if (v <= i) {
                     continue;
                 }
-                var w = adjacencyVector.get(i, j);
+                var w = adjacencyVector.getWeight(i, j);
                 result += w;
             }
         }
