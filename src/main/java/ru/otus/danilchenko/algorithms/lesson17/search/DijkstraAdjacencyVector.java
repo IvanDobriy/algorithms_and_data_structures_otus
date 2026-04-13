@@ -83,19 +83,6 @@ public class DijkstraAdjacencyVector implements IDijkstra {
         return minIndex;
     }
 
-    private void reverse(IArray<Edge> arr) {
-        int left = 0;
-        int right = arr.size() - 1;
-        Edge tmp;
-        while (left < right) {
-            tmp = arr.get(left);
-            arr.set(arr.get(right), left);
-            arr.set(tmp, right);
-            left++;
-            right--;
-        }
-    }
-
     private IArray<Edge> calcPath(int from, int to) {
         IArray<Edge> r = new SingleArray<>(0);
         int pos = to;
@@ -108,7 +95,7 @@ public class DijkstraAdjacencyVector implements IDijkstra {
             r.add(new Edge(w.from, pos, 0), r.size());
             pos = w.from;
         } while (w.from != from);
-        reverse(r);
+        Utils.reverse(r);
         return r;
     }
 

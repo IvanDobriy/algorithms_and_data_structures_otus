@@ -84,11 +84,7 @@ public class FWAAdjacencyVector implements IFWA {
             result.add(new Edge(w.from, pos, 0), result.size());
             pos = w.from;
         } while (w.from != from);
-        for (int i = 0; i < result.size() / 2; i++) {
-            var tmp = result.get(i);
-            result.set(result.get(result.size() - 1), i);
-            result.set(tmp, result.size() - 1);
-        }
+        Utils.reverse(result);
         return result;
     }
 
