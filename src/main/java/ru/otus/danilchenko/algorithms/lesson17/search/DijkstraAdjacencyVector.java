@@ -6,6 +6,7 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.IArray;
 import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 import ru.otus.danilchenko.algorithms.sort.IComparator;
 
+import javax.xml.stream.events.EntityDeclaration;
 import java.util.Objects;
 
 public class DijkstraAdjacencyVector implements IDijkstra {
@@ -35,17 +36,17 @@ public class DijkstraAdjacencyVector implements IDijkstra {
     }
 
     private void check(int from, int to) {
-        if(from < 0){
-            throw  new IllegalArgumentException("from < 0");
+        if (from < 0) {
+            throw new IllegalArgumentException("from < 0");
         }
-        if(to < 0){
+        if (to < 0) {
             throw new IllegalArgumentException("to < 0");
         }
-        if(from > adjacencyVector.getVertexSize()){
+        if (from > adjacencyVector.getVertexSize()) {
             throw new IllegalArgumentException("from > vertex size");
         }
-        if(to > adjacencyVector.getVertexSize()){
-            throw  new IllegalArgumentException("to > vertex size");
+        if (to > adjacencyVector.getVertexSize()) {
+            throw new IllegalArgumentException("to > vertex size");
         }
     }
 
@@ -58,7 +59,7 @@ public class DijkstraAdjacencyVector implements IDijkstra {
                 if (v <= i) {
                     continue;
                 }
-                var w = adjacencyVector.get(i, j);
+                var w = adjacencyVector.getWeight(i, j);
                 result += w;
             }
         }
@@ -82,6 +83,19 @@ public class DijkstraAdjacencyVector implements IDijkstra {
         return minIndex;
     }
 
+    private void reverse(IArray<Edge> arr) {
+        int left = 0;
+        int right = arr.size() - 1;
+        Edge tmp;
+        while (left < right) {
+            tmp = arr.get(left);
+            arr.set(arr.get(right), left);
+            arr.set(tmp, right);
+            left++;
+            right--;
+        }
+    }
+
     private IArray<Edge> calcPath(int from, int to) {
         IArray<Edge> r = new SingleArray<>(0);
         int pos = to;
@@ -93,12 +107,8 @@ public class DijkstraAdjacencyVector implements IDijkstra {
             }
             r.add(new Edge(w.from, pos, 0), r.size());
             pos = w.from;
-        }while (w.from != from);
-        for (int i = 0; i < r.size() / 2; i++) {
-            var tmp = r.get(i);
-            r.set(r.get(r.size() - 1), i);
-            r.set(tmp, r.size() - 1);
-        }
+        } while (w.from != from);
+        reverse(r);
         return r;
     }
 
@@ -115,7 +125,7 @@ public class DijkstraAdjacencyVector implements IDijkstra {
             ways.set(new Way(i, max), i);
         }
         boolean[] visited = new boolean[adjacencyVector.getVertexSize()];
-        int min = 0;
+        int min = from;
         ways.set(new Way(min, 0), min);
         for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
             min = getMinIndex(ways, visited);
