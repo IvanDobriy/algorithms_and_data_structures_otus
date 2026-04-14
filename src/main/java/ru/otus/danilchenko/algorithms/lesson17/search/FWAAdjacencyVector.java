@@ -58,6 +58,7 @@ public class FWAAdjacencyVector implements IFWA {
         max = getMax();
         ways = new SingleArray<>(adjacencyVector.getVertexSize() * adjacencyVector.getVertexSize());
         fillWays();
+        calcWays();
     }
 
     private Way getWay(int x, int y) {
@@ -70,6 +71,29 @@ public class FWAAdjacencyVector implements IFWA {
 
     private void setWay(int x, int y, Way way) {
         ways.set(way, calcIndex(x, y));
+    }
+
+    private void calcWays() {
+        for (int k = 0; k < adjacencyVector.getVertexSize(); k++) {
+            for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
+                if (i == k) {
+                    continue;
+                }
+                for (int j = 0; j < adjacencyVector.getVertexSize(); j++) {
+                    if (k == j) {
+                        continue;
+                    }
+                    if (i == j) {
+                        continue;
+                    }
+                    int middleWeight = getWay(i, k).weight + getWay(k, j).weight;
+
+                    if (middleWeight < getWay(i, j).weight) {
+                        setWay(i, j, new Way(k, middleWeight));
+                    }
+                }
+            }
+        }
     }
 
     private IArray<Edge> calcPath(int from, int to) {
@@ -106,26 +130,6 @@ public class FWAAdjacencyVector implements IFWA {
     @Override
     public IArray<Edge> execute(int from, int to) {
         check(from, to);
-        for (int k = 0; k < adjacencyVector.getVertexSize(); k++) {
-            for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
-                if (i == k) {
-                    continue;
-                }
-                for (int j = 0; j < adjacencyVector.getVertexSize(); j++) {
-                    if (k == j) {
-                        continue;
-                    }
-                    if (i == j) {
-                        continue;
-                    }
-                    int middleWeight = getWay(i, k).weight + getWay(k, j).weight;
-
-                    if (middleWeight < getWay(i, j).weight) {
-                        setWay(i, j, new Way(k, middleWeight));
-                    }
-                }
-            }
-        }
         return calcPath(from, to);
     }
 }
