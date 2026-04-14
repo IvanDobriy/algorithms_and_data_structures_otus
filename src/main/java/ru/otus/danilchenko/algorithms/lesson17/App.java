@@ -51,6 +51,6 @@ public class App {
 
     public static void main(String[] args) {
         var app = new App();
-        app.fwa();
+        app.dijkstra();
     }
 }

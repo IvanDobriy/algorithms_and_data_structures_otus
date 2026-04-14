@@ -11,14 +11,13 @@ public class FWAAdjacencyVector implements IFWA {
 
     private IArray<Way> ways;
     private final AdjacencyVector adjacencyVector;
-    private final int max;
     private final Way maxWay;
 
     private class Way {
         int from;
-        int weight;
+        long weight;
 
-        Way(int from, int weight) {
+        Way(int from, long weight) {
             this.from = from;
             this.weight = weight;
         }
@@ -26,16 +25,6 @@ public class FWAAdjacencyVector implements IFWA {
 
     private int calcIndex(int x, int y) {
         return x * adjacencyVector.getVertexSize() + y;
-    }
-
-    private int getMax() {
-        int result = 0;
-        for (int i = 0; i < adjacencyVector.getVertexSize(); i++) {
-            for (int j = 0; j < adjacencyVector.getMaxAdjacencyDegree(); j++) {
-                result += adjacencyVector.getWeight(i, j);
-            }
-        }
-        return result;
     }
 
     private void fillWays() {
@@ -56,8 +45,7 @@ public class FWAAdjacencyVector implements IFWA {
         Objects.requireNonNull(adjacencyVector);
         this.adjacencyVector = adjacencyVector;
         ways = null;
-        max = getMax();
-        maxWay = new Way(-1, max);
+        maxWay = new Way(-1, Integer.MAX_VALUE);
         ways = new SingleArray<>(adjacencyVector.getVertexSize() * adjacencyVector.getVertexSize());
         fillWays();
         calcWays();
@@ -88,9 +76,9 @@ public class FWAAdjacencyVector implements IFWA {
                     if (i == j) {
                         continue;
                     }
-                    int middleWeight = getWay(i, k).weight + getWay(k, j).weight;
+                    long middleWeight = getWay(i, k).weight + getWay(k, j).weight;
 
-                    if (middleWeight < getWay(i, j).weight) {
+                    if (middleWeight <= getWay(i, j).weight) {
                         setWay(i, j, new Way(k, middleWeight));
                     }
                 }
