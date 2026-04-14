@@ -12,6 +12,7 @@ public class FWAAdjacencyVector implements IFWA {
     private IArray<Way> ways;
     private final AdjacencyVector adjacencyVector;
     private final int max;
+    private final Way maxWay;
 
     private class Way {
         int from;
@@ -56,6 +57,7 @@ public class FWAAdjacencyVector implements IFWA {
         this.adjacencyVector = adjacencyVector;
         ways = null;
         max = getMax();
+        maxWay = new Way(-1, max);
         ways = new SingleArray<>(adjacencyVector.getVertexSize() * adjacencyVector.getVertexSize());
         fillWays();
         calcWays();
@@ -66,7 +68,7 @@ public class FWAAdjacencyVector implements IFWA {
         if (way != null) {
             return way;
         }
-        return new Way(x, max);
+        return maxWay;
     }
 
     private void setWay(int x, int y, Way way) {
