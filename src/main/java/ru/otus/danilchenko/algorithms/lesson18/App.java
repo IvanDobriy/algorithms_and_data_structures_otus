@@ -11,6 +11,9 @@ public class App {
     App() {
         text = "hello wworworld";
     }
+//        App() {
+//        text = "X X A";
+//    }
 
     private int searchFullScan(String pattern) {
         final SearchFullScan sfs = new SearchFullScan(pattern);
@@ -36,7 +39,7 @@ public class App {
 
     public static void main(String[] args) {
         App app = new App();
-        int pos = app.searchBM("world");
+        int pos = app.searchFullScanPostfix("world");
         int a = pos;
     }
 }

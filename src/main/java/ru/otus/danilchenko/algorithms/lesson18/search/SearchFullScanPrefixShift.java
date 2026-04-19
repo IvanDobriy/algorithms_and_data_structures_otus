@@ -41,6 +41,7 @@ public class SearchFullScanPrefixShift implements ISearch {
         int tab = 0;
         Node node;
         while (tab <= text.length() - pattern.length()) {
+            pos = 0;
             while ((pos < pattern.length()) && (pattern.charAt(pos) == text.charAt(pos + tab))) {
                 pos++;
             }

@@ -15,7 +15,7 @@ public class SearchBM implements ISearch {
         shift = new SingleArray<>(pattern.length());
         shift.set(1, 0);
         int cnt;
-        for (int i = 0; i < pattern.length(); i++) { // совпавший суффикс
+        for (int i = 1; i < pattern.length(); i++) { // совпавший суффикс
             for (int k = 1; k <= pattern.length(); k++) { // поиск такого же суффикса
                 cnt = 0;
                 for (int j = 0; j < i; j++) {// количество совпавших символов

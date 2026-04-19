@@ -29,7 +29,7 @@ public class SearchFullScanPostfixShift implements ISearch {
         };
         shift = new Treap<>(new TreapTool<>(comparator));
         Node node;
-        for (int i = 0; i < pattern.length(); i++) {
+        for (int i = 0; i < pattern.length() - 1; i++) {
             node = shift.searchWithValue(new Node(pattern.charAt(i), 1));
             if (node == null) {
                 shift.insert(new Node(pattern.charAt(i), pattern.length() - i - 1));

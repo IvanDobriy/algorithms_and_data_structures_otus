@@ -15,6 +15,7 @@ public class SearchFullScan implements ISearch {
         int tab = 0;
         int pos = 0;
         while (tab <= text.length() - pattern.length()) {
+            pos = 0;
             while ((pos < pattern.length()) && (pattern.charAt(pos) == text.charAt(pos + tab))) {
                 pos++;
             }
