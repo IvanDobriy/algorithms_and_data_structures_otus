@@ -54,27 +54,27 @@ public class App {
     private void run(String[] args) {
         final String defaultCaseName = "1";
         final var tests = List.of(
-//                new Test(
-//                        "peas",
-//                        defaultCaseName,
-//                        Paths.get("./test_cases/lesson21/peas"),
-//                        0, Integer.MAX_VALUE,
-//                        this::peasTest
-//                ),
-//                new Test(
-//                        "tree",
-//                        defaultCaseName,
-//                        Paths.get("./test_cases/lesson21/tree"),
-//                        0, Integer.MAX_VALUE,
-//                        this::treeTest
-//                ),
-//                new Test(
-//                        "fxe",
-//                        defaultCaseName,
-//                        Paths.get("./test_cases/lesson21/fxe"),
-//                        0, Integer.MAX_VALUE,
-//                        this::fxeTest
-//                )
+                new Test(
+                        "peas",
+                        defaultCaseName,
+                        Paths.get("./test_cases/lesson21/peas"),
+                        0, Integer.MAX_VALUE,
+                        this::peasTest
+                ),
+                new Test(
+                        "tree",
+                        defaultCaseName,
+                        Paths.get("./test_cases/lesson21/tree"),
+                        0, Integer.MAX_VALUE,
+                        this::treeTest
+                ),
+                new Test(
+                        "fxe",
+                        defaultCaseName,
+                        Paths.get("./test_cases/lesson21/fxe"),
+                        0, Integer.MAX_VALUE,
+                        this::fxeTest
+                ),
                 new Test(
                         "island",
                         defaultCaseName,
