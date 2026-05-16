@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class App {
-    private void kingTest(Test.TestRunnerParameters parameters) {
+    private void peasTest(Test.TestRunnerParameters parameters) {
         parameters.getOut().println("Test ok" + Arrays.toString(parameters.getInputData()) + " out: " + Arrays.toString(parameters.getExpectedData()));
     }
 
@@ -18,7 +18,7 @@ public class App {
                 defaultCaseName,
                 Paths.get("./test_cases/lesson21/peas"),
                 0, Integer.MAX_VALUE,
-                this::kingTest
+                this::peasTest
         ));
 
         for (var test : tests) {
