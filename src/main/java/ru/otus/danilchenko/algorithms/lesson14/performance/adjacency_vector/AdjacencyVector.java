@@ -5,6 +5,7 @@ import ru.otus.danilchenko.algorithms.lesson4.dynamic_arrays.SingleArray;
 
 public class AdjacencyVector {
     private IArray<Integer> container;
+    private IArray<Integer> weight;
 
     private final int vertexSize;
     private final int maxAdjacencyDegree;
@@ -13,6 +14,7 @@ public class AdjacencyVector {
         this.vertexSize = vertexSize;
         this.maxAdjacencyDegree = maxAdjacencyDegree;
         container = new SingleArray<>(vertexSize * maxAdjacencyDegree);
+        weight = new SingleArray<>(vertexSize * maxAdjacencyDegree);
     }
 
     private void check(int first, int pos) {
@@ -40,11 +42,25 @@ public class AdjacencyVector {
         container.set(second, calcIndex(first, pos));
     }
 
+    public void set(int first, int pos, int second, int weight){
+        set(first, pos, second);
+        this.weight.set(weight, calcIndex(first, pos));
+    }
+
     public int get(int first, int pos) {
         check(first, pos);
         final Integer result = container.get(calcIndex(first, pos));
         if (result == null) {
             return -1;
+        }
+        return result;
+    }
+
+    public int getWeight(int first, int pos){
+        check(first, pos);
+        final Integer result = weight.get(calcIndex(first, pos));
+        if(result == null){
+            return 0;
         }
         return result;
     }
