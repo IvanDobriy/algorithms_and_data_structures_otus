@@ -1,6 +1,7 @@
 package ru.otus.danilchenko.algorithms.lesson21;
 
 import ru.otus.danilchenko.algorithms.lesson21.fxe.FXE;
+import ru.otus.danilchenko.algorithms.lesson21.island.Island;
 import ru.otus.danilchenko.algorithms.lesson21.peas.Peas;
 import ru.otus.danilchenko.algorithms.lesson21.tree.Tree;
 import ru.otus.danilchenko.algorithms.test.Test;
@@ -10,7 +11,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class App {
-    private  void fxeTest(Test.TestRunnerParameters parameters) {
+    private void islandTest(Test.TestRunnerParameters parameters) {
+        final Island island = new Island();
+        String result = island.calculate(parameters.getInputData());
+        if (parameters.getExpectedData()[0].equals(result)) {
+            parameters.getOut().println("Test ok");
+        } else {
+            parameters.getOut().println("Test err, in: " + Arrays.toString(parameters.getInputData()) + " expected: " + Arrays.toString(parameters.getExpectedData()) + " result: " + result);
+        }
+    }
+
+    private void fxeTest(Test.TestRunnerParameters parameters) {
         final FXE fxe = new FXE();
         String result = fxe.calculate(parameters.getInputData()[0]);
         if (parameters.getExpectedData()[0].equals(result)) {
@@ -19,6 +30,7 @@ public class App {
             parameters.getOut().println("Test err, in: " + Arrays.toString(parameters.getInputData()) + " expected: " + Arrays.toString(parameters.getExpectedData()) + " result: " + result);
         }
     }
+
     private void treeTest(Test.TestRunnerParameters parameters) {
         final Tree tree = new Tree();
         String result = tree.calculate(parameters.getInputData());
@@ -56,13 +68,21 @@ public class App {
 //                        0, Integer.MAX_VALUE,
 //                        this::treeTest
 //                ),
+//                new Test(
+//                        "fxe",
+//                        defaultCaseName,
+//                        Paths.get("./test_cases/lesson21/fxe"),
+//                        0, Integer.MAX_VALUE,
+//                        this::fxeTest
+//                )
                 new Test(
-                        "fxe",
+                        "island",
                         defaultCaseName,
-                        Paths.get("./test_cases/lesson21/fxe"),
+                        Paths.get("./test_cases/lesson21/island"),
                         0, Integer.MAX_VALUE,
-                        this::fxeTest
-                ));
+                        this::islandTest
+                )
+        );
 
         for (var test : tests) {
             test.run();
