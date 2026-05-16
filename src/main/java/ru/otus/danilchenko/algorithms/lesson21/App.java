@@ -1,5 +1,6 @@
 package ru.otus.danilchenko.algorithms.lesson21;
 
+import ru.otus.danilchenko.algorithms.lesson21.peas.Peas;
 import ru.otus.danilchenko.algorithms.test.Test;
 
 import java.nio.file.Paths;
@@ -8,7 +9,13 @@ import java.util.List;
 
 public class App {
     private void peasTest(Test.TestRunnerParameters parameters) {
-        parameters.getOut().println("Test ok" + Arrays.toString(parameters.getInputData()) + " out: " + Arrays.toString(parameters.getExpectedData()));
+        final Peas peas = new Peas();
+        String result = peas.calculate(parameters.getInputData()[0]);
+        if(parameters.getExpectedData()[0].equals(result)){
+            parameters.getOut().println("Test ok");
+        }else {
+            parameters.getOut().println("Test err, in: " + Arrays.toString(parameters.getInputData()) + " expected: " + Arrays.toString(parameters.getExpectedData()) + " result: " + result);
+        }
     }
 
     private void run(String[] args) {
